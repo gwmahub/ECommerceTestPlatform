@@ -1,0 +1,27 @@
+@import 'variables.scss';
+
+.test{
+  color: #000;
+}
+
+body{
+  padding-top: 80px !important;
+}
+
+.prod-price{
+  font-size: 1.5em;
+}
+.item-price{
+  font-size: $font-size-default*1.15;
+}
+.item-qty-select-bloc{
+  width: 75px;
+}
+
+.basket-table-total{
+  width: 300px !important;
+}
+
+.delivery-addresses-bloc{
+  margin-bottom: 70px;
+}

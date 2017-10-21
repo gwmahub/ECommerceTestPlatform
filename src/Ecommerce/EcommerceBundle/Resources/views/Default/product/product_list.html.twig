@@ -1,0 +1,42 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <div class="container">
+        <h1>Products List (tmp)</h1>
+        <div class="row">
+            <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
+                {{ include("EcommerceBundle:Includes/ModulesLeft:basketblocnav.html.twig") }}
+                {{ include("EcommerceBundle:Includes/ModulesLeft:userblocnav.html.twig") }}
+                {{ include("EcommerceBundle:Includes/ModulesLeft:navigation.html.twig") }}
+            </div>
+            <div class="col-xs-6 col-sm-9 col-md-9 col-lg-9">
+                <div class="row">
+                    {% for i in 0..10 %}
+                        {{ include("EcommerceBundle:Includes:product-block.html.twig") }}
+                    {% endfor %}
+                </div>
+                <div class="row text-center">
+                    <nav aria-label="Page navigation">
+                        <ul class="pagination">
+                            <li>
+                                <a href="#" aria-label="Previous">
+                                    <span aria-hidden="true">&laquo; Précedent</span>
+                                </a>
+                            </li>
+                            <li class="active"><a href="#">1</a></li>
+                            <li><a href="#">2</a></li>
+                            <li><a href="#">3</a></li>
+                            <li><a href="#">4</a></li>
+                            <li><a href="#">5</a></li>
+                            <li>
+                                <a href="#" aria-label="Next">
+                                    <span aria-hidden="true">Suivant &raquo;</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+        </div><!-- END .row -->
+
+    </div><!-- END .container -->
+{% endblock %}

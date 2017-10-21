@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        {% block stylesheets %}
+            <link rel="stylesheet" type="text/css" href="{{ asset('/vendor/bootstrap/dist/css/bootstrap.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('/assets/styles/css/style.css') }}" />
+            <link rel="stylesheet" type="text/css" href="{{ asset('/assets/styles/css/responsive.css') }}" />
+        {% endblock %}
+        <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
+    </head>
+    <body>
+        {% block body %}
+            {% block header %}
+                <header class="container-fluid">
+                {% block nav %}
+                    {% include 'includes/navbarmenu.html.twig' %}
+                {% endblock %}<!-- END nav -->
+                </header>
+            {% endblock %}<!-- END header -->
+            {% block content %}{% endblock %}<!-- END content -->
+            {% block footer %}
+                <footer class="container-fluid">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <h1> Informations</h1>
+                                <p><a href="{{ path('pages_homepage', { 'id' : 1}) }}">CGV</a></p>
+                                <p><a href="{{ path('pages_homepage', { 'id' : 2}) }}">Mentions légales</a></p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <h1> Notre entrepôt</h1>
+                                <p><span class="glyphicon glyphicon-map-marker"></span> Rue de Vieille fleurie 69 8945 Bel oeil de Lune</p>
+                            </div>
+                            <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
+                                <h1> Nous contacter</h1>
+                                <p><span class="glyphicon glyphicon-earphone"></span> +32 4 258 354</p>
+                                <p><span class="glyphicon glyphicon-inbox"></span><a href="mailto:dede@dede.io"> dede@dede.io</a></p>
+                            </div>
+                        </div>
+                    </div>
+                </footer>
+            {% endblock %}
+        {% endblock %}
+        {% block javascripts %}
+            <script src="{{ asset('/vendor/jquery/dist/jquery.js') }}"></script>
+            <script src="{{ asset('/vendor/bootstrap/dist/js/bootstrap.js') }}"></script>
+        {% endblock %}
+    </body>
+</html>

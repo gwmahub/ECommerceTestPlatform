@@ -1,0 +1,83 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
+                {% include "EcommerceBundle:Includes/ModulesLeft:navigation.html.twig" %}
+            </div>
+            <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
+                <h1>Valider mon panier</h1>
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Qté</th>
+                        <th>PU</th>
+                        <th>Total HT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <td>AB29837</td>
+                        <td>
+                            1
+                        </td>
+                        <td>26,85 €</td>
+                        <td>26,85 €</td>
+                    </tr>
+                    <tr>
+                        <td>CD29837</td>
+                        <td>
+                            1
+                        </td>
+                        <td>89,22 €</td>
+                        <td>89,22 €</td>
+                    </tr>
+                    <tr>
+                        <td>EF29837</td>
+                        <td>
+                            1
+                        </td>
+                        <td>23,10 €</td>
+                        <td>23,10 €</td>
+                    </tr>
+                    <tr>
+                        <td>GH29837</td>
+                        <td>
+                            1
+                        </td>
+                        <td>156,50 €</td>
+                        <td>156,50 €</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table class="basket-table-total table pull-right">
+                    <tbody>
+                    <tr>
+                        <td><b>Total HT</b> :</td>
+                        <td>295,67 €</td>
+                    </tr>
+                    <tr>
+                        <td><b>TVA</b> :</td>
+                        <td>62,1 €</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total TTC</b> :</td>
+                        <td>357,77 €</td>
+                    </tr>
+                    </tbody>
+                </table>
+                <div class="clearfix"></div>
+                <p>
+                    <a class="btn btn-success pull-right" href="#"><b>Payer</b></a>
+                    <a class="btn btn-default pull-right" style="margin-right: 25px;" href="{{ path('ecommerce_basket') }}">Modifier mon panier</a>
+                    <a class="btn btn-default pull-right" style="margin-right: 25px;" href="{{ path('ecommerce_homepage') }}">Ajouter des produits</a>
+                </p>
+            </div>
+        </div>
+    </div><!-- END .container -->
+{% endblock %}

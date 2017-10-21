@@ -1,0 +1,29 @@
+@import "variables.scss";
+
+/* XS Portrait */
+@media (max-width: 479px) {}
+/*************** END xs Portrait  *****************/
+
+
+/*
+  Particular styles between xs portrait and xs max-size
+*/
+@media (max-width: 767px){}
+/*************** END particular styles  *****************/
+
+
+/* xs */
+@media (min-width: 480px) and (max-width: 767px){}
+/*************** END xs  *****************/
+
+/* sm */
+@media (min-width: 768px) and (max-width: 991px) {}
+/*************** END sm  *****************/
+
+/* md */
+@media (min-width: 992px) and (max-width: 1199px) {}
+/*************** END md  *****************/
+
+/* lg */
+@media (min-width: 1200px) {}
+/*************** END lg  *****************/

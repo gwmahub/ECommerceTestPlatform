@@ -1,0 +1,22 @@
+.test {
+  color: #000; }
+
+body {
+  padding-top: 80px !important; }
+
+.prod-price {
+  font-size: 1.5em; }
+
+.item-price {
+  font-size: 18.4px; }
+
+.item-qty-select-bloc {
+  width: 75px; }
+
+.basket-table-total {
+  width: 300px !important; }
+
+.delivery-addresses-bloc {
+  margin-bottom: 70px; }
+
+/*# sourceMappingURL=style.css.map */
