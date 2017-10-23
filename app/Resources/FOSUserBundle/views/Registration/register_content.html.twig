@@ -1,0 +1,33 @@
+{% trans_default_domain 'FOSUserBundle' %}
+
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    <h3><b>Pas encore inscrit ?</b></h3>
+    <p><i>Nous vous invitons à vous inscrire<br /> pour bénéficier de nos fruits et légumes de saison !</i></p>
+</div>
+<div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+    {{ form_start(form, {'method': 'post', 'action': path('fos_user_registration_register'), 'attr': {'class': 'form-horizontal'}}) }}
+        {#{{ form_label(form) }}#}
+        {#{{ form_widget(form) }}#}
+        <div class="form-group">
+            {{ form_label(form.email) }}
+            {{ form_widget(form.email, { 'attr': {'class': 'form-control'} } ) }}
+        </div>
+
+        <div class="form-group">
+            {{ form_label(form.username) }}
+            {{ form_widget(form.username, { 'attr': {'class': 'form-control'} } ) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.first) }}
+            {{ form_widget(form.plainPassword.first, { 'attr': {'class': 'form-control'} } ) }}
+        </div>
+        <div class="form-group">
+            {{ form_label(form.plainPassword.second) }}
+            {{ form_widget(form.plainPassword.second, { 'attr': {'class': 'form-control'} } ) }}
+        </div>
+    {{ form_rest(form) }}
+        <p>
+            <input class="btn btn-success" type="submit" value="{{ 'registration.submit'|trans }}" />
+        </p>
+    {{ form_end(form) }}
+</div>

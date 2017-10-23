@@ -1,6 +1,8 @@
-ecommerce_homepage: #product list
+## HOME
+ecommerce_homepage: #product list + ???? à déterminer
     path:     /
     defaults: { _controller: EcommerceBundle:Home:index }
+
 ## PRODUCT
 ecommerce_product_list:
     path:     /product/list

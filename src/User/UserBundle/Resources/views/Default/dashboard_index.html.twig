@@ -1,0 +1,64 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+<div class="container">
+    <h1>Dashboard</h1>
+    <div class="row">
+        {% if app.request.hasPreviousSession %}
+            {% for type, messages in app.session.flashbag.all() %}
+                {% for message in messages %}
+                    <div class="flash-{{ type }}">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            {% endfor %}
+        {% endif %}
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h3>Mes informations</h3>
+            <a class="btn btn-default" href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a>
+        </div>
+
+        <div class="col-sm-6 col-md-6">
+            <h3>Mon panier</h3>
+            <p>Les 3 derniers articles</p>
+            <ul>
+                <li>Article 1</li>
+                <li>Article 2</li>
+                <li>Article 3</li>
+            </ul>
+            <p>Total hTVA: <b>xxx,xx €</b></p>
+            <a class="btn btn-default" href="{{ path('ecommerce_basket') }}">Voir mon panier</a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h3>Mes commandes</h3>
+            <p>Vos 3 dernières commandes</p>
+            <table class="table-bordered">
+                <thead>
+                <tr>
+                    <th>Réf</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                    <th>PDF</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>AD49d56v2</td>
+                    <td>23/09/2045</td>
+                    <td>En cours de livraison</td>
+                    <td><img src="#" alt="icon_pdf.png" /></td>
+                </tr>
+                </tbody>
+            </table>
+            <a class="btn btn-default" href="#">Voir toutes mes commandes</a>
+        </div>
+        <div class="col-sm-6 col-md-6">
+            <h3>Mes factures</h3>
+            <a class="btn btn-default" href="#">Voir toutes mes factures</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

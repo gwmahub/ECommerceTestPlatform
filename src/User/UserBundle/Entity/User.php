@@ -26,7 +26,6 @@ class User extends BaseUser
         parent::__construct();
     }
 
-
 	/**
      * Get id
      *

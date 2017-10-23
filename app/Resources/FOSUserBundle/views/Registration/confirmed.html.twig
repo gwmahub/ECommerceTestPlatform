@@ -1,0 +1,24 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% trans_default_domain 'FOSUserBundle' %}
+
+{% block fos_user_content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <p class="text-center jumbotron">{{ 'registration.confirmed'|trans({'%username%': user.username}) }}</p>
+                {% if targetUrl %}
+                    <p class="text-center"><a href="{{ targetUrl }}">{{ 'registration.back'|trans }}</a></p>
+                {% endif %}
+                <p class="text-center">
+                    <a class="btn btn-primary" href="{{ path('user_homepage') }}">
+                        Consulter mon compte
+                    </a>
+                    <a class="btn btn-primary" href="{{ path('ecommerce_product_list') }}">
+                        Aller à la liste des produits
+                    </a>
+                </p>
+            </div>
+        </div>
+    </div>
+{% endblock fos_user_content %}

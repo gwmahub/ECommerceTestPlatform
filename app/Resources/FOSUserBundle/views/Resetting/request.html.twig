@@ -1,0 +1,10 @@
+{% extends "@FOSUser/layout.html.twig" %}
+
+{% block fos_user_content %}
+    <div class="container">
+        <h1>Mot de passe perdu ?</h1>
+        <div class="row">
+            {% include "@FOSUser/Resetting/request_content.html.twig" %}
+        </div>
+    </div>
+{% endblock fos_user_content %}
