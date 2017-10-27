@@ -28,6 +28,11 @@ class Category
      */
     private $name;
 
+	/**
+	 * @ORM\OneToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Media", cascade={"persist", "remove"} )
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+    private $image;
 
     /**
      * Get id
@@ -62,5 +67,29 @@ class Category
     {
         return $this->name;
     }
-}
 
+
+    /**
+     * Set image
+     *
+     * @param \Ecommerce\EcommerceBundle\Entity\Media $image
+     *
+     * @return Category
+     */
+    public function setImage(\Ecommerce\EcommerceBundle\Entity\Media $image)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \Ecommerce\EcommerceBundle\Entity\Media
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+}

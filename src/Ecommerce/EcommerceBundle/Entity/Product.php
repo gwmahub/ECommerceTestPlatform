@@ -26,6 +26,7 @@ class Product
      *
      * @ORM\Column(name="name", type="string", length=255)
      */
+
     private $name;
 
     /**
@@ -43,32 +44,29 @@ class Product
     private $price;
 
     /**
-     * @var bool
+     * @var boolean
      *
      * @ORM\Column(name="availability", type="boolean")
      */
     private $availability;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="category", type="string", length=255, nullable=true)
-     */
-    private $category;
+	/**
+	 * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Category", cascade={"persist", "remove"} )
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+    protected $category;
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="image", type="string", length=255, nullable=true)
+     * @ORM\OneToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Media", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $image;
+    protected $image;
 
     /**
-     * @var float
-     *
-     * @ORM\Column(name="vat", type="float", nullable=true)
+     * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Vat", cascade={"persist", "remove"} )
+     * @ORM\JoinColumn(nullable=true)
      */
-    private $vat;
+    protected $vat;
 
 
     /**
@@ -153,29 +151,29 @@ class Product
         return $this->price;
     }
 
-    /**
-     * Set availability
-     *
-     * @param boolean $availability
-     *
-     * @return Product
-     */
-    public function setAvailability($availability)
-    {
-        $this->availability = $availability;
+	/**
+	 * Set availability
+	 *
+	 * @param boolean $availability
+	 *
+	 * @return Product
+	 */
+	public function setAvailability($availability)
+	{
+		$this->availability = $availability;
 
-        return $this;
-    }
+		return $this;
+	}
 
-    /**
-     * Get availability
-     *
-     * @return bool
-     */
-    public function getAvailability()
-    {
-        return $this->availability;
-    }
+	/**
+	 * Get availability
+	 *
+	 * @return boolean
+	 */
+	public function getAvailability()
+	{
+		return $this->availability;
+	}
 
     /**
      * Set category
@@ -248,5 +246,5 @@ class Product
     {
         return $this->vat;
     }
-}
 
+}

@@ -84,6 +84,12 @@ class Address
      */
     private $mobile;
 
+	/**
+	 * @ORM\ManyToOne(targetEntity="User\UserBundle\Entity\User", inversedBy="useraddresses" )
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+	protected $user;
+
 
     /**
      * Get id
@@ -310,5 +316,30 @@ class Address
     {
         return $this->mobile;
     }
-}
 
+  
+
+    /**
+     * Set user
+     *
+     * @param \User\UserBundle\Entity\User $user
+     *
+     * @return Address
+     */
+    public function setUser(\User\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \User\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+}

@@ -5,12 +5,12 @@ namespace Ecommerce\EcommerceBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Tva
+ * Vat
  *
- * @ORM\Table(name="ec_tva")
+ * @ORM\Table(name="ec_vat")
  * @ORM\Entity(repositoryClass="Ecommerce\EcommerceBundle\Repository\TvaRepository")
  */
-class Tva
+class Vat
 {
     /**
      * @var int
@@ -31,9 +31,9 @@ class Tva
     /**
      * @var string
      *
-     * @ORM\Column(name="nom", type="string", length=45)
+     * @ORM\Column(name="name", type="string", length=45)
      */
-    private $nom;
+    private $name;
 
     /**
      * @var float
@@ -58,7 +58,7 @@ class Tva
      *
      * @param float $multiplicate
      *
-     * @return Tva
+     * @return Vat
      */
     public function setMultiplicate($multiplicate)
     {
@@ -78,27 +78,27 @@ class Tva
     }
 
     /**
-     * Set nom
+     * Set name
      *
-     * @param string $nom
+     * @param string $name
      *
-     * @return Tva
+     * @return Vat
      */
-    public function setNom($nom)
+    public function setName($name)
     {
-        $this->nom = $nom;
+        $this->name = $name;
 
         return $this;
     }
 
     /**
-     * Get nom
+     * Get name
      *
      * @return string
      */
-    public function getNom()
+    public function getName()
     {
-        return $this->nom;
+        return $this->name;
     }
 
     /**
@@ -106,7 +106,7 @@ class Tva
      *
      * @param float $value
      *
-     * @return Tva
+     * @return Vat
      */
     public function setValue($value)
     {
@@ -125,4 +125,3 @@ class Tva
         return $this->value;
     }
 }
-

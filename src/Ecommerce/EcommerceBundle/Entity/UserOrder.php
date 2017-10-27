@@ -38,9 +38,9 @@ class UserOrder
     /**
      * @var string
      *
-     * @ORM\Column(name="productcode", type="string", length=255, nullable=true)
+     * @ORM\Column(name="ordercode", type="string", length=255, nullable=false)
      */
-    private $productcode;
+    private $ordercode;
 
     /**
      * @var array
@@ -48,6 +48,12 @@ class UserOrder
      * @ORM\Column(name="products", type="array")
      */
     private $products;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="User\UserBundle\Entity\User", inversedBy="userorders" )
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+	protected $user;
 
 
     /**
@@ -107,30 +113,7 @@ class UserOrder
     {
         return $this->date;
     }
-
-    /**
-     * Set productcode
-     *
-     * @param string $productcode
-     *
-     * @return UserOrder
-     */
-    public function setProductcode($productcode)
-    {
-        $this->productcode = $productcode;
-
-        return $this;
-    }
-
-    /**
-     * Get productcode
-     *
-     * @return string
-     */
-    public function getProductcode()
-    {
-        return $this->productcode;
-    }
+	
 
     /**
      * Set products
@@ -155,5 +138,54 @@ class UserOrder
     {
         return $this->products;
     }
-}
 
+
+
+    /**
+     * Set user
+     *
+     * @param \User\UserBundle\Entity\User $user
+     *
+     * @return UserOrder
+     */
+    public function setUser(\User\UserBundle\Entity\User $user = null)
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    /**
+     * Get user
+     *
+     * @return \User\UserBundle\Entity\User
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * Set ordercode
+     *
+     * @param string $ordercode
+     *
+     * @return UserOrder
+     */
+    public function setOrdercode($ordercode)
+    {
+        $this->ordercode = $ordercode;
+
+        return $this;
+    }
+
+    /**
+     * Get ordercode
+     *
+     * @return string
+     */
+    public function getOrdercode()
+    {
+        return $this->ordercode;
+    }
+}
