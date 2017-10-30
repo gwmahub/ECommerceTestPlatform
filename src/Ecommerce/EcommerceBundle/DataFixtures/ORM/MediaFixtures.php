@@ -92,6 +92,11 @@ class MediaFixtures extends Fixture
 		$img_leg_fleurs->setAlt('Légumes-fleurs');
 		$manager->persist($img_leg_fleurs);
 
+		$img_leg_fruits = new Media();
+		$img_leg_fruits->setPath('https://cdn.pixabay.com/photo/2014/07/08/14/22/vegetables-387503_960_720.jpg');
+		$img_leg_fruits->setAlt('Légumes-fruits');
+		$manager->persist($img_leg_fruits);
+
 		$img_leg_racines = new Media();
 		$img_leg_racines->setPath('http://nhmoi.naturhouse.fr/uploads/modules/recettes/large/78-salade-de-legumes-racine-pesoperfecto18.jpg');
 		$img_leg_racines->setAlt('Légumes-racines');
@@ -130,6 +135,7 @@ class MediaFixtures extends Fixture
 		$this->addReference('img_leg_feuil', $img_leg_feuil);
 		$this->addReference('img_leg_tiges', $img_leg_tiges);
 		$this->addReference('img_leg_fleurs', $img_leg_fleurs);
+		$this->addReference('img_leg_fruits', $img_leg_fruits);
 		$this->addReference('img_leg_racines', $img_leg_racines);
 		$this->addReference('img_fruits', $img_fruits);
 		$this->addReference('img_fruits_rg', $img_fruits_rg);

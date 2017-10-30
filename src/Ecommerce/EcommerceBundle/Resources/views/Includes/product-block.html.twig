@@ -1,15 +1,21 @@
 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            <h3>Nom du produit</h3>
+            <h3>{{ product.name|capitalize }}</h3>
         </div>
         <div class="panel-body">
-            <p><img class="img-responsive" src="{{ asset('assets/images/'~i~'.jpg') }}" alt="#"/></p>
-            <p class="prod-price text-right"><span class="label label-info">100,00 €</span></p>
+            <div class="panel-prod-block-img">
+                <img class="img-responsive center-block" src="{{ product.image.path }}" alt="{{ product.image.alt }}"/>
+            </div>
+            <p class="text-right">{% if product.availability == '1' %}<span class="text-success">Available</span>
+                {% else %}<span class="text-danger">Not available</span>
+                {% endif %}
+            </p>
+            <p class="prod-price text-right"><span class="label label-info">{{ product.price }} €</span></p>
         </div>
         <div class="panel-footer">
             <p class="text-center">
-                <a class="btn btn-primary" href="{{ path('ecommerce_product_detail') }}">Infos</a>
+                <a class="btn btn-primary" href="{{ path('ecommerce_product_detail', { 'id':product.id }) }}">Infos</a>
                 <a class="btn btn-success" href="{{ path('ecommerce_basket') }}">Panier</a>
             </p>
         </div>

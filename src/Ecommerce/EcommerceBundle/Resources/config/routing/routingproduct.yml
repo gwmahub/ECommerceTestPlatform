@@ -1,0 +1,28 @@
+## PRODUCT
+ecommerce_product_list:
+    path:     /list
+    defaults: { _controller: EcommerceBundle:Product:productList }
+
+ecommerce_products_by_categ:
+    path:     /category/{categid}
+    defaults: { _controller: EcommerceBundle:Product:productsByCategory }
+
+ecommerce_product_search_results:
+    path:     /search/results
+    defaults: { _controller: EcommerceBundle:Product:productSearchResults }
+
+ecommerce_product_detail:
+    path:     /{id}
+    defaults: { _controller: EcommerceBundle:Product:productDetail }
+
+ecommerce_product_create:
+    path:     /create
+    defaults: { _controller: EcommerceBundle:Product:productCreate }
+
+ecommerce_product_edit:
+    path:     /edit #/{id}
+    defaults: { _controller: EcommerceBundle:Product:productEdit }
+
+ecommerce_product_delete:
+    path:     /delete #/{id}
+    defaults: { _controller: EcommerceBundle:Product:productDelete }

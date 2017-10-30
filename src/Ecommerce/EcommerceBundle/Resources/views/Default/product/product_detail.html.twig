@@ -2,19 +2,19 @@
 {% block content %}
     <div class="container">
         <div class="row">
+            <p class="text-right"><a href="{{ path('ecommerce_product_list') }}"><b>&lt;&lt;&nbsp;Retour à la liste des produits</b></a></p>
+        </div>
+        <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <img src="#" alt="#" />
+                <img class="img-responsive center-block" src="{{ product.image.path }}" alt="{{ product.image.alt }}" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <h1>Item brand and category</h1>
-                <h3>Item reference</h3>
+                <h1>{{ product.name|capitalize }}<br/><small>Ref.: {{ product.code }}</small></h1>
                 <div class="item-description-bloc">
-                    <h3>Item description</h3>
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ante lectus, viverra at quam sit amet, pharetra laoreet orci. Donec semper vestibulum nisl. Suspendisse potenti. Cras risus turpis, eleifend ac varius vel, bibendum eget lorem. Suspendisse potenti. Maecenas pulvinar, ligula porta iaculis fringilla, urna ante vulputate augue, non tincidunt ex nulla sed sem. Aenean ultricies, nisl quis posuere pulvinar, mauris ligula ornare ligula, quis sollicitudin ex est vel eros.
-                    </p>
+                    <h3>Item description : </h3>
+                    <p>{{ product.description|raw }}</p>
                 </div>
-                <p class="text-right"><span class="item-price label label-default">56,23 €</span></p>
+                <p class="text-right"><span class="item-price label label-info">{{ product.price }} €</span></p>
                 <div class="item-qty-select-bloc">
                     <select title="Quantity" class="item-qty-select form-control">
                         <option>1</option>
@@ -30,7 +30,7 @@
                     </select><!-- END item-qty-select -->
                 </div><!-- END item-qty-select-bloc -->
                 <p class="text-right">
-                    <button class="btn btn-primary">Ajouter au panier</button>
+                    <a class="btn btn-primary" href="{{ path('ecommerce_basket') }}">Add to basket</a>
                 </p>
             </div>
         </div>

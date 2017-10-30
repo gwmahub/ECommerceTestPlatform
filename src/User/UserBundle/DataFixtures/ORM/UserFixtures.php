@@ -1,6 +1,6 @@
 <?php
 
-namespace Ecommerce\EcommerceBundle\DataFixtures\ORM;
+namespace User\UserBundle\DataFixtures\ORM;
 
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -66,7 +66,6 @@ class UserFixtures extends Fixture
 		$this->addReference('ingrid',$ingrid );
 		$this->addReference('alicia',$alicia );
 		$this->addReference('taina',$taina );
-
 	}
 
 }

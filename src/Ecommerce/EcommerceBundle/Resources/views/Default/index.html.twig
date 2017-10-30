@@ -9,7 +9,7 @@
             </div>
             <div class="col-xs-6 col-sm-9 col-md-9 col-lg-9">
                 <div class="row">
-                    {% for i in 0..10 %}
+                    {% for product in products %}
                         {{ include("EcommerceBundle:Includes:product-block.html.twig") }}
                     {% endfor %}
                 </div>

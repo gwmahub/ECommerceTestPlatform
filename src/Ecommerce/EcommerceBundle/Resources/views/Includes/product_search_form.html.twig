@@ -1,0 +1,8 @@
+{{ form_start(form, { 'attr': { 'class': 'navbar-form navbar-right'}, 'role':'search', 'method':'post', 'action': path('ecommerce_product_search_results') } ) }}
+<div class="form-group">
+    {{ form_label(form.search, "Search", { 'label_attr':{ 'class': 'form-label' } } ) }}
+    {{ form_widget(form.search, { 'attr': { 'class': 'form-control' } }) }}
+</div>
+    {{ form_widget(form.send, { 'attr': {'class': 'btn btn-default'} }) }}
+
+{{ form_end(form) }}

@@ -11,4 +11,25 @@ namespace Ecommerce\EcommerceBundle\Repository;
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
 
+	public function getProductsByCategory ($categid){
+
+		return $this->createQueryBuilder('p')
+			->select('p')
+			->where('p.category = :category')
+			->andWhere('p.isonline = 1')
+			->orderBy('p.id')
+			->setParameter('category',$categid)
+			->getQuery()->getResult();
+	}
+
+	public function getProductsByTermsSearched($terms){
+		return $this->createQueryBuilder('p')
+			->select('p')
+			->where('p.name LIKE :terms') //OR p.category
+			->andWhere('p.isonline = 1')
+			->orderBy('p.name')
+			->setParameter('terms', '%'.$terms.'%')
+			->getQuery()->getResult();
+	}
+
 }

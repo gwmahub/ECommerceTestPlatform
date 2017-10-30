@@ -21,6 +21,13 @@ class Product
      */
     private $id;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="code", type="string", length=255, nullable=true)
+	 */
+	private $code;
+
     /**
      * @var string
      *
@@ -49,6 +56,11 @@ class Product
      * @ORM\Column(name="availability", type="boolean")
      */
     private $availability;
+	/**
+	 * @var boolean
+	 * @ORM\Column(name="isonline", type="boolean")
+	 */
+    private $isonline;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Category", cascade={"persist", "remove"} )
@@ -78,6 +90,30 @@ class Product
     {
         return $this->id;
     }
+
+	/**
+	 * Set code
+	 *
+	 * @param string $code
+	 *
+	 * @return Product
+	 */
+	public function setCode($code)
+	{
+		$this->code = $code;
+
+		return $this;
+	}
+
+	/**
+	 * Get code
+	 *
+	 * @return string
+	 */
+	public function getCode()
+	{
+		return $this->code;
+	}
 
     /**
      * Set name
@@ -175,6 +211,30 @@ class Product
 		return $this->availability;
 	}
 
+	/**
+	 * Set isonline
+	 *
+	 * @param boolean $isonline
+	 *
+	 * @return Product
+	 */
+	public function setIsonline($isonline)
+	{
+		$this->isonline = $isonline;
+
+		return $this;
+	}
+
+	/**
+	 * Get isonline
+	 *
+	 * @return boolean
+	 */
+	public function getIsonline()
+	{
+		return $this->isonline;
+	}
+
     /**
      * Set category
      *
@@ -246,5 +306,6 @@ class Product
     {
         return $this->vat;
     }
+
 
 }

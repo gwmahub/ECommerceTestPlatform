@@ -1,0 +1,13 @@
+## BASKET
+ecommerce_basket:
+    path:     /
+    defaults: { _controller: EcommerceBundle:Basket:basketView }
+
+ecommerce_basket_delivery:
+    path:     /delivery
+    defaults: { _controller: EcommerceBundle:Basket:basketDelivery }
+
+ecommerce_basket_validation:
+    path:     /validation
+    defaults: { _controller: EcommerceBundle:Basket:basketValidation }
+

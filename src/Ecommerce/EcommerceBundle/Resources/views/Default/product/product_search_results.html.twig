@@ -1,7 +1,7 @@
 {% extends '::base.html.twig' %}
 {% block content %}
     <div class="container">
-        <h1>Products List</h1>
+        <h1>Products Search</h1>
         <div class="row">
             <div class="col-xs-6 col-sm-3 col-md-3 col-lg-3">
                 {{ include("EcommerceBundle:Includes/ModulesLeft:basketblocnav.html.twig") }}
@@ -10,8 +10,8 @@
             </div>
             <div class="col-xs-6 col-sm-9 col-md-9 col-lg-9">
                 <div class="row">
-                    {% for product in products %}
-                        {{ include("EcommerceBundle:Includes:product-block.html.twig") }}
+                    {% for product in productsFoundBySearch  %}
+                        {{ include('EcommerceBundle:Includes:product-block.html.twig') }}
                     {% endfor %}
                 </div>
                 <div class="row text-center">

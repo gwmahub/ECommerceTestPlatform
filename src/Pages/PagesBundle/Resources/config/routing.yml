@@ -1,3 +1,8 @@
-pages_homepage:
-    path:     /pages/{id}
-    defaults: { _controller: PagesBundle:Pages:pages }
+#pages_homepage:
+#    path:     /pages/{id}
+#    defaults: { _controller: PagesBundle:Pages:pages }
+
+
+page_view:
+    path: page/{id}
+    defaults: { _controller: PagesBundle:Pages:pageView }

@@ -5,6 +5,7 @@ namespace Ecommerce\EcommerceBundle\DataFixtures\ORM;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 use Ecommerce\EcommerceBundle\Entity\Address;
+use User\UserBundle\DataFixtures\ORM\UserFixtures;
 
 
 class AddressFixtures extends Fixture

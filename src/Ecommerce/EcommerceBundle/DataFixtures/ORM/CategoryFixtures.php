@@ -33,6 +33,11 @@ class CategoryFixtures extends Fixture
 		$cat_leg_fleurs->setImage($this->getReference('img_leg_fleurs'));
 		$manager->persist($cat_leg_fleurs);
 
+		$cat_leg_fruits = new Category();
+		$cat_leg_fruits->setName('Légumes-fruits');
+		$cat_leg_fruits->setImage($this->getReference('img_leg_fruits'));
+		$manager->persist($cat_leg_fruits);
+
 		$cat_leg_racines = new Category();
 		$cat_leg_racines->setName('Légumes-racines');
 		$cat_leg_racines->setImage($this->getReference('img_leg_racines'));
@@ -71,6 +76,7 @@ class CategoryFixtures extends Fixture
 		$this->addReference('cat_leg_feuilles', $cat_leg_feuilles);
 		$this->addReference('cat_leg_tiges', $cat_leg_tiges);
 		$this->addReference('cat_leg_fleurs', $cat_leg_fleurs);
+		$this->addReference('cat_leg_fruits', $cat_leg_fruits);
 		$this->addReference('cat_leg_racines', $cat_leg_racines);
 		$this->addReference('cat_fruits', $cat_fruits);
 		$this->addReference('cat_agrumes', $cat_agrumes);
