@@ -4,91 +4,61 @@
     <div class="row">
         <h1>Livraisons</h1>
         <hr />
-        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-           <div class="delivery-addresses-bloc">
-               <h3>Adresses de livraisons</h3>
-               <div class="radio">
-                   <label>
-                       <input type="radio" name="adrdel1" id="adrdel1" value="adrdel1" checked>
-                       Rue des Américains 20 - 4432 ALLEUR
-                       <i class="glyphicon glyphicon-trash"></i>
-                   </label>
-               </div>
-               <div class="radio">
-                   <label>
-                       <input type="radio" name="adrdel1" id="adrdel2" value="adrdel2" >
-                       Rue Joncs fleuris 96 - 1000 BRUXELLES
-                       <i class="glyphicon glyphicon-trash"></i>
-                   </label>
-               </div>
-               <div class="radio">
-                   <label>
-                       <input type="radio" name="adrdel1" id="adrdel3" value="adrdel3" >
-                       Rue des Carmes 69 - 4432 ALLEUR
-                       <i class="glyphicon glyphicon-trash"></i>
-                   </label>
-               </div>
-           </div>
-            <div class="delivery-bills-bloc">
-                <h3>Adresses de facturations</h3>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="adrbill1" id="adrbill1" value="adrbill1" checked>
-                        Rue des Américains 20 - 4432 ALLEUR
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="adrbill2" id="adrbill2" value="adrbill2" >
-                        Rue Joncs fleuris 96 - 1000 BRUXELLES
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="adrbill3" id="adrbill3" value="adrbill3" >
-                        Rue des Carmes 69 - 4432 ALLEUR
-                        <i class="glyphicon glyphicon-trash"></i>
-                    </label>
-                </div>
-            </div>
-            <p class="text-left"><a class="btn btn-primary" href="{{ path('ecommerce_basket_validation') }}">Valider mon adresse de livraison</a></p>
-        </div>
+
         <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
             <h2>Ajouter une nouvelle adresse</h2>
-            <form>
-                <div class="form-group">
-                    <label for="firstname">Nom :</label>
-                    <input class="form-control" type="text" name="firstname" required />
+            {{ form_start(form, {'method': 'post', 'action': path('ecommerce_basket_delivery'), 'attr': {'id':'basket-delivery-form','class': 'form-horizontal'}}) }}
+            {{ form_start(form) }}
+            {# Notice : form-control by js -> ecomMain.js #}
+            {{ form_widget(form) }}
+            <p class="text-right">
+                <input class="btn btn-primary" type="submit" value="Ajouter" />
+            </p>
+            {{ form_end(form) }}
+        </div>
+
+        <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
+            <form action="{{ path('ecommerce_basket_validation') }}" method="post">
+                <div class="delivery-addresses-bloc">
+                    <h3>Adresses de livraisons</h3>
+                    {% if currentUser.useraddresses|length == 0 %}
+                        <p class="alert alert-info">Vous n'avez pas encore enregistré d'adresse de <b>livraison</b>. Merci de compléter le formulaire ci-contre.</p>
+                    {% else %}
+                    {% for address in currentUser.useraddresses %}
+                    <div class="radio">
+                        <label>
+                            <b>{{ address.firstname }}&nbsp;{{ address.lastname|upper }}</b><br />
+                            <input type="radio" name="delivery_address" id="{{ address.id }}" value="{{ address.id }}" {% if loop.index0 == 0 %}checked{% endif %} />
+                            {{ address.address }} - {{ address.postcode }}&nbsp;{{ address.city }}<br />{{ address.country }}
+                            <a href="{{ path( 'ecommerce_basket_delivery_delete_address', { 'id': address.id }) }}">
+                                <i class="glyphicon glyphicon-trash"></i>
+                            </a>
+                        </label>
+                    </div>
+                    {% endfor %}
+                    {% endif %}
+                </div><!-- END .delivery-addresses-bloc -->
+                <div class="delivery-bills-bloc">
+                    <h3>Adresses de facturations</h3>
+                    {% if currentUser.useraddresses|length == 0 %}
+                        <p class="alert alert-info">Vous n'avez pas encore enregistré d'adresse de <b>facturation</b>. Merci de compléter le formulaire ci-contre.</p>
+                    {% else %}
+                        {% for address in currentUser.useraddresses %}
+                            <div class="radio">
+                                <label>
+                                    <input type="radio" name="billing_address" id="{{ address.id }}" value="{{ address.id }}" {% if loop.index0 == 0 %}checked{% endif %} />
+                                    {{ address.address }} - {{ address.postcode }}&nbsp;{{ address.city }}<br />{{ address.country }}
+                                    <a href="{{ path( 'ecommerce_basket_delivery_delete_address', { 'id': address.id }) }}">
+                                        <i class="glyphicon glyphicon-trash"></i>
+                                    </a>
+                                </label>
+                            </div>
+                        {% endfor %}
+                        <p class="text-left">
+                            <button class="btn btn-primary" type="submit">Valider mes adresses de livraison et de facturation</button>
+                        </p>
+                    {% endif %}
                 </div>
-                <div class="form-group">
-                    <label for="lastname">Prénom :</label>
-                    <input class="form-control" type="text" name="lastname" required/>
-                </div>
-                <div class="form-group">
-                    <label for="email">E-mail :</label>
-                    <input class="form-control" type="email" name="email" required/>
-                </div>
-                <div class="form-group">
-                    <label for="addresse">Adresse :</label>
-                    <input class="form-control" type="text" name="addresse" required/>
-                </div>
-                <div class="form-group">
-                    <label for="city">Ville :</label>
-                    <input class="form-control" type="text" name="city" required/>
-                </div>
-                <div class="form-group">
-                    <label for="postcode">Code postal :</label>
-                    <input class="form-control" type="text" name="postcode" required/>
-                </div>
-                <div class="form-group">
-                    <label for="phone">Téléphone :</label>
-                    <input class="form-control" type="phone" name="phone" required/>
-                </div>
-                <p class="text-right">
-                    <input class="btn btn-primary" type="submit" value="Ajouter" />
-                </p>
             </form>
         </div>
     </div>

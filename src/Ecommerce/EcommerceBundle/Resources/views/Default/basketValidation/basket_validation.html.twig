@@ -1,81 +1,120 @@
 {% extends '::base.html.twig' %}
+
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-xs-6 col-sm-4 col-md-4 col-lg-4">
-                {% include "EcommerceBundle:Includes/ModulesLeft:navigation.html.twig" %}
+                {#{% include "EcommerceBundle:Includes/ModulesLeft:navigation.html.twig" %}#}
+                {{ render( controller('EcommerceBundle:Home:catalogueMenuBlocNav') ) }}
             </div>
             <div class="col-xs-6 col-sm-8 col-md-8 col-lg-8">
                 <h1>Valider mon panier</h1>
-                <table class="table table-striped">
+                <table id="basketTable" class="table table-striped">
                     <thead>
                     <tr>
                         <th>Référence</th>
+                        <th>Désignation</th>
                         <th>Qté</th>
-                        <th>PU</th>
+                        <th>PU hTVA</th>
                         <th>Total HT</th>
+                        <th>Taux TVA</th>
+                        <th>Montant TVA</th>
+                        <th>Total TVAC</th>
                     </tr>
                     </thead>
                     <tbody>
+                    {% if ( order.orderdetailsgrouped.products is defined ) and ( order.orderdetailsgrouped.products is not empty )  %}
+                        {% for product in order.orderdetailsgrouped.products %}
+                            <tr id="{{ product.id }}">
+                                <td>{{ product.code }}</td> <!-- Référence -->
+                                <td>{{ product.name|capitalize }}</td><!-- Désignation -->
+                                <td>{{ product.qty}}
+                                    <a class="glyphicon glyphicon-trash" href="{{ path('ecommerce_basket_remove_product', { 'id':product.id } )  }}"></a>
+                                </td><!-- qty -->
+                                <td>{{ product.uprice }} €</td><!-- PU hTVA -->
+                                <td>{{ product.qtyprice }} €</td><!-- Total HT -->
+
+                                <td>{{ product.vatname }} </td><!-- Taux TVA -->
+                                <td>{{ product.vatamt }} €</td><!-- Montant TVA -->
+                                <td>{{ product.upriceincvat }} €</td><!-- Total TVAC -->
+                            </tr>
+                        {% endfor %}<!-- END for products -->
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h3>Adresse de livraison</h3>
+                    <p>{{ order.orderdetailsgrouped.delivery_address.firstname }} {{ order.orderdetailsgrouped.delivery_address.lastname }}</p>
+                    <address>
+                        {{ order.orderdetailsgrouped.delivery_address.address }} - {{ order.orderdetailsgrouped.delivery_address.postcode }}&nbsp;{{ order.orderdetailsgrouped.delivery_address.city }}<br />
+                        {{ order.orderdetailsgrouped.delivery_address.country }}
+                    </address>
+            </div>
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <h3>Adresse de facturation</h3>
+                <p>{{ order.orderdetailsgrouped.billing_address.firstname }} {{ order.orderdetailsgrouped.billing_address.lastname }}</p>
+                <address>
+                    {{ order.orderdetailsgrouped.billing_address.address }} - {{ order.orderdetailsgrouped.billing_address.postcode }}&nbsp;{{ order.orderdetailsgrouped.billing_address.city }}<br />
+                    {{ order.orderdetailsgrouped.billing_address.country }}
+                </address>
+            </div>
+
+
+            <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+                <table class="basket-table-total table pull-right">
+                    <tbody>
                     <tr>
-                        <td>AB29837</td>
-                        <td>
-                            1
-                        </td>
-                        <td>26,85 €</td>
-                        <td>26,85 €</td>
+                        <td><b>Total hTVA</b> :</td>
+                        <td>{{ order.orderdetailsgrouped.total_excl_vat }} €</td>
+                    </tr>
+                    {# Get the keys and values after pushing them in VATTypes #}
+                    {% for key, vat in order.orderdetailsgrouped.vat %}
+                        <tr>
+                            <td><b>TVA {{ key }} %</b> :</td>
+                            <td>{{ vat }} €</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><b>Total TVA</b> :</td>
+                        <td>{{ order.orderdetailsgrouped.total_vat }} €</td>
                     </tr>
                     <tr>
-                        <td>CD29837</td>
-                        <td>
-                            1
-                        </td>
-                        <td>89,22 €</td>
-                        <td>89,22 €</td>
-                    </tr>
-                    <tr>
-                        <td>EF29837</td>
-                        <td>
-                            1
-                        </td>
-                        <td>23,10 €</td>
-                        <td>23,10 €</td>
-                    </tr>
-                    <tr>
-                        <td>GH29837</td>
-                        <td>
-                            1
-                        </td>
-                        <td>156,50 €</td>
-                        <td>156,50 €</td>
+                        <td><b>Total TVAC</b> :</td>
+                        <td>{{ order.orderdetailsgrouped.total_incl_vat }} €</td>
                     </tr>
                     </tbody>
                 </table>
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                <table class="basket-table-total table pull-right">
-                    <tbody>
-                    <tr>
-                        <td><b>Total HT</b> :</td>
-                        <td>295,67 €</td>
-                    </tr>
-                    <tr>
-                        <td><b>TVA</b> :</td>
-                        <td>62,1 €</td>
-                    </tr>
-                    <tr>
-                        <td><b>Total TTC</b> :</td>
-                        <td>357,77 €</td>
-                    </tr>
-                    </tbody>
-                </table>
-                <div class="clearfix"></div>
-                <p>
-                    <a class="btn btn-success pull-right" href="#"><b>Payer</b></a>
-                    <a class="btn btn-default pull-right" style="margin-right: 25px;" href="{{ path('ecommerce_basket') }}">Modifier mon panier</a>
-                    <a class="btn btn-default pull-right" style="margin-right: 25px;" href="{{ path('ecommerce_product_list') }}">Ajouter des produits</a>
+            <div class="col-sm-12 col-md-12">
+                <p class="text-right">
+                    <a class="btn btn-default" style="margin-right: 25px;" href="{{ path('ecommerce_product_list') }}">Ajouter des produits</a>
+                    <a class="btn btn-default" style="margin-right: 25px;" href="{{ path('ecommerce_basket') }}">Modifier mon panier</a>
+                    <a class="btn btn-default" style="margin-right: 25px;" href="{{ path('ecommerce_basket_delivery') }}">Retour aux adresses</a>
+
+                <!-- API  -->
+                <form action="{{ path( 'ecommerce_order_pay', { 'orderid':order.id } ) }}" method="post">
+                    <input name="token" type="hidden" value="{{ order.orderdetailsgrouped.token }}"><!-- token -->
+                    {% for product in order.orderdetailsgrouped.products %}
+                    <input name="code" type="hidden" value="{{ product.code }}"><!-- Référence -->
+                    <input name="name" type="hidden" value="{{ product.name|capitalize }}"><!-- Désignation -->
+                    <input name="uprice" type="hidden" value="{{ product.uprice }}">
+                    <input name="qty" type="hidden" value="{{ product.qty }}">
+                    <input name="qtyprice" type="hidden" value="{{ product.qtyprice}}">
+                    <input name="vatname" type="hidden" value="{{ product.vatname}}">
+                    <input name="vatamt" type="hidden" value="{{ product.vatamt}}">
+                    <input name="upriceincvatqty" type="hidden" value="{{ product.upriceincvat}}">
+                    {% endfor %}
+                    <input name="total_excl_vat" type="hidden" value="{{ order.orderdetailsgrouped.total_excl_vat}}">
+                    <input name="total_vat" type="hidden" value="{{ order.orderdetailsgrouped.total_incl_vat - order.orderdetailsgrouped.total_excl_vat }}">
+                    <input name="total_incl_vat" type="hidden" value="{{ order.orderdetailsgrouped.total_incl_vat }}">
+                    <button class="btn btn-success" href="#"><b>Payer</b></button>
+                </form>
+
                 </p>
             </div>
         </div>

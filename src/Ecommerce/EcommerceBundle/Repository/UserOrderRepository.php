@@ -10,4 +10,15 @@ namespace Ecommerce\EcommerceBundle\Repository;
  */
 class UserOrderRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getBillsByUser($userid){
+
+		return $this->createQueryBuilder('o')
+			->select('o')
+			->where('o.user = :userid')
+			->andWhere('o.valid = 1')
+			->andWhere('o.ordercode != 0')
+			->orderBy('o.id')
+			->setParameter('userid', $userid)
+			->getQuery()->getResult();
+	}
 }

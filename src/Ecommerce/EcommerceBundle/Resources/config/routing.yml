@@ -1,3 +1,8 @@
+## HOME
+ecommerce_homepage: #product list + ???? à déterminer
+    path:     /
+    defaults: { _controller: EcommerceBundle:Home:index }
+
 ecommerce_product:
     resource: "@EcommerceBundle/Resources/config/routing/routingproduct.yml"
     prefix: /product
@@ -6,7 +11,6 @@ ecommerce_basket:
     resource: "@EcommerceBundle/Resources/config/routing/routingbasket.yml"
     prefix: /basket
 
-## HOME
-ecommerce_homepage: #product list + ???? à déterminer
-    path:     /
-    defaults: { _controller: EcommerceBundle:Home:index }
+ecommerce_order:
+    resource: "@EcommerceBundle/Resources/config/routing/routingorder.yml"
+    prefix: /order

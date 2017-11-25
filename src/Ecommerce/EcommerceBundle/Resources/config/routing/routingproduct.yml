@@ -1,11 +1,13 @@
 ## PRODUCT
 ecommerce_product_list:
-    path:     /list
-    defaults: { _controller: EcommerceBundle:Product:productList }
+    path: /list
+    defaults:
+        _controller: EcommerceBundle:Product:productListAllOrByCategory
 
 ecommerce_products_by_categ:
-    path:     /category/{categid}
-    defaults: { _controller: EcommerceBundle:Product:productsByCategory }
+    path:     /list/category/{category}
+    defaults:
+        _controller: EcommerceBundle:Product:productListAllOrByCategory
 
 ecommerce_product_search_results:
     path:     /search/results

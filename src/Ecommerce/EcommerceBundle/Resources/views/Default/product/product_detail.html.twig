@@ -1,4 +1,8 @@
 {% extends '::base.html.twig' %}
+
+{% block keywords %}{{ product.name }}{% endblock %}
+{% block description %}{{ product.description }}{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -14,24 +18,26 @@
                     <h3>Item description : </h3>
                     <p>{{ product.description|raw }}</p>
                 </div>
-                <p class="text-right"><span class="item-price label label-info">{{ product.price }} €</span></p>
-                <div class="item-qty-select-bloc">
-                    <select title="Quantity" class="item-qty-select form-control">
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                    </select><!-- END item-qty-select -->
-                </div><!-- END item-qty-select-bloc -->
-                <p class="text-right">
-                    <a class="btn btn-primary" href="{{ path('ecommerce_basket') }}">Add to basket</a>
-                </p>
+                <p class="text-right"> <small>Prix tvac : </small><span class="item-price label label-info">{{ product.price|addvat(product.vat.multiplicate) }} €</span></p>
+                <div class="">
+                    <form class="form-horizontal" action="{{ path('ecommerce_basket_add_product', { 'id':product.id }) }}" method="get">
+                        <select title="Quantity" class="item-qty-select-bloc form-control" name="qty">
+                            {% for i in 1..10 %}
+                                <option value="{{ i }}">{{ i }}</option>
+                            {% endfor %}
+                        </select><!-- END item-qty-select -->
+
+                        <p class="text-right">
+                            {%  if prodsInBasket[product.id] is not defined %}
+                            <button class="btn btn-success" >Add to basket</button>
+                            {% else %}
+                                <span class="text-info"><b>Notice :</b> This product is already in your basket </span><a class="btn btn-primary" href="{{ path('ecommerce_basket') }}">View my basket</a>
+                        {% endif %}
+                        </p>
+                    </form>
+
+                </div>
+
             </div>
         </div>
     </div>

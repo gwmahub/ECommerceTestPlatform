@@ -1,0 +1,55 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>Page</h1>
+                <p class="text-right"><a class="btn btn-default" href="{{ path('pageAdmin_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
+                <p class="text-right"><a class="btn btn-primary" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a></p>
+                <div class="text-right">
+                    {{ form_start(delete_form) }}
+                    <button class="btn btn-danger" type="submit">
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;{{ 'Supprimer'|trans }}
+                    </button>
+                    {{ form_end(delete_form) }}
+                </div>
+            <p>&nbsp;</p>
+            <table class="table table-responsive">
+                <tbody>
+                    <tr>
+                        <th class="well">Id</th>
+                        <td>{{ page.id }}</td>
+                    </tr>
+                    <tr>
+                        <th class="well">Title</th>
+                        <td>{{ page.title }}</td>
+                    </tr>
+                    <tr>
+                        <th class="well">Excerpt</th>
+                        <td>{{ page.excerpt|raw }}</td>
+                    </tr>
+                    <tr>
+                        <th class="well">Content</th>
+                        <td>{{ page.content|raw }}</td>
+                    </tr>
+                    <tr>
+                        <th class="well">Status</th>
+                        <td>{{ page.status }}</td>
+                    </tr>
+                    <tr>
+                        <th class="well">Createdat</th>
+                        <td>{% if page.createdat %}{{ page.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                    </tr>
+                    {% if page.updatedat is not empty %}
+                        <tr>
+                            <th class="well">Updatedat</th>
+                            <td>{% if page.updatedat %}{{ page.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        </tr>
+                    {% endif %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

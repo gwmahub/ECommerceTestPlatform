@@ -10,4 +10,13 @@ namespace Ecommerce\EcommerceBundle\Repository;
  */
 class CategoryRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getTheCategory($categId){
+
+		return $this->createQueryBuilder('c')
+					->select('c')
+					->where('c.id = :id')
+					->setParameter('id', $categId)
+					->getQuery()->getResult();
+	}
+
 }

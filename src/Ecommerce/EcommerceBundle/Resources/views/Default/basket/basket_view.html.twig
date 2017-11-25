@@ -1,88 +1,111 @@
 {% extends "::base.html.twig" %}
+{% set totalExVAT    = 0 %}
+{% set totalVAT      = 0 %}
+{% set totalInVAT    = 0 %}
+{# init VATTypes as an empty array -> avoid errors not isset VATTypes when |merge #}
+{% set VATTypes     = {} %}
+{# push the different keys in the VATTypes array with value 0 -> avoid errors empty array or missing value in the loop "product" here below #}
+{% for product in products %}
+    {% set VATTypes =  VATTypes|merge( { ('%' ~ (product.vat.value)) : 0 } ) %}
+{% endfor %}
+
+
+{% block title %}Votre panier{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
             <div class="col-xs-12 col-lg-12">
-                {{ include("EcommerceBundle:Includes/ModulesLeft:navigation.html.twig") }}
+                {{ render( controller( 'EcommerceBundle:Home:catalogueMenuBlocNav' ) ) }}
             </div>
         </div>
         <div class="row">
             <div class="col-xs-12 col-lg-12">
                 <h1>Votre panier</h1>
-                <table class="table table-striped">
+                <table id="basketTable" class="table table-striped">
                     <thead>
                         <tr>
                             <th>Référence</th>
+                            <th>Désignation</th>
                             <th>Qté</th>
-                            <th>PU</th>
+                            <th>PU hTVA</th>
                             <th>Total HT</th>
+                            <th>Taux TVA</th>
+                            <th>Montant TVA</th>
+                            <th>Total TVAC</th>
                         </tr>
                     </thead>
                     <tbody>
-                    <tr>
-                        <td>AB29837</td>
-                        <td>
-                            <input id="basket_row_item_qty" type="text" name="basket_row_item_AB29837_qty" placeholder="1" value=""/>
-                            <i class="glyphicon glyphicon-refresh"></i>&nbsp;<i class="glyphicon glyphicon-trash"></i>
-                        </td>
-                        <td>26,85 €</td>
-                        <td>26,85 €</td>
-                    </tr>
-                    <tr>
-                        <td>CD29837</td>
-                        <td>
-                            <input id="basket_row_item_qty" type="text" name="basket_row_item_CD29837_qty" placeholder="1" value=""/>
-                            <i class="glyphicon glyphicon-refresh"></i>&nbsp;<i class="glyphicon glyphicon-trash"></i>
-                        </td>
-                        <td>89,22 €</td>
-                        <td>89,22 €</td>
-                    </tr>
-                    <tr>
-                        <td>EF29837</td>
-                        <td>
-                            <input id="basket_row_item_qty" type="text" name="basket_row_item_EF29837_qty" placeholder="1" value=""/>
-                            <i class="glyphicon glyphicon-refresh"></i>&nbsp;<i class="glyphicon glyphicon-trash"></i>
-                        </td>
-                        <td>23,10 €</td>
-                        <td>23,10 €</td>
-                    </tr>
-                    <tr>
-                        <td>GH29837</td>
-                        <td>
-                            <input id="basket_row_item_qty" type="text" name="basket_row_item_GH29837_qty" placeholder="1" value=""/>
-                            <i class="glyphicon glyphicon-refresh"></i>&nbsp;<i class="glyphicon glyphicon-trash"></i>
-                        </td>
-                        <td>156,50 €</td>
-                        <td>156,50 €</td>
-                    </tr>
+                    {% if ( products is defined ) and ( products is not empty )  %}
+                        {% for product in products %}
+                            <tr id="{{ product.id }}">
+                                <form action="{{ path( 'ecommerce_basket_add_product', { 'id':product.id } ) }}" method="get">
+                                    <td>{{ product.code }}</td> <!-- Référence -->
+                                    <td>{{ product.name|capitalize }}</td><!-- Désignation -->
+                                    <td>
+                                        <input id="basket_row_item_qty" type="text" name="qty" placeholder="0" value="{{ basketProdQty[product.id] }}"/>
+                                        <button class="glyphicon glyphicon-refresh" onclick="submit()"></button>&nbsp;
+                                        <a class="glyphicon glyphicon-trash" href="{{ path('ecommerce_basket_remove_product', { 'id':product.id } )  }}"></a>
+                                    </td><!-- qty -->
+                                    <td>{{ product.price }} €</td><!-- PU hTVA -->
+                                    <td>{{ product.price *  basketProdQty[product.id] }} €</td><!-- Total HT -->
+                                    <td>{{ product.vat.name }} </td><!-- Taux TVA -->
+                                    <td>{{ ( (product.price*basketProdQty[product.id]) )|vatamt(product.vat.multiplicate) }} €</td><!-- Montant TVA -->
+                                    <td>{{ ( product.price *  basketProdQty[product.id] )|addvat( product.vat.multiplicate) }} €</td><!-- Total TVAC  / MEMO: round in twig extension -->
+                                </form>
+                            </tr>
+                            {% set totalExVAT = totalExVAT + ( product.price * basketProdQty[product.id] ) %}
+                            {% set totalVAT   = totalVAT + ( ( product.price * basketProdQty[product.id] )|vatamt(product.vat.multiplicate) )  %}
+                            {% set VATTypes   = VATTypes|merge( { ( '%' ~ product.vat.value ) : VATTypes[ '%' ~ product.vat.value ] + ( product.price * basketProdQty[product.id] )|vatamt(product.vat.multiplicate) } )  %}
+                            {% set totalInVAT = totalExVAT + totalVAT %}
+                        {% endfor %}
+                    {% endif %}
                     </tbody>
                 </table>
             </div>
         </div>
+        {% if ( products is defined ) and ( products is not empty )  %}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                 <table class="basket-table-total table pull-right">
                     <tbody>
                     <tr>
-                        <td><b>Total HT</b> :</td>
-                        <td>295,67 €</td>
+                        <td><b>Total hTVA</b> :</td>
+                        <td>{{ totalExVAT }} €</td>
+                    </tr>
+                    {# Get the keys and values after pushing them in VATTypes #}
+                    {% for key, vat in VATTypes %}
+                        <tr>
+                            <td><b>TVA {{ key }}</b> :</td>
+                            <td>{{ vat }} €</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><b>Total TVA</b> :</td>
+                        <td>{{ totalVAT }} €</td>
                     </tr>
                     <tr>
-                        <td><b>TVA</b> :</td>
-                        <td>62,1 €</td>
-                    </tr>
-                    <tr>
-                        <td><b>Total TTC</b> :</td>
-                        <td>357,77 €</td>
+                        <td><b>Total TVAC</b> :</td>
+                        <td>{{ totalInVAT }} €</td>
                     </tr>
                     </tbody>
                 </table>
+
                 <div class="clearfix"></div>
                 <p>
                     <a class="btn btn-primary pull-left" href="{{ path('ecommerce_homepage') }}">Continuer mes achats</a>
+                    {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                     <a class="btn btn-success pull-right" href="{{ path('ecommerce_basket_delivery') }}">Valider mon panier</a>
+                    {% else %}
+                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_security_login') }}">Me connecter pour valider mon panier</a><br /><br />
+                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_registration_register') }}">M'inscrire pour valider mon panier</a>
+                    {% endif %}
                 </p>
             </div>
         </div>
+            {% else %}
+                <p class="text-center">
+                    <a class="btn btn-primary" href="{{ path('ecommerce_homepage') }}">Retourner à la liste des produits</a>
+                </p>
+        {% endif %}
     </div>
 {% endblock %}

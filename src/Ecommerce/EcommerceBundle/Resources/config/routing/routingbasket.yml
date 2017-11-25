@@ -1,12 +1,30 @@
 ## BASKET
+## basket/...
+  ## View
 ecommerce_basket:
     path:     /
     defaults: { _controller: EcommerceBundle:Basket:basketView }
+  ## Add
+ecommerce_basket_add_product:
+    path:     /add/{id}
+    defaults: { _controller: EcommerceBundle:Basket:basketAddProduct }
+  ## Delete
+ecommerce_basket_remove_product:
+    path:     /remove/{id}
+    defaults: { _controller: EcommerceBundle:Basket:basketRemoveProduct }
 
+## DELIVERY ---
+  ## View and Add
 ecommerce_basket_delivery:
     path:     /delivery
     defaults: { _controller: EcommerceBundle:Basket:basketDelivery }
+  ## Delete
+ecommerce_basket_delivery_delete_address:
+    path:     /delivery/address/delete/{id}
+    defaults: { _controller: EcommerceBundle:Basket:basketDeliveryAddressDelete }
 
+
+## VALIDATION ---
 ecommerce_basket_validation:
     path:     /validation
     defaults: { _controller: EcommerceBundle:Basket:basketValidation }

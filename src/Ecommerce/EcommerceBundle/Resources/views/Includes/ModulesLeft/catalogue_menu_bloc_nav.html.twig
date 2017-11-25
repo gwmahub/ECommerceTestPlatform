@@ -1,0 +1,13 @@
+<div class="well">
+    <p id="nav-left-bloc-menu-p" class="text-center">
+        <a id="nav-left-bloc-menu-but-opclo" class="text-primary" role="button" data-toggle="collapse" href="#nav-left-bloc-prodcateg-menu" aria-expanded="false" aria-controls="nav-left-bloc-prodcateg-menu">
+            {{ "Catalogue"|upper }} &nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
+        </a>
+    </p>
+    <div id="nav-left-bloc-prodcateg-menu" class="collapse nav nav-stacked">
+        <ul id="nav-left-bloc-prod-categ-menu-list" class="nav nav-stacked">
+            <li><a href="{{ path('ecommerce_product_list') }}">&gt;&gt;Tous les produits</a></li>
+            {{ render( controller( 'EcommerceBundle:Category:getProductCategories' ) ) }}
+        </ul>
+    </div>
+</div>

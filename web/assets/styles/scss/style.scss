@@ -7,16 +7,20 @@
 body{
   padding-top: 80px !important;
 }
+a:focus,a:hover,a:active{
+  text-decoration: none;
+}
 
-.panel-prod-block-img{ height: 200px;}
+.panel-prod-bloc-img{ height: 200px;}
 
-.prod-price{
+.prod-bloc-price{
   font-size: 1.5em;
 }
 .item-price{
   font-size: $font-size-default*1.15;
 }
 .item-qty-select-bloc{
+  margin-bottom: 10px;
   width: 75px;
 }
 
@@ -26,4 +30,31 @@ body{
 
 .delivery-addresses-bloc{
   margin-bottom: 70px;
+}
+
+/**
+  Main nav bloc left
+ */
+
+#nav-left-bloc-menu-p{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dcdcdc;
+}
+#nav-left-bloc-menu-but-opclo{
+  font-weight: normal;
+}
+#nav-left-bloc-prodcateg-menu{}
+#nav-left-bloc-prod-categ-menu-list{}
+
+
+
+/**
+  User bloc nav
+ */
+#user-menu-p{
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dcdcdc;
+}
+#user-menu-but-opclo{
+  font-weight: normal;
 }

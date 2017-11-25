@@ -1,23 +1,40 @@
+{# Easier to catch the basket data's #}
+{% set prodsInBasket = app.session.get('basket') %}
 <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4">
     <div class="panel panel-default">
         <div class="panel-heading text-center">
-            <h3>{{ product.name|capitalize }}</h3>
+            <h3 class="prod-block-name">{{ product.name|capitalize }}</h3>
         </div>
         <div class="panel-body">
-            <div class="panel-prod-block-img">
+            <div class="panel-prod-bloc-img">
                 <img class="img-responsive center-block" src="{{ product.image.path }}" alt="{{ product.image.alt }}"/>
             </div>
-            <p class="text-right">{% if product.availability == '1' %}<span class="text-success">Available</span>
+            <p class="text-right">
+                {% if product.availability == '1' %}<span class="text-success">Available</span>
                 {% else %}<span class="text-danger">Not available</span>
                 {% endif %}
             </p>
-            <p class="prod-price text-right"><span class="label label-info">{{ product.price }} €</span></p>
+            <p class="prod-bloc-price text-right">
+                <small>Prix tvac : </small><span class="label label-info">{{ product.price|addvat( product.vat.multiplicate ) }} €</span>
+            </p>
         </div>
         <div class="panel-footer">
-            <p class="text-center">
-                <a class="btn btn-primary" href="{{ path('ecommerce_product_detail', { 'id':product.id }) }}">Infos</a>
-                <a class="btn btn-success" href="{{ path('ecommerce_basket') }}">Panier</a>
-            </p>
+            <form class="form-horizontal" action="{{ path('ecommerce_basket_add_product', { 'id':product.id }) }}" method="get">
+                <a class="btn btn-primary pull-left" href="{{ path('ecommerce_product_detail', { 'id':product.id }) }}">Infos</a>
+                <select title="Quantity" class="item-qty-select-bloc form-control pull-right" name="qty">
+                    {% for i in 1..10 %}
+                        <option value="{{ i }}">{{ i }}</option>
+                    {% endfor %}
+                </select><!-- END item-qty-select -->
+                <div class="clearfix"></div>
+                <p class="text-center">
+                {%  if prodsInBasket[product.id] is not defined %}
+                    <button class="btn btn-success" >Add to basket</button>
+                {% else %}
+                    <a class="btn btn-default" data-toggle="tooltip" data-placement="top" title="This item is already in your basket" href="{{ path('ecommerce_basket') }}"><span class="text-info"> View my basket</span></a>
+                {% endif %}
+                </p>
+            </form>
         </div>
     </div>
 </div>

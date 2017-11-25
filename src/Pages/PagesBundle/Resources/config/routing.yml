@@ -1,8 +1,7 @@
-#pages_homepage:
-#    path:     /pages/{id}
-#    defaults: { _controller: PagesBundle:Pages:pages }
-
+pages_pageAdmin:
+    resource: "@PagesBundle/Resources/config/routing/routingPageAdmin.yml"
+    prefix:   /admin/page
 
 page_view:
     path: page/{id}
-    defaults: { _controller: PagesBundle:Pages:pageView }
+    defaults: { _controller: PagesBundle:Page:pageView }

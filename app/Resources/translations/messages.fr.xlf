@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2">
+    <file source-language="en" target-language="fr" datatype="plaintext" original="file.ext">
+        <body>
+
+            <trans-unit id="Search">
+                <source>Search</source>
+                <target>Recherche</target>
+            </trans-unit>
+            <trans-unit id="Send">
+                <source>Send</source>
+                <target>Envoyer</target>
+            </trans-unit>
+            <trans-unit id="Informations">
+                <source>Informations</source>
+                <target>Informations</target>
+            </trans-unit>
+
+            <trans-unit id="Back-to-the-list">
+                <source>Back to the list</source>
+                <target>Retour à la liste</target>
+            </trans-unit>
+
+        </body>
+    </file>
+</xliff>
+
+

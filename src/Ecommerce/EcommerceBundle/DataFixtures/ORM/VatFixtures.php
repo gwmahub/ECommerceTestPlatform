@@ -15,13 +15,13 @@ class VatFixtures extends Fixture
 
 		$vat1 = new Vat();
 		$vat1->setName('VAT 6%');
-		$vat1->setMultiplicate(0.943); // 100/106=0.943 ?!
+		$vat1->setMultiplicate(1.06); // 100/106=0.943 ?!
 		$vat1->setValue(6);
 		$manager->persist($vat1);
 
 		$vat2 = new Vat();
 		$vat2->setName('VAT 21%');
-		$vat2->setMultiplicate(0.826);
+		$vat2->setMultiplicate(1.21);
 		$vat2->setValue(21);
 		$manager->persist($vat2);
 

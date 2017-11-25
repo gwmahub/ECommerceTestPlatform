@@ -1,0 +1,5 @@
+{% for i, category in categories %}
+    <li role="presentation" class="active">
+        <a href="{{ path('ecommerce_products_by_categ', { 'category':category.id }) }}">{{ category.name }} <span class="">{{ nbProductsByCategory[i] }}</span></a>
+    </li>
+{% endfor %}

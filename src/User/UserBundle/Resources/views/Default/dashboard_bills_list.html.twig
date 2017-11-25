@@ -1,0 +1,41 @@
+{% extends 'UserBundle:Default:dashboard_index.html.twig' %}
+
+{% block dashcontent %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h1>My bills</h1>
+                {% if userbills|length == 0 %}
+                <div class="alert alert-info">
+                    {{ 'Vous n\'avez pas encore de factures'|trans }}
+                </div>
+                {% else %}
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Réf</th>
+                            <th>Date</th>
+                            <th>Montant TTC</th>
+                            <th align="center">Download</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for userbill in userbills %}
+                        <tr>
+                            <td><a title="Download the bill in pdf-format" href="{{ path('user_bill', { 'orderid':userbill.id }) }}" target="_blank">{{ userbill.orderfullref }}</a></td>
+                            <td>{{ userbill.date|date('d/m/y') }}</td>
+                            <td>{{ userbill.orderdetailsgrouped.total_incl_vat|replace( { ".":"," } ) }} €</td>
+                            <td align="left" style="padding-left: 20px;">
+                                <a href="{{ path('user_bill', { 'orderid':userbill.id }) }}" target="_blank"><i class="glyphicon glyphicon-download"></i></a>
+                            </td>
+                        </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% endif %}
+
+            </div>
+        </div>
+    </div><!-- END .container -->
+
+{% endblock %}

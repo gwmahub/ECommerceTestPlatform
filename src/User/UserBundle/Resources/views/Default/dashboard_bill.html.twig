@@ -1,0 +1,125 @@
+<style type="text/css">
+    .text-left{ text-align: left }
+    .text-right{ text-align: right }
+    .text-center{ text-align: center }
+    .separator{ height: 150px; width: 100%; }
+
+    table{ border-collapse: collapse; }
+    th, td{ padding: 3px; vertical-align: middle;}
+
+    #order-pdf-header-top{ margin-bottom: 50px; }
+    #order-pdf-header-top td{ width: 100%; }
+    #companyname{ width: 60%; vertical-align: top;}
+    #order-pdf-header-billnum td{ width: 100%; padding-right: 20px;}
+    #order-pdf-content{ border: 1px solid #dcdcdc }
+    #order-pdf-content th{ background-color: #ececec; font-weight: normal; font-size: 11px; }
+    #order-pdf-content th, #order-pdf-content td{ border: 1px solid transparent; padding: 5px;}
+    #order-pdf-content td{ font-size: 11px; }
+    #pcode{ width: 10%; }
+    #pname{ width: 30%; }
+    #pqty{ width: 5%; }
+    #puprice{ width: 10%; }
+    #pqtyprice{ width: 10%; }
+    #pvatname{ width: 10%;}
+    #pvatamt{ width: 7%; }
+    #pupriceincvat{ width: 15%; }
+    #order-pdf-totalinclvat{ font-size: 14px; background-color: #dcdcdc;}
+    #footer-hr-separ{ margin-bottom: 50px;border: 0.25px solid #858585; }
+    #order-pdf-footer td{ width: 33.33%; }
+</style>
+
+<page backtop="10mm" backright="10mm" backbottom="20mm" backleft="10mm">
+    <table id="order-pdf-header-top">
+        <tr>
+            <td class="text-center">
+                <img src="{{ absolute_url(asset('assets/images/logo_la_belle_saison.png')) }}" width="125" height="80" border="0" alt="logo_la_belle_saison.png" />
+            </td>
+        </tr>
+
+    </table>
+    <table id="order-pdf-header" class="header">
+        <tbody>
+            <tr>
+                <td id="companyname" class="text-left">
+                    {{ "La belle saison scrl"|upper }}<br /><br/>
+                    Rue des plaisirs de la nature 123<br />
+                    4562 {{ "Lasève"|upper }} <br />
+                    VAT n°: BE0456.235.478<br /><br/>
+                    Belgium
+                </td>
+                <td class="text-left">
+                    {{ bill.orderdetailsgrouped.billing_address.lastname }}&nbsp;{{ bill.orderdetailsgrouped.billing_address.firstname }}<br /><br />
+                    {{ bill.orderdetailsgrouped.billing_address.address }}<br />
+                    {{ bill.orderdetailsgrouped.billing_address.city }}&nbsp;{{ bill.orderdetailsgrouped.billing_address.postcode }}<br /><br />
+                    {{ bill.orderdetailsgrouped.billing_address.country }}
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="separator"></div>
+    <table id="order-pdf-header-billnum">
+        <tr>
+            <td class="text-right">
+                <h3>{{ "Bill n°:"|upper|trans }}{{ bill.orderfullref }}</h3>
+            </td>
+        </tr>
+    </table>
+    <table id="order-pdf-content">
+        <thead>
+        <tr>
+            <th class="text-left">Référence</th>
+            <th class="text-left">Désignation</th>
+            <th class="text-center">Qté</th>
+            <th class="text-center">PU <br /><small>(hTVA)</small></th>
+            <th class="text-center">Total <br /><small>(hTVA)</small></th>
+            <th class="text-center">Taux <br />TVA</th>
+            <th class="text-center">Montant <br />TVA</th>
+            <th class="text-center">Total <br /><small>(TVAC)</small></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for product in bill.orderdetailsgrouped.products %}
+            <tr>
+                <td id="pcode" class="text-left">{{ product.code }}</td>
+                <td id="pname" class="text-left">{{ product.name|capitalize }}</td>
+                <td id="pqty" class="text-center">{{ product.qty }}</td>
+                <td id="puprice" class="text-right">{{ product.uprice|replace({ ".":"," }) }} €</td>
+                <td id="pqtyprice" class="text-right">{{ product.qtyprice|replace({ ".":"," }) }} €</td>
+                <td id="pvatname" class="text-center"><small>{{ product.vatname }}</small></td>
+                <td id="pvatamt" class="text-right">{{ product.vatamt|replace({ ".":"," }) }} €</td>
+                <td id="pupriceincvat" class="text-right">{{ product.upriceincvat|replace({ ".":"," }) }} €</td>
+            </tr>
+        {% endfor %}
+        <tr><td colspan="8">&nbsp;</td></tr>
+        <tr>
+            <td colspan="7" class="text-right">Total hTVA : </td>
+            <td class="text-right">{{ bill.orderdetailsgrouped.total_excl_vat|replace({ ".":"," }) }} €</td>
+        </tr>
+        {% for key,vatamt in bill.orderdetailsgrouped.vat %}
+        <tr>
+            <td colspan="7" class="text-right">TVA ( {{ key }} % ) : </td>
+            <td class="text-right">{{ vatamt|replace({ ".":"," }) }} €</td>
+        </tr>
+        {% endfor %}
+        <tr>
+            <td colspan="7" class="text-right"><b>Total TVAC</b> : </td>
+            <td id="order-pdf-totalinclvat" class="text-right">{{ bill.orderdetailsgrouped.total_incl_vat|replace({ ".":"," }) }} €</td>
+        </tr>
+        </tbody>
+    </table>
+    <page_footer>
+        <hr id="footer-hr-separ" />
+        <table id="order-pdf-footer">
+            <tr>
+                <td class="text-left">
+                    Order n°: {{ bill.orderfullref }}
+                </td>
+                <td class="text-center">
+                    Order date : {{ bill.date|date('d/m/y') }}
+                </td>
+                <td class="text-right">[[page_cu]]/[[page_nb]]</td>
+            </tr>
+        </table>
+    </page_footer>
+</page>

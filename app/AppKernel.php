@@ -19,6 +19,8 @@ class AppKernel extends Kernel
             new Pages\PagesBundle\PagesBundle(),
 	        new FOS\UserBundle\FOSUserBundle(),
             new User\UserBundle\UserBundle(),
+	        new Knp\Bundle\PaginatorBundle\KnpPaginatorBundle(),
+	        new Ivory\CKEditorBundle\IvoryCKEditorBundle(),
         ];
 
         if (in_array($this->getEnvironment(), ['dev', 'test'], true)) {

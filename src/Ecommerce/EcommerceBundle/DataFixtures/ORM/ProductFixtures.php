@@ -22,7 +22,7 @@ class ProductFixtures extends Fixture
 		$prod_carot->setIsonline('1');
 		$prod_carot->setCategory( $this->getReference('cat_leg_racines') );
 		$prod_carot->setImage( $this->getReference('img_carot') );
-		$prod_carot->setVat( $this->getReference('vat2') );
+		$prod_carot->setVat( $this->getReference('vat1') );
 		$manager->persist($prod_carot);
 
 		$prod_poivrons = new Product();
@@ -94,7 +94,7 @@ class ProductFixtures extends Fixture
 		$prod_pasteq->setIsonline('1');
 		$prod_pasteq->setCategory( $this->getReference('cat_fruits_tropic') );
 		$prod_pasteq->setImage( $this->getReference('img_pasteq') );
-		$prod_pasteq->setVat( $this->getReference('vat1') );
+		$prod_pasteq->setVat( $this->getReference('vat2') );
 		$manager->persist($prod_pasteq);
 
 		$prod_framb = new Product();
@@ -106,7 +106,7 @@ class ProductFixtures extends Fixture
 		$prod_framb->setIsonline('1');
 		$prod_framb->setCategory( $this->getReference('cat_fruits_rouges') );
 		$prod_framb->setImage( $this->getReference('img_framb') );
-		$prod_framb->setVat( $this->getReference('vat1') );
+		$prod_framb->setVat( $this->getReference('vat2') );
 		$manager->persist($prod_framb);
 		
 		$prod_orange = new Product();

@@ -5,7 +5,7 @@ namespace Pages\PagesBundle\Controller;
 use Doctrine\ORM\EntityNotFoundException;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
-class PagesController extends Controller
+class PageController extends Controller
 {
 	public function menuAction(){
 		$pages = $this->getDoctrine()->getManager()->getRepository('PagesBundle:Page')->findAll();

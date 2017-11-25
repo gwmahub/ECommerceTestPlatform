@@ -42,12 +42,26 @@ class UserOrder
      */
     private $ordercode;
 
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="orderfullref", type="string", length=255, nullable=true)
+	 */
+    private $orderfullref;
+
     /**
      * @var array
      *
      * @ORM\Column(name="products", type="array")
      */
     private $products;
+
+	/**
+	 * @var array
+	 *
+	 * @ORM\Column(name="order_details_grouped", type="array")
+	 */
+	private $orderdetailsgrouped;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="User\UserBundle\Entity\User", inversedBy="userorders" )
@@ -188,4 +202,53 @@ class UserOrder
     {
         return $this->ordercode;
     }
+
+	/**
+	 * Set orderfullref
+	 *
+	 * @param string $orderfullref
+	 *
+	 * @return UserOrder
+	 */
+	public function setOrderfullref($orderfullref)
+	{
+		$this->orderfullref = $orderfullref;
+
+		return $this;
+	}
+
+	/**
+	 * Get orderfullref
+	 *
+	 * @return string
+	 */
+	public function getOrderfullref()
+	{
+		return $this->orderfullref;
+	}
+
+    /**
+     * Set orderdetailsgrouped
+     *
+     * @param array $orderdetailsgrouped
+     *
+     * @return UserOrder
+     */
+    public function setOrderdetailsgrouped($orderdetailsgrouped)
+    {
+        $this->orderdetailsgrouped = $orderdetailsgrouped;
+
+        return $this;
+    }
+
+    /**
+     * Get orderdetailsgrouped
+     *
+     * @return array
+     */
+    public function getOrderdetailsgrouped()
+    {
+        return $this->orderdetailsgrouped;
+    }
+
 }

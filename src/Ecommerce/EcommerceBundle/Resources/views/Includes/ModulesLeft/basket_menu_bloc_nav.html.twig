@@ -1,0 +1,27 @@
+{% set prodsInBasket = app.session.get('basket') %}
+<div class="well">
+    <p id="user-menu-p" class="text-center">
+        <a id="basket-menu-but-opclo" class="text-primary" role="button" data-toggle="collapse" href="#basketmenu" aria-expanded="false" aria-controls="basketmenumenu">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            MON PANIER&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
+        </a>
+    </p>
+    <p class="text-center">
+        {%  if prodsInBasket|length == 0 %}
+            {{ 'Aucun article dans votre panier' }}
+        {% elseif prodsInBasket|length == 1  %}
+            {{ '1 article dans votre panier' }}
+        {% else %}
+            {{ prodsInBasket|length ~ ' articles dans votre panier' }}
+        {% endif %}
+    </p>
+    <div id="basketmenu" class="collapse" aria-expanded="true" style="">
+        <ul class="nav nav-pills nav-stacked">
+            {% for product in products %}
+                <li><a href="#">{{ product.name }} x {{ prodsInBasket[product.id] }} : <span class="badge">{{ (product.price * prodsInBasket[product.id])}} €</span></a></li>
+            {% endfor %}
+            {% if (products|length) < (prodsInBasket|length) %}<li class="text-center"><i class="glyphicon glyphicon-chevron-down"></i></li>{% endif %}
+            <li class="text-center"><a class="btn btn-primary" href="{{ path('ecommerce_basket') }}">Mon panier</a></li>
+        </ul>
+    </div>
+</div>

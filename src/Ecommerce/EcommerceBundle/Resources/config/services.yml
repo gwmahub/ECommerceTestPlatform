@@ -2,3 +2,35 @@ services:
 #    ecommerce.example:
 #        class: Ecommerce\EcommerceBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
+
+    addvat:
+        class: Ecommerce\EcommerceBundle\Twig\Extension\AddVatExtension
+        tags:
+            - { name: twig.extension }
+    vatamt:
+        class: Ecommerce\EcommerceBundle\Twig\Extension\VatAmountExtension
+        tags:
+            - { name: twig.extension }
+
+    ecommerce.order_manager:
+        class: Ecommerce\EcommerceBundle\Services\OrderManager\OrderManager
+        arguments: [ "@service_container", "@session", "@request_stack", "@doctrine.orm.entity_manager", "@security.token_storage" ]
+#        scope: request  => deprecated !!
+
+    ecommerce.order_code_generator:
+        class: Ecommerce\EcommerceBundle\Services\OrderManager\OrderCodeGenerator
+        arguments: [ "@service_container", "@doctrine.orm.entity_manager" ]
+
+    ecommerce.order_html2pdf:
+        class: Ecommerce\EcommerceBundle\Services\OrderManager\HTML2PDF
+
+
+# check if user is connected when he arrives on pages : delivery,  validation
+
+# PERSONAL NOTICE: system aborted -> see app/config/security.yml -> access_control
+
+#    redirectionListener:
+#        class: Ecommerce\EcommerceBundle\Listener\RedirectionListener
+#        arguments: [ '@service_container', '@session' ]
+#        tags:
+#            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }

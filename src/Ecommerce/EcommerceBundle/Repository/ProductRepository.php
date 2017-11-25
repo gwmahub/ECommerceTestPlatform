@@ -2,6 +2,8 @@
 
 namespace Ecommerce\EcommerceBundle\Repository;
 
+use Doctrine\ORM\Tools\Pagination\Paginator;
+
 /**
  * ProductRepository
  *
@@ -10,26 +12,113 @@ namespace Ecommerce\EcommerceBundle\Repository;
  */
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
-
-	public function getProductsByCategory ($categid){
+	/**
+	 * Used to catch the product(s) in the current session 'basket'
+	 * @param $array
+	 *
+	 * @return array
+	 */
+	public function findProdsArray($array){
 
 		return $this->createQueryBuilder('p')
-			->select('p')
-			->where('p.category = :category')
-			->andWhere('p.isonline = 1')
-			->orderBy('p.id')
-			->setParameter('category',$categid)
-			->getQuery()->getResult();
+					->select('p')
+					->where('p.id IN (:array)')
+					->setParameter('array', $array)
+					->getQuery()->getResult();
+	}
+
+	/**
+	 * Used for the basket bloc nav menu
+	 * @param $array
+	 *
+	 * @return array
+	 */
+	public function findXLastProdsArray($array){
+
+		return $this->createQueryBuilder('p')
+					->select('p')
+					->where('p.id IN (:array)')
+					->setMaxResults(3)
+					->setParameter( 'array',$array)
+					->orderBy('p.name', 'ASC')
+					->getQuery()->getResult();
+	}
+
+	public function productsListForPagination($curPage, $nbProdsPerPage){
+			$qb =  $this->createQueryBuilder('p')
+				->select('p')
+				->where('p.isonline = 1')
+				->getQuery()
+				->setFirstResult( ($curPage-1)*$nbProdsPerPage )
+				->setMaxResults($nbProdsPerPage);
+
+			return new Paginator($qb, true);
+	}
+
+	public function productsListByCategForPagination($curPage, $nbProdsPerPage, $categid){
+		$qb =  $this->createQueryBuilder('p')
+		            ->select('p')
+		            ->where('p.isonline = 1')
+					->andWhere('p.category = :category')
+					->setParameter('category',$categid)
+                    ->getQuery()
+		            ->setFirstResult( ($curPage-1)*$nbProdsPerPage )
+		            ->setMaxResults($nbProdsPerPage);
+
+		return new Paginator($qb, true);
+	}
+
+	/**
+	 * Catch the products in a specific category if the product is online=1
+	 * Used for example in ProductController:productListAllOrByCategoryAction
+	 * @param $categid
+	 *
+	 * @return array
+	 */
+	public function getProductsByCategory ($category){
+
+		return $this->createQueryBuilder('p')
+					->select('p')
+					->where('p.category = :category')
+					->andWhere('p.isonline = 1')
+					->orderBy('p.id')
+					->setParameter('category',$category)
+					->getQuery()->getResult();
+	}
+
+	public function countProducts(){
+		return $this->createQueryBuilder('p')
+		            ->select('COUNT(p)')
+		            ->where('p.isonline = 1')
+		            ->getQuery()->getSingleScalarResult();
+	}
+
+	/**
+	 * Use to display the number of products available in a category
+	 *
+	 * Used f.ex. in CategoryController
+	 * @param $categid
+	 *
+	 * @return mixed
+	 */
+	public function countProductsByCateg($categid){
+		return $this->createQueryBuilder('p')
+		            ->select('COUNT(p)')
+		            ->where('p.category = :category')
+		            ->andWhere('p.isonline = 1')
+		            ->setParameter('category',$categid)
+		            ->getQuery()->getSingleScalarResult();
 	}
 
 	public function getProductsByTermsSearched($terms){
+
 		return $this->createQueryBuilder('p')
-			->select('p')
-			->where('p.name LIKE :terms') //OR p.category
-			->andWhere('p.isonline = 1')
-			->orderBy('p.name')
-			->setParameter('terms', '%'.$terms.'%')
-			->getQuery()->getResult();
+					->select('p')
+					->where('p.name LIKE :terms') //OR p.category
+					->andWhere('p.isonline = 1')
+					->orderBy('p.name')
+					->setParameter('terms', '%'.$terms.'%')
+					->getQuery()->getResult();
 	}
 
 }
