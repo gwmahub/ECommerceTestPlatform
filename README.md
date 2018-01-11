@@ -10,6 +10,15 @@ Packages managers:
 - composer
 - Bower
 
+Bundles
+--------
+- ckeditor
+- FOS user
+- KNP Paginator
+- Liip image
+- SPIPU (HTML2PDF)
+
+
 Notice : 
 ---------
 The project strucure is not exactly the same than the original project created with Symfony 2. Everybody has his habits ;-) So, be carefull if you follow the original tutorial on YouTube !
