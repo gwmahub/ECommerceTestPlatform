@@ -1,0 +1,24 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ 'Mise à jour d\'un nouveau produit'|trans }}</h1>
+            <p class="text-right"><a class="btn btn-default" href="{{ path('admin_product_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
+            {{ form_start(edit_form) }}
+            {{ form_widget(edit_form) }}
+            <p class="pull-right"><button class="btn btn-success" type="submit">{{ "Mettre à jour"|trans }}</button></p>
+            {{ form_end(edit_form) }}
+            <div class="pull-left">
+                {{ form_start(delete_form) }}
+                <button class="btn btn-danger" type="submit">
+                    <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;{{ 'Supprimer'|trans }}
+                </button>
+                {{ form_end(delete_form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

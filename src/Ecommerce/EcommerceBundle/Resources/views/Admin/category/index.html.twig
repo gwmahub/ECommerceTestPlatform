@@ -1,0 +1,48 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ 'Liste des catégories de produits'|trans }}</h1>
+            <p class="text-right">
+                <a class="btn btn-primary" href="{{ path('admin_category_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer une nouvelle catégorie"|trans }}</a>
+            </p>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for category in categories %}
+                    <tr>
+                        <td width="10%">
+                            <a href="{{ path('admin_category_show', { 'id': category.id }) }}">
+                            {% if category.image.webfilename is defined and category.image.webfilename is not null %}
+                                <img class="img-responsive center-block" src="/{{ category.image.UploadDir~category.image.webfilename }}" />
+                            {% endif %}
+                            </a>
+                        </td>
+                        <td>{{ category.name }}</td>
+                        <td>
+                            <ul>
+                                <li>
+                                    <a href="{{ path('admin_category_show', { 'id': category.id }) }}">show</a>
+                                </li>
+                                <li>
+                                    <a href="{{ path('admin_category_edit', { 'id': category.id }) }}">edit</a>
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

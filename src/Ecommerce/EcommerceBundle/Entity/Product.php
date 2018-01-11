@@ -21,6 +21,21 @@ class Product
      */
     private $id;
 
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="createdat", type="datetime")
+	 */
+	protected $createdat;
+
+	/**
+	 * @var \DateTime
+	 *
+	 * @ORM\Column(name="updatedat", type="datetime",  nullable=true)
+	 */
+	protected $updatedat;
+
 	/**
 	 * @var string
 	 *
@@ -63,7 +78,7 @@ class Product
     private $isonline;
 
 	/**
-	 * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Category", cascade={"persist", "remove"} )
+	 * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Category", cascade={"persist"} )
 	 * @ORM\JoinColumn(nullable=true)
 	 */
     protected $category;
@@ -75,11 +90,16 @@ class Product
     protected $image;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Vat", cascade={"persist", "remove"} )
+     * @ORM\ManyToOne(targetEntity="Ecommerce\EcommerceBundle\Entity\Vat", cascade={"persist"} )
      * @ORM\JoinColumn(nullable=true)
      */
     protected $vat;
 
+
+
+    public function __construct(){
+    	$this->createdat = new \DateTime();
+    }
 
     /**
      * Get id
@@ -308,4 +328,52 @@ class Product
     }
 
 
+
+    /**
+     * Set createdat
+     *
+     * @param \DateTime $createdat
+     *
+     * @return Product
+     */
+    public function setCreatedat($createdat)
+    {
+        $this->createdat = $createdat;
+
+        return $this;
+    }
+
+    /**
+     * Get createdat
+     *
+     * @return \DateTime
+     */
+    public function getCreatedat()
+    {
+        return $this->createdat;
+    }
+
+    /**
+     * Set updatedat
+     *
+     * @param \DateTime $updatedat
+     *
+     * @return Product
+     */
+    public function setUpdatedat($updatedat)
+    {
+        $this->updatedat = $updatedat;
+
+        return $this;
+    }
+
+    /**
+     * Get updatedat
+     *
+     * @return \DateTime
+     */
+    public function getUpdatedat()
+    {
+        return $this->updatedat;
+    }
 }

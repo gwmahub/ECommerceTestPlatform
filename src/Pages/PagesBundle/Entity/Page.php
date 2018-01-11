@@ -66,7 +66,7 @@ class Page
 
 
     public function __construct(){
-    	$this->createdat = new \DateTime() ;
+    	$this->createdat = new \DateTime();
     }
 	/**
 	 * @ORM\PreUpdate

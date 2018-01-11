@@ -1,0 +1,40 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ category.name }}</h1>
+            <p class="text-right"><a class="btn btn-default" href="{{ path('admin_category_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
+            <p class="text-right"><a class="btn btn-primary" href="{{ path('admin_category_edit', { 'id': category.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer la catégorie : "~category.name|trans|capitalize }}</a></p>
+            <div class="text-right">
+                {{ form_start(delete_form) }}
+                <button class="btn btn-danger" type="submit">
+                    <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;{{ 'Supprimer la catégorie : '~(category.name|trans)|capitalize }}
+                </button>
+                {{ form_end(delete_form) }}
+            </div>
+            <p>&nbsp;</p>
+            <table class="table table-responsive">
+                <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Name</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td width="25%">
+                        {% if category.image.webfilename is defined and category.image.webfilename is not null   %}
+                            <img class="img-responsive center-block" src="/{{ category.image.UploadDir~category.image.webfilename }}" />
+                        {% endif %}
+                        </td>
+                        <td>{{ category.name }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}

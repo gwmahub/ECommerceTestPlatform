@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * Vat
  *
  * @ORM\Table(name="ec_vat")
- * @ORM\Entity(repositoryClass="Ecommerce\EcommerceBundle\Repository\TvaRepository")
+ * @ORM\Entity(repositoryClass="Ecommerce\EcommerceBundle\Repository\VatRepository")
  */
 class Vat
 {
@@ -123,5 +123,9 @@ class Vat
     public function getValue()
     {
         return $this->value;
+    }
+
+    public function __toString(){
+    	return $this->getName();
     }
 }

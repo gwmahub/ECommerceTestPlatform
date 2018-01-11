@@ -14,3 +14,9 @@ ecommerce_basket:
 ecommerce_order:
     resource: "@EcommerceBundle/Resources/config/routing/routingorder.yml"
     prefix: /order
+
+## ADMIN - PRODUCT
+
+ecommerce_admin_product:
+    resource: "@EcommerceBundle/Resources/config/routing/routingproductAdmin.yml"
+    prefix:   /admin/product

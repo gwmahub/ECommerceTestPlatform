@@ -1,0 +1,17 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ 'Création d\'une nouvelle catégorie de produit'|trans }}</h1>
+            <p class="text-right"><a class="btn btn-default" href="{{ path('admin_category_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
+            {{ form_start(form) }}
+                {{ form_widget(form) }}
+            <p class="text-center"><button class="btn btn-success" type="submit">{{ "Ajouter"|trans }}</button></p>
+            {{ form_end(form) }}
+        </div>
+    </div>
+</div>
+
+{% endblock %}

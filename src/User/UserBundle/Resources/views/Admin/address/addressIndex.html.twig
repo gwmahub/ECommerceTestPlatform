@@ -1,0 +1,30 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h1>{{ 'Liste des adresses'|trans }}</h1>
+                {% for userAddress in user.useraddresses %}
+                    <h4>{{ "Adresse n° : "|trans }}{{ loop.index }}</h4>
+                    <p>
+                        {{ "Nom : "|trans }}<b>{{ userAddress.firstname }}&nbsp;{{ userAddress.lastname }}</b><br>
+                        {{ "Adresse : "|trans }}{{ userAddress.address }}<br>
+                        {{ "Adresse compl. : "|trans }}{{ userAddress.addresscompl }}<br>
+                        {{ "CP : "|trans }}{{ userAddress.postcode }} - {{ "Ville : "|trans }}{{ userAddress.city }}<br>
+                        {{ "Pays : "|trans }}{{ userAddress.country|upper }}
+                    </p>
+                    <p>
+                        <i class="glyphicon glyphicon-phone-alt"></i> : {{ userAddress.phone }} | <i class="glyphicon glyphicon-phone"></i> : {{ userAddress.mobile }}<br>
+                    </p>
+                    <p class="text-right">
+                        <a class="btn btn-primary" href="{{ path('') }}">{{ "Modifier"|trans }}</a>
+                        <a class="btn btn-danger">{{ "Supprimer"|trans }}</a>
+                    </p>
+                    {% if loop.last != loop.length-1 %}<hr>{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

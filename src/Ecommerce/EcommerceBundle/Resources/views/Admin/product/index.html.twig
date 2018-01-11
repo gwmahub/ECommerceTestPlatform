@@ -1,0 +1,46 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ 'Liste des produits'|trans }}</h1>
+            <p class="text-right">
+                <a class="btn btn-primary" href="{{ path('admin_product_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer un nouveau produit"|trans }}</a>
+            </p>
+            <table class="table table-responsive">
+                <thead>
+                    <tr>
+                        <th>Createdat</th>
+                        <th>Updatedat</th>
+                        <th>Code</th>
+                        <th>Name</th>
+                        <th>Price</th>
+                        <th>Availability</th>
+                        <th>Isonline</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for product in products %}
+                    <tr>
+                        <td>{% if product.createdat %}{{ product.createdat|date('Y-m-d') }}{% endif %}</td>
+                        <td>{% if product.updatedat %}{{ product.updatedat|date('Y-m-d') }}{% endif %}</td>
+                        <td>{{ product.code }}</td>
+                        <td width="35%">{{ product.name|capitalize }}</td>
+                        <td align="right">{{ product.price }} €</td>
+                        <td>{% if product.availability %}Yes{% else %}No{% endif %}</td>
+                        <td>{% if product.isonline %}Yes{% else %}No{% endif %}</td>
+                        <td align="right">
+                            <a class="btn btn-info" href="{{ path('admin_product_show', { 'id': product.id }) }}"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{ "Afficher"|trans }}</a><br /><br />
+                            <a class="btn btn-primary" href="{{ path('admin_product_edit', { 'id': product.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a>
+                        </td>
+                    </tr>
+                {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
