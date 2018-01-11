@@ -14,7 +14,7 @@ services:
 
     ecommerce.order_manager:
         class: Ecommerce\EcommerceBundle\Services\OrderManager\OrderManager
-        arguments: [ "@service_container", "@session", "@request_stack", "@doctrine.orm.entity_manager", "@security.token_storage" ]
+        arguments: [ "@service_container", "@session", "@request_stack", "@doctrine.orm.entity_manager", "@security.token_storage", "@mailer" ]
 #        scope: request  => deprecated !!
 
     ecommerce.order_code_generator:

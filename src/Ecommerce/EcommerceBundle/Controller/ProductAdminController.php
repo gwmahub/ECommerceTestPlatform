@@ -2,6 +2,7 @@
 
 namespace Ecommerce\EcommerceBundle\Controller;
 
+use Ecommerce\EcommerceBundle\Entity\Media;
 use Ecommerce\EcommerceBundle\Entity\Product;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -34,6 +35,9 @@ class ProductAdminController extends Controller
     public function newAction(Request $request)
     {
         $product = new Product();
+        $img = new Media();
+        $img->setFileTargetDir($this->getParameter('uploads_img_product'));
+        $product->setImage($img);
         $form = $this->createForm('Ecommerce\EcommerceBundle\Form\ProductType', $product);
         $form->handleRequest($request);
 

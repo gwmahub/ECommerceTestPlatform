@@ -1,0 +1,15 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ "Bienvenue dans l'administration"|trans }}</h1>
+            <p class="text-right">
+                <a class="btn btn-default" href="{{ path('ecommerce_homepage') }}" target="_blank">{{ "Afficher le site"|trans }}</a>
+            </p>
+            <p>Ici les différents modules sous forme de bloc</p>
+        </div>
+    </div>
+</div>
+{% endblock %}

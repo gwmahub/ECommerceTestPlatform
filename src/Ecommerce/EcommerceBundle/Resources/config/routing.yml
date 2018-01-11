@@ -15,8 +15,19 @@ ecommerce_order:
     resource: "@EcommerceBundle/Resources/config/routing/routingorder.yml"
     prefix: /order
 
+## ADMIN - HOME
+ecommerce_admin_homepage:
+    path: /admin
+    defaults: { _controller: EcommerceBundle:Home:indexAdmin }
 ## ADMIN - PRODUCT
-
 ecommerce_admin_product:
     resource: "@EcommerceBundle/Resources/config/routing/routingproductAdmin.yml"
     prefix:   /admin/product
+## ADMIN - CATEGORY
+ecommerce_admin_category:
+    resource: "@EcommerceBundle/Resources/config/routing/routingcategoryAdmin.yml"
+    prefix:   /admin/category
+## ADMIN - ORDER
+ecommerce_admin_order:
+    resource: "@EcommerceBundle/Resources/config/routing/routingorderAdmin.yml"
+    prefix:   /admin/order

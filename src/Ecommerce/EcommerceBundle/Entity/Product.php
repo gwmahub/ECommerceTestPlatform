@@ -101,6 +101,10 @@ class Product
     	$this->createdat = new \DateTime();
     }
 
+	public function setFileTargetDir(){
+		return '/products';
+	}
+
     /**
      * Get id
      *

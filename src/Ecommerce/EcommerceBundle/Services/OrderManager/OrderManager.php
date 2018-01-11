@@ -24,14 +24,16 @@ class OrderManager {
 	protected $em;
 	protected $security;
 	protected $createdAt;
+	protected $mailer;
 
-	public function __construct( ContainerInterface $container, Session $session, RequestStack $request, EntityManager $em, TokenStorage $token_storage) {
+	public function __construct( ContainerInterface $container, Session $session, RequestStack $request, EntityManager $em, TokenStorage $token_storage, \Swift_Mailer $mailer) {
 		$this->container        = $container;
 		$this->session          = $session;
 		$this->request          = $request;
 		$this->em               = $em;
 		$this->token_storage    = $token_storage;
 		$this->createdAt        = new \DateTime();
+		$this->mailer           = $mailer;
 
 	}
 
@@ -234,6 +236,18 @@ class OrderManager {
 			$this->session->remove('basket');
 			$this->session->remove('selected_addresses');
 			$this->session->remove('userorder');
+
+			// ici le mail de validation
+			$message = (new \Swift_Message('Order confirmation'))
+				->setFrom('info.gwma@gmail.com')
+				->setTo($orderToValidate->getUser()->getEmailCanonical()) // $orderToValidate->getUser()->getEmailCanonical()
+				->setCharset('utf-8')
+				->setContentType('text/html')
+				->setBody( $this->container->get('templating')->render('EcommerceBundle:Default:Mailer/orderConfirmation.html.twig', array(
+					'user' => $orderToValidate->getUser()
+				)) );
+
+			$this->mailer->send($message);
 
 			return true;
 		}

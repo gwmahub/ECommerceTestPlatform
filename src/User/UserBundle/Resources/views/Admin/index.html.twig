@@ -1,0 +1,50 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h1>{{ 'Liste des clients'|trans }}</h1>
+                <p class="text-right">
+                    <a class="btn btn-primary" href="{{ path('admin_user_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer un nouveaux client"|trans }}</a>
+                </p>
+                <table class="table table-responsive">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>E-mail</th>
+                        <th>Role</th>
+                        <th>Actions</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for user in users %}
+                        <tr>
+                            <td>{{ user.username }}</td>
+                            <td>{{ user.email }}</td>
+                            <td>
+                                {% for userrole in user.roles %}
+                                {{ userrole }}<br>
+                                {% endfor %}
+                            </td>
+                            <td>
+                                <ul class="list-unstyled">
+                                    <li><a href="{{ path('admin_user_show', { 'id': user.id }) }}"><i class="glyphicon glyphicon-eye-open"></i>&nbsp;Show</a></li>
+                                    <li><a href="{{ path('admin_user_edit', { 'id': user.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;Edit</a></li>
+                                    {% if user.useraddresses|length != 0 %}
+                                    <li><a href="{{ path('admin_user_addresses', { 'id': user.id }) }}"><i class="glyphicon glyphicon-map-marker"></i>&nbsp;Addresses</a></li>
+                                    {% endif %}
+                                    {% if user.userorders|length != 0 %}
+                                    <li><a href="{{ path('admin_user_bills', { 'id': user.id }) }}"><i class="glyphicon glyphicon-euro"></i>&nbsp;Bills</a></li>
+                                    {% endif %}
+                                </ul>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

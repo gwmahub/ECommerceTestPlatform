@@ -1,11 +1,11 @@
-user_homepage:
-    path:     /dashboard
-    defaults: { _controller: UserBundle:User:dashboardIndex }
+dashboard_user:
+    resource: "@UserBundle/Resources/config/routing/routingDashboard.yml"
+    prefix: /dashboard
 
-user_bills:
-    path:     /dashboard/bills/list
-    defaults: { _controller: UserBundle:User:dashboardBillsList }
+admin_user:
+    resource: "@UserBundle/Resources/config/routing/admin/routingUserAdmin.yml"
+    prefix: /admin/user
 
-user_bill:
-    path:     /dashboard/bills/{orderid}
-    defaults: { _controller: UserBundle:User:dashboardBillPDF }
+admin_user_address:
+    resource: "@UserBundle/Resources/config/routing/admin/routingAddressAdmin.yml"
+    prefix: /admin/address

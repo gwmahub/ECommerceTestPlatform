@@ -16,51 +16,61 @@
                 {{ form_end(delete_form) }}
             </div>
             <p>&nbsp;</p>
-            <table class="table table-responsive">
-                <tbody>
-                    <tr>
-                        <th>Id</th>
-                        <td>{{ product.id }}</td>
-                    </tr>
-                    <tr>
-                        <th>Createdat</th>
-                        <td>{% if product.createdat %}{{ product.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <th>Updatedat</th>
-                        <td>{% if product.updatedat %}{{ product.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <th>Code</th>
-                        <td>{{ product.code }}</td>
-                    </tr>
-                    <tr>
-                        <th>Name</th>
-                        <td>{{ product.name|capitalize }}</td>
-                    </tr>
-                    <tr>
-                        <th>Description</th>
-                        <td>{{ product.description|raw }}</td>
-                    </tr>
-                    <tr>
-                        <th>Price</th>
-                        <td>{{ product.price }} €</td>
-                    </tr>
-                    <tr>
-                        <th>Availability</th>
-                        <td>{% if product.availability %}Yes{% else %}No{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <th>Isonline</th>
-                        <td>{% if product.isonline %}Yes{% else %}No{% endif %}</td>
-                    </tr>
-                    <tr>
-                        <th>Category</th>
-                        <td>{{ product.category }}</td>
-                    </tr>
-                </tbody>
-            </table>
-
+            <div class="row">
+                <div class="col-xs-12 col-sm-4 col-md-4 col-lg-4">
+                    <img class="img-responsive center-block" src="{{ asset(product.image.webPath) }}" />
+                </div>
+                <div class="col-xs-12 col-sm-8 col-md-8 col-lg-8">
+                    <table class="table table-responsive table-striped">
+                        <tbody>
+                        <tr>
+                            <th>Category</th>
+                            <td>{{ product.category }}</td>
+                        </tr>
+                        <tr>
+                            <th>Name</th>
+                            <td>{{ product.name|capitalize }}</td>
+                        </tr>
+                        <tr>
+                            <th>Code</th>
+                            <td>{{ product.code }}</td>
+                        </tr>
+                        <tr>
+                            <th>Description</th>
+                            <td>{{ product.description|raw }}</td>
+                        </tr>
+                        <tr>
+                            <th>Price</th>
+                            <td>{{ product.price }} €</td>
+                        </tr>
+                        <tr>
+                            <th>VAT</th>
+                            <td>{{ product.vat.value }} %</td>
+                        </tr>
+                        <tr>
+                            <th>Availability</th>
+                            <td>{% if product.availability %}Yes{% else %}No{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Isonline</th>
+                            <td>{% if product.isonline %}Yes{% else %}No{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Createdat</th>
+                            <td>{% if product.createdat %}{{ product.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Updatedat</th>
+                            <td>{% if product.updatedat %}{{ product.updatedat|date('Y-m-d H:i:s') }}{% else %} / {% endif %}</td>
+                        </tr>
+                        <tr>
+                            <th>Id</th>
+                            <td>{{ product.id }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </div>

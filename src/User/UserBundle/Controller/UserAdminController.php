@@ -3,59 +3,55 @@
 namespace User\UserBundle\Controller;
 
 //use Knp\Snappy\Pdf;
+use Ecommerce\EcommerceBundle\Entity\UserOrder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
+use Symfony\Component\Routing\Exception\ResourceNotFoundException;
+use User\UserBundle\Entity\User;
 
-class UserController extends Controller
+class UserAdminController extends Controller
 {
-    public function dashboardIndexAction(){
+    public function indexAction(){
 
-        return $this->render('UserBundle:Default:dashboard_index.html.twig');
+    	$users  = $this->getDoctrine()->getManager()->getRepository('UserBundle:User')->findAll();
+
+        return $this->render('UserBundle:Admin:index.html.twig', array(
+            'users' => $users,
+        ));
     }
 
-    public function dashboardBillsListAction(){
-		$userBills = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:UserOrder')->getBillsByUser( $this->getUser() );
+    public function showAction(User $user){
 
-		return $this->render('UserBundle:Default:dashboard_bills_list.html.twig', array( 'userbills' => $userBills ));
+    	return $this->render('UserBundle:Admin:show.html.twig', array( 'user' => $user ));
+    }
+
+    public function newAction(Request $request){
+
+	    return $this->render('UserBundle:Admin:new.html.twig');
+    }
+
+    public function editAction(User $user, Request $request){
+
+	    return $this->render('UserBundle:Admin:edit.html.twig', array( 'user' => $user ));
+    }
+
+    public function deleteAction(User $user, Request $request){
+
+	    return $this->render('UserBundle:Admin:delete.html.twig', array( 'user' => $user ));
     }
 
 
-
-
-    public function dashboardBillPDFAction($orderid){
-    	$bill = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:UserOrder')->findOneBy( array(
-    	    'user' => $this->getUser(),
-		    'valid' => 1,
-		    'id' => $orderid
-	    ));
-    	if( !$bill ){
-    		$this->get('session')->getFlashBag()->add('danger', 'Critical error during the pdf rendering. Please retry');
+    public function addressesOrBillsAction( User $user, Request $request ){
+    	if( $request->get('_route') === 'admin_user_addresses' ){
+		    return $this->render('UserBundle:Admin:userAddresses.html.twig', array( 'user' => $user ));
+	    }elseif($request->get('_route') === 'admin_user_bills'){
+		    return $this->render('UserBundle:Admin:userBills.html.twig', array('user' => $user,));
+	    }else{
+    		throw new ResourceNotFoundException('This page doesn\'t exist or has been removed');
 	    }
-
-	    $template   = $this->renderView("UserBundle:Default:dashboard_bill.html.twig", array('bill' => $bill ) );
-		$name       = $bill->getId().'_'.$bill->getOrderfullref();
-
-
-	    $html2pdf   = $this->get('ecommerce.order_html2pdf');
-    	$html2pdf->create( 'P','A4', 'fr', true, 'UTF-8', array(5, 5, 5, 8) );
-
-		return $html2pdf->generatePdf ($template, $name);
     }
 
 
-
-
-
-
-    public function userNonConnectedMenuBlocNavAction(){
-
-	    return $this->render('UserBundle:Includes:ModulesLeft/user_non_connected_menu_bloc_nav.html.twig');
-
-    }
-
-    public function userDashboardMenuBlocNavAction(){
-
-    	return $this->render('UserBundle:Includes:ModulesLeft/user_dashboard_menu_bloc_nav.html.twig');
-    }
 }

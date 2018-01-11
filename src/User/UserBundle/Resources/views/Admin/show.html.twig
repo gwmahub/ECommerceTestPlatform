@@ -1,0 +1,13 @@
+{% extends '::baseAdmin.html.twig' %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            <h1>{{ 'Fiche client'|trans }}</h1>
+            <h2>N°: {{ user.id }} | {{ user.username }}</h2>
+
+        </div>
+    </div>
+</div>
+{% endblock %}

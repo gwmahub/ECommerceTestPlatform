@@ -14,6 +14,7 @@
                         <th>Createdat</th>
                         <th>Updatedat</th>
                         <th>Code</th>
+                        <th>Img</th>
                         <th>Name</th>
                         <th>Price</th>
                         <th>Availability</th>
@@ -27,6 +28,7 @@
                         <td>{% if product.createdat %}{{ product.createdat|date('Y-m-d') }}{% endif %}</td>
                         <td>{% if product.updatedat %}{{ product.updatedat|date('Y-m-d') }}{% endif %}</td>
                         <td>{{ product.code }}</td>
+                        <td><img src="{{ asset(product.image.webPath)|imagine_filter('admin_prod_list_thumb') }}" /> </td>
                         <td width="35%">{{ product.name|capitalize }}</td>
                         <td align="right">{{ product.price }} €</td>
                         <td>{% if product.availability %}Yes{% else %}No{% endif %}</td>

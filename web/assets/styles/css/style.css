@@ -4,6 +4,13 @@
 body {
   padding-top: 80px !important; }
 
+/* Surcharge Bootstrap default style (text-align: left)  */
+.th-r {
+  text-align: right !important; }
+
+.th-c {
+  text-align: center !important; }
+
 a:focus, a:hover, a:active {
   text-decoration: none; }
 

@@ -55,7 +55,7 @@
                             </tr>
                             {% set totalExVAT = totalExVAT + ( product.price * basketProdQty[product.id] ) %}
                             {% set totalVAT   = totalVAT + ( ( product.price * basketProdQty[product.id] )|vatamt(product.vat.multiplicate) )  %}
-                            {% set VATTypes   = VATTypes|merge( { ( '%' ~ product.vat.value ) : VATTypes[ '%' ~ product.vat.value ] + ( product.price * basketProdQty[product.id] )|vatamt(product.vat.multiplicate) } )  %}
+                            {% set VATTypes   = VATTypes|merge( { ( '%' ~ product.vat.value) : VATTypes[ '%' ~ product.vat.value ] + ( product.price * basketProdQty[product.id] )|vatamt(product.vat.multiplicate) } )  %}
                             {% set totalInVAT = totalExVAT + totalVAT %}
                         {% endfor %}
                     {% endif %}

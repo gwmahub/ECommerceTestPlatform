@@ -16,9 +16,12 @@ class UserController extends Controller
 
     public function dashboardBillsListAction(){
 		$userBills = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:UserOrder')->getBillsByUser( $this->getUser() );
-//var_dump($userBills);die;
+
 		return $this->render('UserBundle:Default:dashboard_bills_list.html.twig', array( 'userbills' => $userBills ));
     }
+
+
+
 
     public function dashboardBillPDFAction($orderid){
     	$bill = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:UserOrder')->findOneBy( array(
@@ -26,8 +29,6 @@ class UserController extends Controller
 		    'valid' => 1,
 		    'id' => $orderid
 	    ));
-//		var_dump( $bill->getOrderfullref() );die;
-
     	if( !$bill ){
     		$this->get('session')->getFlashBag()->add('danger', 'Critical error during the pdf rendering. Please retry');
 	    }
@@ -35,12 +36,16 @@ class UserController extends Controller
 	    $template   = $this->renderView("UserBundle:Default:dashboard_bill.html.twig", array('bill' => $bill ) );
 		$name       = $bill->getId().'_'.$bill->getOrderfullref();
 
+
 	    $html2pdf   = $this->get('ecommerce.order_html2pdf');
     	$html2pdf->create( 'P','A4', 'fr', true, 'UTF-8', array(5, 5, 5, 8) );
 
-
 		return $html2pdf->generatePdf ($template, $name);
     }
+
+
+
+
 
 
     public function userNonConnectedMenuBlocNavAction(){

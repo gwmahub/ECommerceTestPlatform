@@ -22,7 +22,8 @@
                         <td width="10%">
                             <a href="{{ path('admin_category_show', { 'id': category.id }) }}">
                             {% if category.image.webfilename is defined and category.image.webfilename is not null %}
-                                <img class="img-responsive center-block" src="/{{ category.image.UploadDir~category.image.webfilename }}" />
+                                {#<img class="img-responsive center-block" src="/{{ category.image.UploadDir~category.image.webfilename }}" />#}
+                                <img src="{{ asset(category.image.webPath)|imagine_filter('admin_categ_list_thumb') }}" />
                             {% endif %}
                             </a>
                         </td>

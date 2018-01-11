@@ -10,7 +10,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
-                <img class="img-responsive center-block" src="{{ product.image.path }}" alt="{{ product.image.alt }}" />
+                <img class="img-responsive center-block" src="{{ asset(product.image.WebPath) }}" alt="{{ product.image.securedClientFileName }}" />
             </div>
             <div class="col-xs-12 col-sm-6 col-md-6 col-lg-6">
                 <h1>{{ product.name|capitalize }}<br/><small>Ref.: {{ product.code }}</small></h1>

@@ -41,11 +41,13 @@
         <tbody>
             <tr>
                 <td id="companyname" class="text-left">
-                    {{ "La belle saison scrl"|upper }}<br /><br/>
-                    Rue des plaisirs de la nature 123<br />
-                    4562 {{ "Lasève"|upper }} <br />
-                    VAT n°: BE0456.235.478<br /><br/>
-                    Belgium
+                    <p>
+                        <b>{{ companyname|upper }}</b><br><br>
+                        {{ address }}<br>
+                        {{ cp }} {{ city|upper }}<br>
+                        {{ vatnumber }}<br><br>
+                        {{ country }}
+                    </p>
                 </td>
                 <td class="text-left">
                     {{ bill.orderdetailsgrouped.billing_address.lastname }}&nbsp;{{ bill.orderdetailsgrouped.billing_address.firstname }}<br /><br />
@@ -113,10 +115,10 @@
         <table id="order-pdf-footer">
             <tr>
                 <td class="text-left">
-                    Order n°: {{ bill.orderfullref }}
+                    Bill n°: {{ bill.orderfullref }}
                 </td>
                 <td class="text-center">
-                    Order date : {{ bill.date|date('d/m/y') }}
+                    Date : {{ bill.date|date('d/m/y') }}
                 </td>
                 <td class="text-right">[[page_cu]]/[[page_nb]]</td>
             </tr>

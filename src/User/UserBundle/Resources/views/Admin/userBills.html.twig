@@ -4,25 +4,32 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-12">
-                <h1>{{ 'Liste des adresses'|trans }}</h1>
-                {% for userAddress in user.useraddresses %}
-                    <h4>{{ "Adresse n° : " }}{{ userAddress.id }} / {{ "Adresse client n° : "|trans }}{{ loop.index }} </h4>
-                    <p>
-                        {{ "Nom : "|trans }}<b>{{ userAddress.firstname }}&nbsp;{{ userAddress.lastname }}</b><br>
-                        {{ "Adresse : "|trans }}{{ userAddress.address }}<br>
-                        {{ "Adresse compl. : "|trans }}{{ userAddress.addresscompl }}<br>
-                        {{ "CP : "|trans }}{{ userAddress.postcode }} - {{ "Ville : "|trans }}{{ userAddress.city }}<br>
-                        {{ "Pays : "|trans }}{{ userAddress.country|upper }}
-                    </p>
-                    <p>
-                        <i class="glyphicon glyphicon-phone-alt"></i> : {{ userAddress.phone }} | <i class="glyphicon glyphicon-phone"></i> : {{ userAddress.mobile }}<br>
-                    </p>
-                    <p class="text-right">
-                        <a class="btn btn-primary" href="{{ path('admin_address_edit', {'id':userAddress.id}) }}">{{ "Modifier"|trans }}</a>
-                        <a class="btn btn-danger" href="{{ path('admin_address_delete', {'id':userAddress.id}) }}">{{ "Supprimer"|trans }}</a>
-                    </p>
-                    {% if loop.last != loop.length-1 %}<hr>{% endif %}
-                {% endfor %}
+                <h1>{{ 'Liste des commandes de : '|trans }}<em>{{ user.username }}</em></h1>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>Réf</th>
+                            <th>Date</th>
+                            <th>Montant TTC</th>
+                            <th align="center">Download</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for order in user.userorders %}
+                            <tr>
+                                <td>{{ order.orderfullref }}</td>
+                                <td>{{ order.date|date('d/m/y') }}</td>
+                                <td>{{ order.orderdetailsgrouped.total_incl_vat|replace( { ".":"," } ) }} €</td>
+                                <td align="left" style="padding-left: 20px;">
+                                    <a href="{{ path('admin_order_show_pdf', { 'id':order.id }) }}" target="_blank"><i class="glyphicon glyphicon-download"></i></a>
+                                </td>
+
+
+                            </tr>
+                        {% endfor %}
+
+                        </tbody>
+                    </table>
             </div>
         </div>
     </div>

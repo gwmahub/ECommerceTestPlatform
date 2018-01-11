@@ -7,7 +7,8 @@
         <div class="col-sm-12 col-md-12">
             <h1>{{ 'Mise à jour d\'un nouveau produit'|trans }}</h1>
             <p class="text-right"><a class="btn btn-default" href="{{ path('admin_product_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
-            {{ form_start(edit_form) }}
+            {#<p>{{ dump(product.image) }}</p>#}
+            {{ form_start(edit_form, { 'multipart':'true' }) }}
             {{ form_widget(edit_form) }}
             <p class="pull-right"><button class="btn btn-success" type="submit">{{ "Mettre à jour"|trans }}</button></p>
             {{ form_end(edit_form) }}

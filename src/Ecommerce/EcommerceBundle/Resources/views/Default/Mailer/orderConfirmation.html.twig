@@ -1,0 +1,23 @@
+{%  block content %}
+    <p>{{ "Bonjour "|trans }}{{ user.username }}</p>
+    <p>
+        {{ "Toute l'équipe de La Belle Saison vous remercie pour votre commande. Vous pouvez voir le détail dans votre espace personnel."|trans }}<br>
+        <a class="text-primary" href="{{ website_home }}/dashboard">{{ companyname }}</a>
+    </p>
+    <p>{{ "N'hésitez pas à nous contacter si vous avez des questions."|trans }}</p>
+    <dl>
+        <dd>
+            <b>{{ companyname }}</b>
+            <br>{{ address }}
+            <br>{{ cp }}&nbsp;{{ city }}&nbsp;{{ country }}
+        </dd>
+        <dd>{{ "Tél.: "|trans~phone  }} | {{ email }}</dd>
+        <dd>{{ "TVA : "~vatnumber }}</dd>
+    </dl>
+    <p>{{ "Bien cordialement,"|trans }}</p>
+    <p>{{ "L'équipe de La Belle Saison."|trans }}</p>
+    <hr>
+    <p style="text-align: center">
+        <img src="{{ absolute_url(asset('assets/images/logo_la_belle_saison.png')) }}" alt="logo_la_belle_saison.png"/>
+    </p>
+{% endblock %}

@@ -1,0 +1,33 @@
+admin_order_index:
+    path:     /
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:index" }
+    methods:  GET
+
+admin_order_show_html:
+    path:     /{id}/show/html
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:showOrderHtml" }
+    methods:  GET
+
+admin_order_show_pdf:
+    path:     /{id}/show/pdf
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:showBillPdf" }
+    methods:  GET
+
+admin_order_new:
+    path:     /new
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:new" }
+    methods:  [GET, POST]
+
+admin_order_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:edit" }
+    methods:  [GET, POST]
+
+admin_order_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "EcommerceBundle:OrderAdmin:delete" }
+    methods:  DELETE
+
+#admin_order_bill_pdf:
+#    path:     /{orderid}/pdf
+#    defaults: { _controller: UserBundle:User:dashboardBillPDF }

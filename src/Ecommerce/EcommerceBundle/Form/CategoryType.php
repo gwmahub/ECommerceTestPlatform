@@ -16,6 +16,7 @@ class CategoryType extends AbstractType {
 	public function buildForm( FormBuilderInterface $builder, array $options ) {
 		$builder
 			->add('name', TextType::class )
+			->add('image', MediaType::class, array('required'=>false) )
 		;
 	}
 
@@ -24,13 +25,4 @@ class CategoryType extends AbstractType {
 			'data_class' => 'Ecommerce\EcommerceBundle\Entity\Category'
 		) );
 	}
-
-//	/**
-//	 * {@inheritdoc}
-//	 */
-//	public function getBlockPrefix()
-//	{
-//		return 'ecommerce_ecommercebundle_media';
-//	}
-
 }
