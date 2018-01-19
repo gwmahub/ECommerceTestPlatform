@@ -9,6 +9,7 @@
 
     #order-pdf-header-top{ margin-bottom: 50px; }
     #order-pdf-header-top td{ width: 100%; }
+    /*#logo{ width: 125px !important; height: 80px !important; }*/
     #companyname{ width: 60%; vertical-align: top;}
     #order-pdf-header-billnum td{ width: 100%; padding-right: 20px;}
     #order-pdf-content{ border: 1px solid #dcdcdc }
@@ -32,7 +33,7 @@
     <table id="order-pdf-header-top">
         <tr>
             <td class="text-center">
-                <img src="{{ absolute_url(asset('assets/images/logo_la_belle_saison.png')) }}" width="125" height="80" border="0" alt="logo_la_belle_saison.png" />
+                <img id="logo" width="125" src="http://symfony.ecom.dev/assets/images/logo_la_belle_saison.png" border="0" alt="logo_la_belle_saison.png" />
             </td>
         </tr>
 
