@@ -1,3 +1,7 @@
+ecommerce_admin_homepage:
+    path: /admin
+    defaults: { _controller: EcommerceBundle:Home:indexAdmin }
+
 user:
     resource: "@UserBundle/Resources/config/routing.yml"
     prefix:   /

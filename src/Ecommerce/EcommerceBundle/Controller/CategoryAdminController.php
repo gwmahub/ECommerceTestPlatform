@@ -76,7 +76,7 @@ class CategoryAdminController extends Controller
     public function editAction(Request $request, Category $category)
     {
         $deleteForm = $this->createDeleteForm($category);
-        if($category->getImage() === null){
+        if($category->getImage() === null || $category->getImage()->getFileTargetDir() === '/img'){
 	        $img        = new Media();
 	        $img->setFileTargetDir($this->container->getParameter('uploads_img_category'));
 	        $category->setImage($img);
@@ -105,6 +105,7 @@ class CategoryAdminController extends Controller
     public function deleteAction(Request $request, Category $category)
     {
         $form = $this->createDeleteForm($category);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -121,7 +122,7 @@ class CategoryAdminController extends Controller
      *
      * @param Category $category The category entity
      *
-     * @return \Symfony\Component\Form\Form The form
+//     * @return \Symfony\Component\Form\Form The form
      */
     private function createDeleteForm(Category $category)
     {

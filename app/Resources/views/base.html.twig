@@ -14,6 +14,9 @@
     </head>
     <body>
         {% block body %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <a id="btn-goadmin" class="btn btn-primary" href="{{ path('ecommerce_admin_homepage') }}" target="_blank">{{ "Aller dans l\'administration"|trans }}</a>
+            {% endif %}
             {% block header %}
                 <header class="container-fluid">
                 {% block nav %}

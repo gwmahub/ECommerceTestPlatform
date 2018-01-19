@@ -53,4 +53,13 @@ a:focus, a:hover, a:active {
 #user-menu-but-opclo {
   font-weight: normal; }
 
+/********
+ Admin
+******** */
+#btn-goadmin {
+  position: fixed;
+  z-index: 25000;
+  top: 38px;
+  left: 42%; }
+
 /*# sourceMappingURL=style.css.map */

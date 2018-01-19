@@ -157,7 +157,8 @@ class Media
 		if( $this->webfilename !== 'nopic.png' ){
 			$this->tempFileName = $this->getUploadRootDir().'/'.$this->webfilename;
 		}
-		$this->tempFileName = false;
+//		$this->tempFileName = false;
+		$this->webfilename = false;
 	}
 	/**
 	 * @ORM\PostRemove()
@@ -167,7 +168,6 @@ class Media
 			unlink( $this->tempFileName );
 		}
 	}
-
 
     /**
      * Get id
