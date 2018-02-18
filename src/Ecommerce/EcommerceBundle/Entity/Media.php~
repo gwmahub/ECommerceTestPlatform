@@ -3,6 +3,7 @@
 namespace Ecommerce\EcommerceBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * Media
@@ -21,19 +22,89 @@ class Media
      */
     private $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="path", type="string", length=255, nullable=true)
-     */
-    private $path;
+	private $clientfilename; // Nom du fichier envoyé mais sans l'extension
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="alt", type="string", length=255, nullable=true)
-     */
-    private $alt;
+	private $clientfileext; // extension du fichier envoyé
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="cffn", type="string", length=255)
+	 * @ORM\JoinColumn(nullable=true)
+	 */
+	// Nom complet sécurisé du fichier d'origine créé sur base de clientfilename + clientfileextension
+	// MEMO ajouter les @ORM puis màj de la DB
+
+	private $clientfilefullname;
+
+
+	/**
+	 * @var string
+	 *
+	 * @ORM\Column(name="wfn", type="string", length=255)
+	 * @ORM\JoinColumn(nullable=false)
+	 */
+	private $webfilename; 	// Nom du fichier sécurisé sur le server + son extension
+
+	/**
+	 * @var UploadedFile
+	 */
+    private $file; // Objet File
+
+	// nom de l'ancien fichier si présent
+    private $oldFile = null;
+
+
+	// For the browser
+	public function getUploadDir(){
+
+		return 'uploads/img/products';
+	}
+
+	// For PHP
+	public function getUploadRootDir(){
+
+		return __DIR__.'/../../../../web/'.$this->getUploadDir();
+	}
+
+	/**
+	 * @ORM\PrePersit()
+	 * @ORM\PreUpdate()
+	 *
+	 * @return bool
+	 */
+	public function preUpload(){
+		if( null !== $this->file ){
+
+			// Attribution du nom du fichier déjà présent pour cette entité.
+			$this->oldFile = $this->getWebfilename();
+
+			$this->clientfilename   = $this->file->getClientOriginalName();
+			$this->clientfileext    = $this->file->guessExtension();
+
+			return true;
+		}
+		return false; // Ajouter une exception ??
+	}
+
+	public function webFileNameGenerator(){
+		$this->webfilename = sha1(uniqid(mt_rand(),true)).'.'.$this->file->guessExtension();
+
+		return $this->webfilename;
+	}
+
+	/**
+	 * @ORM\PostPersist()
+	 * @ORM\PostUpdate()
+	 */
+	public function upload(){
+		if( $this->preUpload() ){
+			$this->file->move($this->getUploadRootDir(), $this->webFileNameGenerator() );
+			unset( $this->file );
+
+			if( null !== $this->oldFile ){ unlink( $this->oldFile ); }
+		}
+	}
 
 
     /**
@@ -47,51 +118,35 @@ class Media
     }
 
     /**
-     * Set path
+     * Set webfilename
      *
-     * @param string $path
+     * @param string $webfilename
      *
-     * @return Media
+     * @return string
      */
-    public function setPath($path)
+    public function setWebfilename( $webfilename )
     {
-        $this->path = $path;
+        $this->webfilename = $webfilename;
 
         return $this;
     }
 
     /**
-     * Get path
+     * Get webfilename
      *
      * @return string
      */
-    public function getPath()
+    public function getWebfilename()
     {
-        return $this->path;
+        return $this->webfilename;
     }
 
-    /**
-     * Set alt
-     *
-     * @param string $alt
-     *
-     * @return Media
-     */
-    public function setAlt($alt)
-    {
-        $this->alt = $alt;
-
-        return $this;
+    public function setFile( UploadedFile $file=null ){
+		$this->file = $file;
     }
 
-    /**
-     * Get alt
-     *
-     * @return string
-     */
-    public function getAlt()
-    {
-        return $this->alt;
+    public function getFile(){
+
+    	return $this->file;
     }
 }
-

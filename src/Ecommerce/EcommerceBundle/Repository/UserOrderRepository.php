@@ -21,4 +21,14 @@ class UserOrderRepository extends \Doctrine\ORM\EntityRepository
 			->setParameter('userid', $userid)
 			->getQuery()->getResult();
 	}
+
+	public function getBillsByDate( $date ){
+		return $this->createQueryBuilder('o')
+			->select('o')
+			->where('o.date > :date')
+			->andWhere('o.valid = 1')
+			->orderBy('o.id')
+			->setParameter('date', $date)
+			->getQuery()->getResult();
+	}
 }

@@ -15,14 +15,24 @@ class AddressAdminController extends Controller
 
 		return $this->render('UserBundle:Admin:address/addressIndex.html.twig');
 	}
+
+
 	public function showAction(Address $address){
 
 		return $this->render('UserBundle:Admin:address/addressShow.html.twig');
 	}
+
+	public function newAction(Address $address, Request $request){
+
+		return $this->render('UserBundle:Admin:address/addressNew.html.twig');
+	}
+
 	public function editAction(Address $address, Request $request){
 
 		return $this->render('UserBundle:Admin:address/addressEdit.html.twig');
 	}
+
+
 	public function deleteAction(Address $address, Request $request){
 
 		return $this->render('UserBundle:Admin:address/addressDelete.html.twig');

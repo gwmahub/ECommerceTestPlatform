@@ -14,6 +14,14 @@ body{
 a:focus,a:hover,a:active{
   text-decoration: none;
 }
+.loading{
+  float: right;
+  display: inline;
+  width: 30px;
+  height: 30px;
+  margin: 30px 30px 0 0;
+  background: url('../../images/loading_icon.gif') no-repeat center left;
+}
 
 .panel-prod-bloc-img{ height: 200px;}
 
@@ -59,6 +67,15 @@ a:focus,a:hover,a:active{
 }
 #user-menu-but-opclo{
   font-weight: normal;
+}
+
+/**
+Address
+ */
+
+// form
+.postcode, .city{
+  width: 75% !important;
 }
 
 /********

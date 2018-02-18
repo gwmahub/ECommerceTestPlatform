@@ -1,0 +1,28 @@
+addresses:
+    path:     /
+    defaults: { _controller: "UserBundle:Address:index" }
+    methods:  GET
+
+address_new:
+    path:     /new
+    defaults: { _controller: "UserBundle:Address:new" }
+    methods:  [GET, POST]
+
+address_show:
+    path:     /{id}/show
+    defaults: { _controller: "UserBundle:Address:show" }
+    methods:  GET
+
+address_edit:
+    path:     /{id}/edit
+    defaults: { _controller: "UserBundle:Address:edit" }
+    methods:  [GET, POST]
+
+address_delete:
+    path:     /{id}/delete
+    defaults: { _controller: "UserBundle:Address:delete" }
+    methods:  [GET, DELETE]
+
+cities_be:
+    path: /citiesbe/{pc}
+    defaults: { _controller: "UserBundle:Address:citiesBe" }

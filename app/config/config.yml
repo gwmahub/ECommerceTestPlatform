@@ -69,7 +69,7 @@ doctrine:
 # Swiftmailer Configuration
 swiftmailer:
     transport:  '%mailer_transport%'
-    encryption: '%mailer_encryption%' # MEMO : ajouté pour le test #
+    ##encryption: '%mailer_encryption%' # MEMO : ajouté pour le test #
     host:       '%mailer_host%'
     username:   '%mailer_user%'
     password:   '%mailer_password%'

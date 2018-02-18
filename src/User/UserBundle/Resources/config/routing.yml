@@ -1,7 +1,12 @@
-dashboard_user:
-    resource: "@UserBundle/Resources/config/routing/routingDashboard.yml"
-    prefix: /dashboard
+user:
+    resource: "@UserBundle/Resources/config/routing/routingUser.yml"
+    prefix: /user
 
+user_address:
+    resource: "@UserBundle/Resources/config/routing/routingAddress.yml"
+    prefix: /address
+
+## USER ADMIN ##
 admin_user:
     resource: "@UserBundle/Resources/config/routing/admin/routingUserAdmin.yml"
     prefix: /admin/user

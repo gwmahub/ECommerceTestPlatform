@@ -12,11 +12,12 @@ Packages managers:
 
 Bundles
 --------
-- ckeditor
-- FOS user
-- KNP Paginator
-- Liip image
-- SPIPU (HTML2PDF)
+- "egeloen/ckeditor-bundle": "^6.0"
+- "friendsofsymfony/user-bundle": "~2.0"
+- "knplabs/knp-paginator-bundle": "^2.6"
+- "liip/imagine-bundle": "^1.9"
+- "spipu/html2pdf": "^5.0"
+- "friendsofsymfony/jsrouting-bundle": "^2.2"
 
 
 Notice : 

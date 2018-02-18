@@ -25,14 +25,14 @@ class HTML2PDF{
 
 
 
-	public function generatePdf ($location = null, $template, $name, $dest){
+	public function generatePdf ( $template, $name ){
 		$this->myHtml2Pdf->writeHTML($template);
 
 		return $this->myHtml2Pdf->Output($name.'.pdf');
 
 	}
 
-	public function generatePdfOnDisk ($location = null, $template, $name, $dest){
+	public function generatePdfOnDisk ($location, $template, $name, $dest){
 		$this->myHtml2Pdf->writeHTML($template);
 
 		return $this->myHtml2Pdf->Output($location.$name.'.pdf', $dest);

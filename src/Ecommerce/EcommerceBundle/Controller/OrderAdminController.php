@@ -36,7 +36,7 @@ class OrderAdminController extends Controller {
 		$html2pdf   = $this->get('ecommerce.order_html2pdf');
 		$html2pdf->create( 'P','A4', 'fr', true, 'UTF-8', array(5, 5, 5, 8) );
 
-		return $html2pdf->generatePdf ('',$template, $name, 'I');
+		return $html2pdf->generatePdf ($template, $name);
 
 	}
 

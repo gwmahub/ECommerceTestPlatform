@@ -34,6 +34,7 @@ class CategoryAdminController extends Controller
      */
     public function newAction(Request $request)
     {
+
         $category   = new Category();
         $img        = new Media();
         $img->setFileTargetDir($this->container->getParameter('uploads_img_category'));

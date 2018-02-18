@@ -1,0 +1,14 @@
+user_dashboard:
+    path:     /dashboard
+    defaults: { _controller: UserBundle:User:dashboard }
+
+user_bills:
+    path:     /bills/list
+    defaults: { _controller: UserBundle:User:billsList }
+
+user_bill:
+    path:     /bills/{orderid}
+    defaults: { _controller: UserBundle:User:billPDF }
+
+## user_wishlist:
+

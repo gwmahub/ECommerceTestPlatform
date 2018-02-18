@@ -1,18 +1,18 @@
 <div class="well">
-<p id="user-menu-p" class="text-center">
-    <a id="user-menu-but-opclo" class="text-primary" role="button" data-toggle="collapse" href="#usermenu" aria-expanded="false" aria-controls="usermenu">
-        {{ "Mon compte"|upper }}&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
-    </a>
-</p>
-<div id="usermenu" class="collapse">
-    <ul class="nav nav-pills nav-stacked">
-        <li><a href="{{ path('user_homepage') }}">Mon dashboard</a></li>
-        <li><a href="{{ path('user_bills') }}">Mes factures</a></li>
-        <li><a href="#">Mes adresse</a></li>
-        <li><a href="{{ path('fos_user_profile_show') }}">Mes informations</a></li>
-        <li><a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a></li>
-        <li><a href="{{ path('fos_user_change_password') }}">Changer mon mot de passe</a></li>
-        <li><a href="{{ path('fos_user_security_logout') }}" class="text-danger">Déconnexion</a></li>
-    </ul>
-</div>
+    <p id="user-menu-p" class="text-center">
+        <a id="user-menu-but-opclo" class="text-primary" role="button" data-toggle="collapse" href="#usermenu" aria-expanded="false" aria-controls="usermenu">
+            {{ "Mon compte"|upper }}&nbsp;<span class="glyphicon glyphicon-triangle-bottom"></span>
+        </a>
+    </p>
+    <div id="usermenu" class="collapse">
+        <ul class="nav nav-pills nav-stacked">
+            <li><a href="{{ path('user_dashboard') }}">Mon dashboard</a></li>
+            <li><a href="{{ path('user_bills') }}">Mes factures</a></li>
+            <li><a href="{{ path('addresses') }}">Mes adresse</a></li>
+            <li><a href="{{ path('fos_user_profile_show') }}">Mes informations</a></li>
+            <li><a href="{{ path('fos_user_profile_edit') }}">Modifier mes informations</a></li>
+            <li><a href="{{ path('fos_user_change_password') }}">Changer mon mot de passe</a></li>
+            <li><a href="{{ path('fos_user_security_logout') }}" class="text-danger">Déconnexion</a></li>
+        </ul>
+    </div>
 </div>

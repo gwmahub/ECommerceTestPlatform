@@ -1,9 +1,14 @@
 <?php
-
+/**
+ * Used to handle the homepage modules
+ * - Promotions
+ * - Selection
+ * - New products
+ * -...
+ */
 
 namespace Ecommerce\EcommerceBundle\Controller;
 
-//use Ecommerce\EcommerceBundle\Entity\Category;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 
 class HomeController extends Controller {
@@ -33,7 +38,7 @@ class HomeController extends Controller {
 	/**
 	 * Navigation modules
 	 */
-	public function catalogueMenuBlocNavAction(  ){
+	public function catalogueMenuBlocNavAction(){
 
 		return $this->render('EcommerceBundle:Includes:ModulesLeft/catalogue_menu_bloc_nav.html.twig');
 	}

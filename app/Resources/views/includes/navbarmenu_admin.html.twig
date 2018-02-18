@@ -10,13 +10,26 @@
             </button>
             <a class="navbar-brand" href="{{ path('ecommerce_admin_homepage') }}">La Belle Saison</a>
         </div>
-
         <!-- Collect the nav links, forms, and other content for toggling -->
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav navbar-right">
                 <li class="active"><a href="#"><i class="glyphicon glyphicon-cog"></i>&nbsp;Configuration <span class="sr-only">(current)</span></a></li>
                 <li><a href="#"><i class="glyphicon glyphicon-retweet"></i>&nbsp;API</a></li>
-                 <li class="dropdown">
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-file"></i>&nbsp;Pages <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('pageAdmin_index') }}">Liste</a></li>
+                        <li><a href="{{ path('pageAdmin_new') }}">Ajouter</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;Clients <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('admin_user_index') }}">Liste</a></li>
+                        <li><a href="{{ path('admin_user_new') }}">Ajouter</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-th"></i>&nbsp;Produits <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('admin_product_index') }}">Liste des produits</a></li>
@@ -29,21 +42,7 @@
                         <li><a href="{{ path('admin_category_new') }}">&gt;&nbsp;Ajouter une catégorie</a></li>
                     </ul>
                 </li>
-                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-file"></i>&nbsp;Pages <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('pageAdmin_index') }}">Liste</a></li>
-                        <li><a href="{{ path('pageAdmin_new') }}">Ajouter</a></li>
-                    </ul>
-                </li>
-                 <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-user"></i>&nbsp;Clients <span class="caret"></span></a>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('admin_user_index') }}">Liste</a></li>
-                        <li><a href="{{ path('admin_user_new') }}">Ajouter</a></li>
-                    </ul>
-                </li>
-                 <li class="dropdown">
+                <li class="dropdown">
                     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="glyphicon glyphicon-shopping-cart"></i>&nbsp;Commandes <span class="caret"></span></a>
                     <ul class="dropdown-menu">
                         <li><a href="{{ path('admin_order_index') }}">Liste</a></li>
@@ -52,5 +51,5 @@
                 </li>
             </ul>
         </div>
-    </div>
+    </div><!-- END .container -->
 </nav>
