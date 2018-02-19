@@ -2,8 +2,10 @@
 
 namespace User\UserBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Ecommerce\EcommerceBundle\Entity\Address;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -39,23 +41,25 @@ class AddressController extends Controller
 		return $this->render('UserBundle:Default:addressDelete.html.twig');
 	}
 
-	public function citiesBeAction($pc){
-
-//		$city = $this->getDoctrine()->getManager()->getRepository('UserBundle:CitiesBe')->findOneBy( array( 'zip' => $pc ) );
+	public function citiesBeAction(Request $request, $pc){
 		$cities = $this->getDoctrine()->getManager()->getRepository('UserBundle:CitiesBe')->findBy( array( 'zip' => $pc ) );
-
-		if( count($cities) > 0 ){
-
-			$citiesName = array();
-			foreach( $cities as $city ){
-				$citiesName[] = $city->getName();
+		if( $request->isXmlHttpRequest() ){
+			if( count($cities) > 0 ){
+				$citiesName = array();
+				foreach( $cities as $city ){
+					$citiesName[] = $city->getName();
+				}
+			}else{
+				$citiesName = null;
 			}
-		}else{
-			$citiesName = null;
-		}
-		$jsonResponse = new JsonResponse();
 
-		return $jsonResponse->setData( array( 'cities' => $citiesName ) );
+			$jsonResponse = new JsonResponse();
+
+			return $jsonResponse->setData( array( 'cities' => $citiesName ) );
+		}
+
+		throw new Exception('Request not allowed');
+
 	}
 
 

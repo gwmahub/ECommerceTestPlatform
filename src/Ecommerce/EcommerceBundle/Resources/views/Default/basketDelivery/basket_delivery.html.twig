@@ -46,6 +46,7 @@
                         {% for address in currentUser.useraddresses %}
                             <div class="radio">
                                 <label>
+                                    <b>{{ address.firstname }}&nbsp;{{ address.lastname|upper }}</b><br />
                                     <input type="radio" name="billing_address" id="{{ address.id }}" value="{{ address.id }}" {% if loop.index0 == 0 %}checked{% endif %} />
                                     {{ address.address }} - {{ address.postcode }}&nbsp;{{ address.city }}<br />{{ address.country }}
                                     <a href="{{ path( 'ecommerce_basket_delivery_delete_address', { 'id': address.id }) }}">

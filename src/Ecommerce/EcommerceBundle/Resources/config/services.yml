@@ -2,7 +2,6 @@ services:
 #    ecommerce.example:
 #        class: Ecommerce\EcommerceBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
-
     addvat:
         class: Ecommerce\EcommerceBundle\Twig\Extension\AddVatExtension
         tags:
@@ -23,6 +22,35 @@ services:
 
     ecommerce.order_html2pdf:
         class: Ecommerce\EcommerceBundle\Services\OrderManager\HTML2PDF
+
+
+# Services to manage the delivery address form: AddressHandler -> AddressType -> BasketController:basketDeliveryAction
+#    ecommerce.address_form:
+#        factory_service: form.factory
+#        factory_method: createNamed
+#        class: Symfony\Component\Form\Form
+#        arguments:
+#            - form.config
+#            - address_form #type
+
+# MEMO: required to inject entity_manager
+    ecommerce.address_type:
+        class: Ecommerce\EcommerceBundle\Form\AddressType
+        arguments: ["@doctrine.orm.entity_manager"]
+        tags:
+            - { name: form.type } # required for mapping
+#
+#    ecommerce.address_handler:
+#        class: Ecommerce\EcommerceBundle\Services\FormHandler\AddressHandler
+#        arguments: ["@ecommerce.address_form", "@request_stack"]
+
+
+
+
+
+
+
+
 
 
 # check if user is connected when he arrives on pages : delivery,  validation

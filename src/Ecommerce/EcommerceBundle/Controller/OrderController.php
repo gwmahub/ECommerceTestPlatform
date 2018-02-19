@@ -35,7 +35,7 @@ class OrderController extends Controller
 
 		$message = $request->getSession()->getFlashBag()->add('success', 'Votre commande a bien été validée et le code a été généré. Merci de votre confiance');
 
-		return $this->redirectToRoute( 'user_homepage' );// à changer vers dashboard/factures
+		return $this->redirectToRoute( 'user_dashboard' );// à changer vers dashboard/factures
 
 	}
 

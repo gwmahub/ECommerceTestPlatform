@@ -25,7 +25,7 @@ class UserController extends Controller
     public function billsListAction(){
 		$userBills = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:UserOrder')->getBillsByUser( $this->getUser() );
 
-		return $this->render('UserBundle:Default:dashboard_bills_list.html.twig', array( 'userbills' => $userBills ));
+		return $this->render('UserBundle:Default:billsList.html.twig', array( 'userbills' => $userBills ));
     }
 
 
@@ -39,7 +39,7 @@ class UserController extends Controller
     		$this->get('session')->getFlashBag()->add('danger', 'Critical error during the pdf rendering. Please retry');
 	    }
 
-	    $template   = $this->renderView("UserBundle:Default:dashboard_bill.html.twig", array('bill' => $bill ) );
+	    $template   = $this->renderView("UserBundle:Default:bill.html.twig", array('bill' => $bill ) );
 		$name       = $bill->getId().'_'.$bill->getOrderfullref();
 
 	    $html2pdf   = $this->get('ecommerce.order_html2pdf');

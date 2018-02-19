@@ -26,3 +26,5 @@ address_delete:
 cities_be:
     path: /citiesbe/{pc}
     defaults: { _controller: "UserBundle:Address:citiesBe" }
+    options:
+        expose: true

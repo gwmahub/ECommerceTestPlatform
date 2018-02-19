@@ -2,10 +2,13 @@
 
 namespace Ecommerce\EcommerceBundle\Controller;
 
+use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NoResultException;
 use Ecommerce\EcommerceBundle\Entity\Address;
 use Ecommerce\EcommerceBundle\Form\AddressType;
+use Ecommerce\EcommerceBundle\Services\FormHandler\AddressHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -103,14 +106,19 @@ class BasketController extends Controller
 		));
 	}
 
-	public function basketDeliveryAction( Request $request ) {
-		$userAddress = new Address();
-		$addressForm = $this->get('form.factory')->create(AddressType::class, $userAddress );
+	public function basketDeliveryAction( Request $request) {
+//		$em             = $this->getDoctrine()->getManager();
+		$userAddress    = new Address();
+		$addressForm    = $this->createForm('Ecommerce\EcommerceBundle\Form\AddressType', $userAddress
+//			, array(
+//			'entity_manager' => $em,
+//		)
 
+		);
 		$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-		if( $request->isMethod('post') && $addressForm->handleRequest($request)->isValid() ){
-			$userAddress->setUser($currentUser);
 
+		if( $request->isMethod('post') && $addressForm->handleRequest($request)->isValid() ){ // MEMO : doesn't work with test $addressForm->isSubmitted() !!!!
+			$userAddress->setUser($currentUser);
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($userAddress);
 			$em->flush();
@@ -119,11 +127,16 @@ class BasketController extends Controller
 		}
 
 		return $this->render('EcommerceBundle:Default:basketDelivery/basket_delivery.html.twig', array(
-				'form'          => $addressForm->createView(),
 				'currentUser'   => $currentUser,
+				'form'          => $addressForm->createView()
 			)
 		);
+
 	}
+
+
+
+
 
 	public function basketDeliveryAddressDeleteAction( Request $request, $id ){
 		$session            = $request->getSession();
