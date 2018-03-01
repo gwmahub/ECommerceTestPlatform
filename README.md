@@ -1,13 +1,13 @@
 Platform created with the following technologies : 
  
-- Symfony 3.3
+- Symfony 3.4
 - Bootstrap 3.3
 - jQuery v3.2.1
 - Sass (.scss)
 
 Packages managers:
 ------------------
-- composer
+- Composer
 - Bower
 
 Bundles
