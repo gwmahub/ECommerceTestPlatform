@@ -1,16 +1,10 @@
 <?php
-/**
- */
 
 namespace Ecommerce\EcommerceBundle\Services\OrderManager;
-
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class HTML2PDF{
 
 	private $myHtml2Pdf;
-	private $container;
-
 
 	public function create( $orientation = null, $format = null, $lang = null, $unicode = null, $encoding = null, $margin = null ){
 		$this->myHtml2Pdf = new \Spipu\Html2Pdf\Html2Pdf(
@@ -23,13 +17,10 @@ class HTML2PDF{
 		);
 	}
 
-
-
 	public function generatePdf ( $template, $name ){
 		$this->myHtml2Pdf->writeHTML($template);
 
 		return $this->myHtml2Pdf->Output($name.'.pdf');
-
 	}
 
 	public function generatePdfOnDisk ($location, $template, $name, $dest){

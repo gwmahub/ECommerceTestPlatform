@@ -86,11 +86,18 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
 					->getQuery()->getResult();
 	}
 
+	/**
+	 * @return mixed
+	 * @throws \Doctrine\ORM\NoResultException
+	 * @throws \Doctrine\ORM\NonUniqueResultException
+	 */
 	public function countProducts(){
+
 		return $this->createQueryBuilder('p')
 		            ->select('COUNT(p)')
 		            ->where('p.isonline = 1')
-		            ->getQuery()->getSingleScalarResult();
+					->getQuery()->getSingleScalarResult()
+			;
 	}
 
 	/**

@@ -3,10 +3,10 @@
 namespace Pages\PagesBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Pages\PagesBundle\Validator\Constraints as CustomAssert;
 
 /**
  * Page
- *
  * @ORM\Table(name="ec_page")
  * @ORM\Entity(repositoryClass="Pages\PagesBundle\Repository\PageRepository")
  * @ORM\HasLifecycleCallbacks()
@@ -40,6 +40,7 @@ class Page
      * @var string
      *
      * @ORM\Column(name="content", type="text", nullable=true)
+     * @CustomAssert\CheckUrls()
      */
     private $content;
 

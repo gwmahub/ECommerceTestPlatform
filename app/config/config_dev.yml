@@ -38,4 +38,7 @@ monolog:
         #    level: info
 
 #swiftmailer:
-#    delivery_addresses: ['me@example.com']
+#    transport: gmail
+#    username:  info.gwma@gmail.com
+#    password:  kikiLeBlancEtNoir
+#    delivery_addresses: ['info.gwma@gmail.com']

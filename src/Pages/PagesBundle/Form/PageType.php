@@ -23,12 +23,8 @@ class PageType extends AbstractType
                 ->add('status', TextType::class)
                 ->add('createdat', DateType::class,  array(
 				    'widget' => 'choice',
-//				    'data' => new \DateTime("now"),
-			    ))
-//                ->add('updatedat', DateType::class,  array(
-//	                'widget' => 'choice',
-//                ))
-        ;
+			        )
+                );
     }
     
     /**

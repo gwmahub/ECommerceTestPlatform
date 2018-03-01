@@ -2,57 +2,58 @@
 
 namespace Ecommerce\EcommerceBundle\Controller;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\NoResultException;
 use Ecommerce\EcommerceBundle\Entity\Address;
-use Ecommerce\EcommerceBundle\Form\AddressType;
-use Ecommerce\EcommerceBundle\Services\FormHandler\AddressHandler;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpFoundation\RedirectResponse;
-use Symfony\Component\HttpFoundation\Session\Session;
-use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class BasketController extends Controller
 {
+	/**
+	 * Display the last products sent in the basket by the user during the current session in a navigation's bloc.
+	 * If no product already sent in the basket, initialiaze the variable $products as an array()
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
 	public function basketBlocNavAction(Request $request){
-		$session = $request->getSession();
-		$prodsSentInBasket = $session->get('basket');
-
+		$session            = $request->getSession();
+		$prodsSentInBasket  = $session->get('basket');
+		// Si la variable de session 'basket' contient déjà des produits...
 		if( count( $prodsSentInBasket ) > 0 ){
+			// Lancement de la requête en DB qui va récupérer les infos sur les produits avec l'ID
 			$products = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:Product')->findXLastProdsArray( array_keys( $prodsSentInBasket) );
 		}else{
-			// init de la variable products
+			// ... Sinon, init de $product (array).
 			$products = array();
 		}
 
 		return $this->render('EcommerceBundle:Includes:ModulesLeft/basket_menu_bloc_nav.html.twig', array(
 			'products'      => $products
 		));
-
 	}
-
+	/**
+	 * Handle the products sending in the basket.
+	 * If the first product sent : session variable basket creation : (array) product id => qty
+	 * @param $id : product id
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function basketAddProductAction($id, Request $request){
-
 		// Récupération de la session
 		$session = $request->getSession();
-
-		// Vérification de l'existence ou non de la variable de session basket
+		// Si la variable de session 'basket' n'existe pas...
 		if( !$session->has('basket') ){
-			// Si non, création array session "basket"
+			// création de la variable de session 'basket' (array)
 			$session->set('basket', array() );
 		}
-		// Récupération de la valeur de la variable de session (array) basket à une variable (array) $basket
+		// ... Sinon, récupération de 'basket' dans $basket
 		$basket = $session->get('basket');
-
 		// Vérification de la présence du produit dans le panier
 		if( array_key_exists($id, $basket) ){
 			// Si oui, on ne fait que changer la quantité
-			// Vérification que la quantité est différente de 0 en récupérant la valeur get
+			// Si la quantité envoyée en GET est différente de 0 ...
 			if( $request->query->get('qty') !== null){
-				$previousQty = $request->query->get('qty');
 				// On assigne la nouvelle quantité au produit déjà présent dans le panier
 				$basket[$id] = (int) $request->query->get('qty');
 				$message = $session->getFlashBag()->add('success', 'Quantity updated with success.');
@@ -65,17 +66,22 @@ class BasketController extends Controller
 				$basket[$id] = (int) $request->query->get('qty');
 			}
 			$message = $session->getFlashBag()->add('success', 'Item sent in your basket with success.');
-
 		}
-			$session->set('basket', $basket);
+		// Ajout des données contenues dans $basket dans la variable de session 'basket'
+		$session->set('basket', $basket);
 
 		return $this->redirect( $this->generateUrl('ecommerce_basket') );
-
 	}
 
+	/**
+	 * @param $id
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function basketRemoveProductAction($id, Request $request){
-		$session = $request->getSession();
-		$basket = $session->get('basket');
+		$session    = $request->getSession();
+		$basket     = $session->get('basket');
 
 		if( array_key_exists( $id, $basket ) ){
 			unset( $basket[$id] );
@@ -86,38 +92,45 @@ class BasketController extends Controller
 		return $this->redirect( $this->generateUrl('ecommerce_basket') );
 	}
 
-	public function basketViewAction(Request $request)
-	{
+	/**
+	 * Get the basket data's and send them in the Twig view.
+	 *      products (array): the products data's from the id available in the basket variable session
+	 *      basketProdQty (array) : the qty associated to the product ID
+	 *
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+	public function basketViewAction(Request $request){
 		$session = $request->getSession();
-//		$session->remove('basket');
-//		die();
+
 		$prodsSentInBasket = $session->get('basket');
+		// Si le panier contient des produits, on stocke les données récupérées en DB dans la variable $products
 		if( count( $prodsSentInBasket ) > 0 ){
 			$products = $this->getDoctrine()->getManager()->getRepository('EcommerceBundle:Product')->findProdsArray( array_keys( $prodsSentInBasket ) );
 		}else{
-			// init de la variable products
+			//Sinon, on initialise la variable $products
 			$products = array();
 			$message = $session->getFlashBag()->add('info', 'Your basket is empty');
 		}
-
+		// Envoi des données à la vue pour affichage complet du panier
 		return $this->render('EcommerceBundle:Default:basket/basket_view.html.twig', array(
 			'products'      => $products,
 			'basketProdQty' => $session->get('basket')
 		));
 	}
 
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+	 */
 	public function basketDeliveryAction( Request $request) {
-//		$em             = $this->getDoctrine()->getManager();
 		$userAddress    = new Address();
-		$addressForm    = $this->createForm('Ecommerce\EcommerceBundle\Form\AddressType', $userAddress
-//			, array(
-//			'entity_manager' => $em,
-//		)
+		$addressForm    = $this->createForm('Ecommerce\EcommerceBundle\Form\AddressType', $userAddress);
+		$currentUser    = $this->get('security.token_storage')->getToken()->getUser();
 
-		);
-		$currentUser = $this->get('security.token_storage')->getToken()->getUser();
-
-		if( $request->isMethod('post') && $addressForm->handleRequest($request)->isValid() ){ // MEMO : doesn't work with test $addressForm->isSubmitted() !!!!
+		if( $request->isMethod('post') && $addressForm->handleRequest($request)->isValid() ){
 			$userAddress->setUser($currentUser);
 			$em = $this->getDoctrine()->getManager();
 			$em->persist($userAddress);
@@ -131,13 +144,14 @@ class BasketController extends Controller
 				'form'          => $addressForm->createView()
 			)
 		);
-
 	}
 
-
-
-
-
+	/**
+	 * @param Request $request
+	 * @param $id
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function basketDeliveryAddressDeleteAction( Request $request, $id ){
 		$session            = $request->getSession();
 		$em                 = $this->getDoctrine()->getManager();
@@ -153,11 +167,15 @@ class BasketController extends Controller
 		$em->flush();
 
 		$message = $session->getFlashbag()->add('success', 'Address deleted with success');
+
 		return $this->redirect( $this->generateUrl('ecommerce_basket_delivery') );
 	}
 
-
-
+	/**
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
 	public function setSelectedAddressesOnSession( Request $request ){
 		$session = $request->getSession();
 
@@ -182,7 +200,7 @@ class BasketController extends Controller
 		if( $request->isMethod('post') ){
 			$this->setSelectedAddressesOnSession($request);
 			$order = $this->get('ecommerce.order_manager')->getOrderDetails();
-//var_dump($order);
+
 			return $this->render('EcommerceBundle:Default:basketValidation/basket_validation.html.twig', array(
 				'order' => $order
 				)

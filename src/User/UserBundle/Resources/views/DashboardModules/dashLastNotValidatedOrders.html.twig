@@ -1,0 +1,34 @@
+<h3>{{ 'Mes commandes non terminées'|trans }}</h3>
+<table id="dashTabOrderNVal" class="table table-responsive">
+    <thead>
+    <tr>
+        <th>{{ 'ID' }}</th>
+        <th>{{ 'Date'|trans }}</th>
+        <th>{{ 'Total hTVA '|trans }}</th>
+        <th><span class="text-right">{{ 'Action'|trans }}</span></th>
+    </tr>
+    </thead>
+    <tbody>
+    {% if (lastOrdersNotValidated is defined) and (lastOrdersNotValidated|length > 0) %}
+        {% for lastOrderNotValidated in  lastOrdersNotValidated %}
+            <tr>
+                <td>
+                    {{ lastOrderNotValidated.id }}
+                </td>
+                <td align="right">
+                    {{ lastOrderNotValidated.date|date("d/m/y") }}
+                </td>
+                <td align="right">{{ lastOrderNotValidated.orderdetailsgrouped['total_excl_vat']|replace({ '.':',' }) }} €</td>
+                <td align="right">
+                    <a href="" data-toggle="tooltip" data-placement="top" title="Edit this order"><i class="glyphicon glyphicon-edit"></i></a>
+                    <a href="" data-toggle="tooltip" data-placement="top" title="Delete this order"><i class="glyphicon glyphicon-trash"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    {% else %}
+        <p class="text-success">{{ "Vous n'avez aucune commande en attente de validation" }}</p>
+    {% endif %}
+
+    </tbody>
+</table>
+<p class="text-right"><a class="btn btn-default" href="">Voir toutes mes commandes non terminées</a></p>

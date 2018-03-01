@@ -15,7 +15,6 @@ class PageAdminController extends Controller
 {
     /**
      * Lists all page entities.
-     *
      */
     public function indexAction()
     {

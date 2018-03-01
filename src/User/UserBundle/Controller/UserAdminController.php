@@ -2,12 +2,8 @@
 
 namespace User\UserBundle\Controller;
 
-//use Knp\Snappy\Pdf;
-use Ecommerce\EcommerceBundle\Entity\UserOrder;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
-use Knp\Bundle\SnappyBundle\KnpSnappyBundle;
 use Symfony\Component\Routing\Exception\ResourceNotFoundException;
 use User\UserBundle\Entity\User;
 
@@ -42,12 +38,20 @@ class UserAdminController extends Controller
 	    return $this->render('UserBundle:Admin:delete.html.twig', array( 'user' => $user ));
     }
 
-
+	/**
+	 * Choose the view in fct to the user action (address or bill) on the admin user page
+	 * @param User $user
+	 * @param Request $request
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
     public function addressesOrBillsAction( User $user, Request $request ){
     	if( $request->get('_route') === 'admin_user_addresses' ){
+
 		    return $this->render('UserBundle:Admin:userAddresses.html.twig', array( 'user' => $user ));
 	    }elseif($request->get('_route') === 'admin_user_bills'){
-		    return $this->render('UserBundle:Admin:userBills.html.twig', array('user' => $user,));
+
+    		return $this->render('UserBundle:Admin:userBills.html.twig', array('user' => $user,));
 	    }else{
     		throw new ResourceNotFoundException('This page doesn\'t exist or has been removed');
 	    }

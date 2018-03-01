@@ -1,14 +1,38 @@
-user_dashboard:
-    path:     /dashboard
-    defaults: { _controller: UserBundle:User:dashboard }
+## ORDERS ##
+user_orders_list:
+    path:     /order/list
+    defaults: { _controller: "UserBundle:User:listOrders" }
+    methods:  GET
 
+user_order_detail:
+    path:     /order/{id}
+    defaults: { _controller: "UserBundle:User:showOrder" }
+    methods:  GET
+## BILLS (PDF) ##
 user_bills:
     path:     /bills/list
     defaults: { _controller: UserBundle:User:billsList }
+    methods:  GET
 
 user_bill:
     path:     /bills/{orderid}
     defaults: { _controller: UserBundle:User:billPDF }
+    methods:  GET
+## NOT FINISHED/VALIDATED ORDERS  ##
+user_not_finished_orders_list:
+    path:     /order/nf/list
+    defaults: { _controller: "UserBundle:User:listNotValidatedOrders" }
+    methods:  GET
+
+user_not_finished_order_edit:
+    path:     /order/nf/edit/{id}
+    defaults: { _controller: "UserBundle:User:" }
+    methods:  [GET, POST]
+
+user_not_finished_order_delete:
+    path:     /order/nf/delete/{id}
+    defaults: { _controller: "UserBundle:User:" }
+    methods:  DELETE
 
 ## user_wishlist:
 

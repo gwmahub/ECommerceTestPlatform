@@ -4,13 +4,14 @@
 {% set totalInVAT    = 0 %}
 {# init VATTypes as an empty array -> avoid errors not isset VATTypes when |merge #}
 {% set VATTypes     = {} %}
-{# push the different keys in the VATTypes array with value 0 -> avoid errors empty array or missing value in the loop "product" here below #}
+{#  push the different keys in the VATTypes array with value 0
+    -> avoid errors empty array or missing value in the loop "product" here below
+#}
 {% for product in products %}
     {% set VATTypes =  VATTypes|merge( { ('%' ~ (product.vat.value)) : 0 } ) %}
 {% endfor %}
 
-
-{% block title %}Votre panier{% endblock %}
+{% block title %}{{ "Votre panier"|trans }}{% endblock %}
 {% block content %}
     <div class="container">
         <div class="row">
@@ -20,18 +21,18 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-lg-12">
-                <h1>Votre panier</h1>
+                <h1>{{ "Votre panier"|trans}}</h1>
                 <table id="basketTable" class="table table-striped">
                     <thead>
                         <tr>
-                            <th>Référence</th>
-                            <th>Désignation</th>
-                            <th>Qté</th>
-                            <th>PU hTVA</th>
-                            <th>Total HT</th>
-                            <th>Taux TVA</th>
-                            <th>Montant TVA</th>
-                            <th>Total TVAC</th>
+                            <th>{{ "Référence"|trans }}</th>
+                            <th>{{ "Désignation"|trans }}</th>
+                            <th>{{ "Qté"|trans }}</th>
+                            <th>{{ "PU hTVA"|trans }}</th>
+                            <th>{{ "Total HT"|trans }}</th>
+                            <th>{{ "Taux TVA"|trans }}</th>
+                            <th>{{ "Montant TVA"|trans }}</th>
+                            <th>{{ "Total TVAC"|trans }}</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -42,15 +43,18 @@
                                     <td>{{ product.code }}</td> <!-- Référence -->
                                     <td>{{ product.name|capitalize }}</td><!-- Désignation -->
                                     <td>
+                                        {# field product qty #}
                                         <input id="basket_row_item_qty" type="text" name="qty" placeholder="0" value="{{ basketProdQty[product.id] }}"/>
+                                        {# send the new qty via Js #}
                                         <button class="glyphicon glyphicon-refresh" onclick="submit()"></button>&nbsp;
+                                        {# remove the line with product and qty from the basket #}
                                         <a class="glyphicon glyphicon-trash" href="{{ path('ecommerce_basket_remove_product', { 'id':product.id } )  }}"></a>
                                     </td><!-- qty -->
-                                    <td>{{ product.price }} €</td><!-- PU hTVA -->
-                                    <td>{{ product.price *  basketProdQty[product.id] }} €</td><!-- Total HT -->
-                                    <td>{{ product.vat.name }} </td><!-- Taux TVA -->
-                                    <td>{{ ( (product.price*basketProdQty[product.id]) )|vatamt(product.vat.multiplicate) }} €</td><!-- Montant TVA -->
-                                    <td>{{ ( product.price *  basketProdQty[product.id] )|addvat( product.vat.multiplicate) }} €</td><!-- Total TVAC  / MEMO: round in twig extension -->
+                                    <td align="right">{{ product.price|replace({'.':','}) }} €</td><!-- PU hTVA -->
+                                    <td align="right">{{ (product.price *  basketProdQty[product.id])|replace({'.':','}) }} €</td><!-- Total HT -->
+                                    <td align="right">{{ product.vat.name }} </td><!-- Taux TVA -->
+                                    <td align="right">{{ (((product.price*basketProdQty[product.id]) )|vatamt(product.vat.multiplicate))|replace({'.':','}) }} €</td><!-- Montant TVA -->
+                                    <td align="right">{{ (( product.price *  basketProdQty[product.id] )|addvat( product.vat.multiplicate))|replace({'.':','}) }} €</td><!-- Total TVAC  / MEMO: round in twig extension -->
                                 </form>
                             </tr>
                             {% set totalExVAT = totalExVAT + ( product.price * basketProdQty[product.id] ) %}
@@ -69,42 +73,41 @@
                 <table class="basket-table-total table pull-right">
                     <tbody>
                     <tr>
-                        <td><b>Total hTVA</b> :</td>
-                        <td>{{ totalExVAT }} €</td>
+                        <td><b>{{ "Total hTVA"|trans }}</b> :</td>
+                        <td align="right">{{ totalExVAT|replace({'.':','}) }} €</td>
                     </tr>
                     {# Get the keys and values after pushing them in VATTypes #}
                     {% for key, vat in VATTypes %}
                         <tr>
-                            <td><b>TVA {{ key }}</b> :</td>
-                            <td>{{ vat }} €</td>
+                            <td><b>{{ "TVA"|trans }} {{ key }}</b> :</td>
+                            <td align="right">{{ vat|replace({'.':','}) }} €</td>
                         </tr>
                     {% endfor %}
                     <tr>
-                        <td><b>Total TVA</b> :</td>
-                        <td>{{ totalVAT }} €</td>
+                        <td><b>{{ "Total TVA"|trans }}</b> :</td>
+                        <td align="right">{{ totalVAT|replace({'.':','}) }} €</td>
                     </tr>
                     <tr>
-                        <td><b>Total TVAC</b> :</td>
-                        <td>{{ totalInVAT }} €</td>
+                        <td><b>{{ "Total TVAC"|trans }}</b> :</td>
+                        <td align="right">{{ totalInVAT|replace({'.':','}) }} €</td>
                     </tr>
                     </tbody>
                 </table>
-
                 <div class="clearfix"></div>
                 <p>
-                    <a class="btn btn-primary pull-left" href="{{ path('ecommerce_homepage') }}">Continuer mes achats</a>
+                    <a class="btn btn-primary pull-left" href="{{ path('ecommerce_product_list') }}">{{ "Continuer mes achats"|trans }}</a>
                     {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
-                    <a class="btn btn-success pull-right" href="{{ path('ecommerce_basket_delivery') }}">Valider mon panier</a>
+                    <a class="btn btn-success pull-right" href="{{ path('ecommerce_basket_delivery') }}">{{ "Valider mon panier"|trans }}</a>
                     {% else %}
-                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_security_login') }}">Me connecter pour valider mon panier</a><br /><br />
-                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_registration_register') }}">M'inscrire pour valider mon panier</a>
+                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_security_login') }}">{{ "Me connecter pour valider mon panier"|trans }}</a><br /><br />
+                        <a class="btn btn-primary pull-right" href="{{ path('fos_user_registration_register') }}">{{ "M'inscrire pour valider mon panier"|trans }}</a>
                     {% endif %}
                 </p>
             </div>
         </div>
             {% else %}
                 <p class="text-center">
-                    <a class="btn btn-primary" href="{{ path('ecommerce_homepage') }}">Retourner à la liste des produits</a>
+                    <a class="btn btn-primary" href="{{ path('ecommerce_product_list') }}">{{ "Retourner à la liste des produits"|trans }}</a>
                 </p>
         {% endif %}
     </div>

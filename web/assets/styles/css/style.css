@@ -67,9 +67,15 @@ Address
 .postcode, .city {
   width: 75% !important; }
 
-/********
+/***************
+Dashboard
+****************/
+#dashTabOrderNVal th:not(:first-child) {
+  text-align: right; }
+
+/************
  Admin
-******** */
+************/
 #btn-goadmin {
   position: fixed;
   z-index: 25000;

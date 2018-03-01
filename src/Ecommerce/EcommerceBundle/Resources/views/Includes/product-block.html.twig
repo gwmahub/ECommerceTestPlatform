@@ -7,7 +7,6 @@
         </div>
         <div class="panel-body">
             <div class="panel-prod-bloc-img">
-                {#<img class="img-responsive center-block" src="{{ asset(product.image.WebPath) }}" alt="{{ product.image.securedClientFileName }}"/>#}
                 <img border="0" class="img-responsive center-block" src="{{ asset(product.image.WebPath)|imagine_filter('prod_front_grid_thumb') }}" alt="{{ product.image.securedClientFileName }}"/>
             </div>
             <p class="text-right">

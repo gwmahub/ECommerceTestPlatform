@@ -3,7 +3,3 @@
 ecommerce_order_pay:
     path:     /bank/api/{orderid}
     defaults: { _controller: EcommerceBundle:Order:redirectAfterOrderValidation }
-
-#ecommerce_order_pay:
-#    path:     /ordercode/{orderid}
-#    defaults: { _controller: EcommerceBundle:Order:orderCodeGenerator }

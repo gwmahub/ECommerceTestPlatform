@@ -2,19 +2,14 @@
 
 namespace Ecommerce\EcommerceBundle\Services\OrderManager;
 
-
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMException;
 use Ecommerce\EcommerceBundle\Entity\UserOrder;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Session\Session;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Security\Core\Authentication\Token\Storage\TokenStorage;
-use Symfony\Component\Security\Core\Exception\SessionUnavailableException;
-use Symfony\Component\Security\Core\Security;
 
 class OrderManager {
 
@@ -42,14 +37,12 @@ class OrderManager {
 
 		return $prodsInBasket;
 	}
-
 	/**
 	 * Récupère toutes les données stokées en session qui concernent la commande, les enrichi et les rassemblent dans un tableau associatif
 	 *
 	 * Session 'basket' : (int)id du produit => (int)qty
 	 * Repo $prodsInBasket: code, name, price... Voir entité Product
 	 * Session 'selected_addresses' : 'billing_address' => (int) id des 2 adresses
-	 * Les adresses de livraisons et facturation:
 	 *
 	 * @return array
 	 */
@@ -81,7 +74,7 @@ class OrderManager {
 
 		// --- VAT ---
 			// Création du tableau vat
-			// récupération des différentes TVA concernées par les produits du panier et les reprend comme index 6 => xx.xx
+			// récupération des différentes TVA concernées par les produits du panier et les reprend comme index: 6 => xx.xx
 			if( !isset( $orderDetailsGrouped['vat'][$product->getVat()->getValue()] ) ){
 				$orderDetailsGrouped['vat'][$product->getVat()->getValue()] = round( ($pXQtyPriceInclVAT - $pXQtyPriceExclVAT),2,3 );
 			}else{
@@ -90,9 +83,7 @@ class OrderManager {
 			}
 			$totalVat += round( ( $pXQtyPriceInclVAT - $pXQtyPriceExclVAT),2,3 );
 
-//			var_dump($totalVat);
-
-			// --- PRODUCTS ---
+		// --- PRODUCTS ---
 			// Récupération des information sur le produit
 			$orderDetailsGrouped['products'][$product->getId()] = array(
 				'id'                => $product->getId(),
@@ -108,7 +99,7 @@ class OrderManager {
 			);
 		}// END foreach $prodsInBasket
 
-		// --- ADDRESSES ---
+	// --- ADDRESSES ---
 		$orderDetailsGrouped['delivery_address'] = array(
 			'firstname'     => $deliveryAddress->getFirstname(),
 			'lastname'      => $deliveryAddress->getLastname(),
@@ -142,15 +133,13 @@ class OrderManager {
 	}
 
 	/**
-	 * Insère les données de la session en DB et retourn une response dont le content est l'ID de la commande fraîchement créée
-	 *
-	 * @return Response
+	 * Insère les données de la session en DB et retourne l'ID de la commande fraîchement créée
+	 * @return int
+	 * @throws \Doctrine\ORM\OptimisticLockException
 	 */
 	public function prepareOrder(){
-
 		$currentuser    = $this->token_storage->getToken()->getUser();
-
-		// vérifie si la session contient la commande courante
+		// vérifie si la session contient la commande courante dans la variabe de session userorder
 		// évite de recréer plusieurs fois la même commande
 		if( !$this->session->has('userorder') ){
 			// si non, instanciation de l'entité UserOrder()
@@ -159,16 +148,13 @@ class OrderManager {
 			// sinon, récupération de la commande par requête en DB
 			$userorder = $this->em->getRepository('EcommerceBundle:UserOrder')->find( $this->session->get('userorder') );
 		}
-		// hydratation de l'objet  UserOrder();
-		// init de la date de la commande
+		//// setting de la date de la commande
 		$userorder->setDate( $this->createdAt);
-		// récup du user courant
+		// setting du user avec le user courant
 		$userorder->setUser( $currentuser );
-		// normalement, init à 0 car pas encore validée par la banque au moment du click sur payer. Mise à 1 pour la simulation.
+		// init de la validation à 0 car pas encore validée par la banque au moment du click sur payer.
 		$userorder->setValid(0);
-		// init à 0 car la référence de la commande n'est pas encore connue au click sur payer.
-		// obligation comptable d'avoir des réfs commandes qui se suivent
-		// NOTE MEMO: Service à créer pour gérer cet aspect.
+		// init à 0 car la référence de la commande n'est pas encore connue au click sur payer (obligation comptable d'avoir des réfs commandes qui se suivent)
 		$userorder->setOrdercode(0);
 		$userorder->setProducts($this->session->get('basket'));
 		$userorder->setOrderdetailsgrouped( $this->getOrderDatas() );
@@ -177,15 +163,13 @@ class OrderManager {
 		if( !$this->session->has('userorder') ){
 			// on persist les données mises à jour
 			$this->em->persist( $userorder );
-			// on les ajoute la session
+			// on créée la variable de session userorder et on ajoute les données
 			$this->session->set('userorder', $userorder);
 		}
 	// Sinon si la commande existe déjà en base, on met à jour directement
 		$this->em->flush();
 
 		return $userorder->getId();
-
-//		return new Response( $userorder->getId() ); // MEMO supprimer la réponse pour ne garder que l'ID
 	}
 
 	/**
@@ -196,10 +180,8 @@ class OrderManager {
 
 		return $this->em->getRepository('EcommerceBundle:UserOrder')->find( $this->prepareOrder() );
 	}
-
 	/**
 	 * Validation de la commande après retour de l'api de la banque et génération du code puis de la référence complète
-	 *
 	 * Méthode appellée dans OrderController via la route ecommerce_order_pay /bank/api/{orderid}
 	 *
 	 * @param $orderid
@@ -237,14 +219,16 @@ class OrderManager {
 			$this->session->remove('selected_addresses');
 			$this->session->remove('userorder');
 
-			// ici le mail de validation
+			// ici le mail de confirmation de commande
+			// récupération des infos de la commande et envoi vers la vue pour la création du body de l'email
 			$message = (new \Swift_Message('Order confirmation'))
-				->setFrom('info.gwma@gmail.com')
-				->setTo($orderToValidate->getUser()->getEmailCanonical()) // $orderToValidate->getUser()->getEmailCanonical()
+				->setFrom( 'info.gwma@gmail.com' )
+				->setTo($orderToValidate->getUser()->getEmailCanonical())
 				->setCharset('utf-8')
 				->setContentType('text/html')
 				->setBody( $this->container->get('templating')->render('EcommerceBundle:Default:Mailer/orderConfirmation.html.twig', array(
-					'user' => $orderToValidate->getUser()
+					'user'   => $orderToValidate->getUser(),
+					'order'  => $orderToValidate->getOrderdetailsgrouped()
 				)) );
 
 			$this->mailer->send($message);

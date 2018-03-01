@@ -1,23 +1,118 @@
 {%  block content %}
-    <p>{{ "Bonjour "|trans }}{{ user.username }}</p>
-    <p>
-        {{ "Toute l'équipe de La Belle Saison vous remercie pour votre commande. Vous pouvez voir le détail dans votre espace personnel."|trans }}<br>
-        <a class="text-primary" href="{{ website_home }}/dashboard">{{ companyname }}</a>
-    </p>
-    <p>{{ "N'hésitez pas à nous contacter si vous avez des questions."|trans }}</p>
-    <dl>
-        <dd>
-            <b>{{ companyname }}</b>
-            <br>{{ address }}
-            <br>{{ cp }}&nbsp;{{ city }}&nbsp;{{ country }}
-        </dd>
-        <dd>{{ "Tél.: "|trans~phone  }} | {{ email }}</dd>
-        <dd>{{ "TVA : "~vatnumber }}</dd>
-    </dl>
-    <p>{{ "Bien cordialement,"|trans }}</p>
-    <p>{{ "L'équipe de La Belle Saison."|trans }}</p>
-    <hr>
-    <p style="text-align: center">
-        <img src="{{ absolute_url(asset('assets/images/logo_la_belle_saison.png')) }}" alt="logo_la_belle_saison.png"/>
-    </p>
+    <table border="0" style='width: 701px;font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; font-size: 14px; color: #222222;'>
+        <tbody>
+            <tr id="row_emailheader">
+                <td><!-- // email header -->
+                    <p>{{ "Bonjour "|trans }}{{ user.username }}</p>
+                    <p>{{ "Toute l'équipe de La Belle Saison vous remercie pour votre confiance. Veuillez trouver ci-dessous le détail de votre commande."|trans }}</p>
+                    <p>{{ "Vous pouvez également la consulter dans votre espace personnel : "|trans }}
+                        <a style="color: #19AAD8; font-weight: bolder; text-decoration: none;" href="{{ website_home }}/dashboard">{{ companyname }}</a></p>
+                    <p>{{ "N'hésitez pas à nous contacter si vous avez des questions."|trans }}</p>
+                    <p style="margin-top: 30px;">{{ "Bien cordialement,"|trans }}</p>
+                    <p>{{ "L'équipe de La Belle Saison."|trans }}</p>
+                    <hr style="width: 50%; border: 1px dashed #858585;">
+                    <p>
+                        <b>{{ companyname }}</b><br>
+                        {{ address }}<br>
+                        {{ cp }}&nbsp;{{ city }}&nbsp;{{ country }}<br>
+                        {{ "Tél.: "|trans~phone  }} | {{ email }}<br>
+                        {{ "TVA : "~vatnumber }}
+                    </p>
+                </td>
+            </tr>
+            <tr id="row_emailcontent">
+                <td><!-- // email content -->
+                    <h1 style="margin-top: 20px;">{{ "Votre commande"|trans }}</h1>
+                    <table border="0" cellpadding="5px" style='width: 100%;font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; font-size: 14px; color: #222222;'>
+                        <thead>
+                        <tr>
+                            <th align="left">{{ "Référence"|trans }}</th>
+                            <th align="left">{{ "Désignation"|trans }}</th>
+                            <th align="center">{{ "Qté"|trans }}</th>
+                            <th align="right">{{ "PU hTVA"|trans }}</th>
+                            <th align="right">{{ "Total HT"|trans }}</th>
+                            <th align="right">{{ "Taux TVA"|trans }}</th>
+                            <th align="right">{{ "Montant TVA"|trans }}</th>
+                            <th align="right">{{ "Total TVAC"|trans }}</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% if ( order.products is defined ) and ( order.products is not empty )  %}
+                            {% for product in order.products %}
+                                <tr id="{{ product.id }}">
+                                    <td>{{ product.code }}</td> <!-- Référence -->
+                                    <td>{{ product.name|capitalize }}</td><!-- Désignation -->
+                                    <td align="center">{{ product.qty}}
+                                        <a class="glyphicon glyphicon-trash" href="{{ path('ecommerce_basket_remove_product', { 'id':product.id } )  }}"></a>
+                                    </td><!-- qty -->
+                                    <td align="right">{{ product.uprice|replace({'.':','}) }} €</td><!-- PU hTVA -->
+                                    <td align="right">{{ product.qtyprice|replace({'.':','}) }} €</td><!-- Total HT -->
+                                    <td align="right">{{ product.vatname }} </td><!-- Taux TVA -->
+                                    <td align="right">{{ product.vatamt|replace({'.':','}) }} €</td><!-- Montant TVA -->
+                                    <td align="right">{{ product.upriceincvat|replace({'.':','}) }} €</td><!-- Total TVAC -->
+                                </tr>
+                            {% endfor %}<!-- END for products -->
+                        {% endif %}
+                        </tbody>
+                    </table>
+                    <p>&nbsp;</p>
+                    <p style="text-align: right">
+                        <table cellpadding="20px" style='width: 50%;font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; font-size: 14px; color: #222222;'>
+                            <tbody>
+                            <tr>
+                                <th align="left">{{ "Total hTVA"|trans }} :</th>
+                                <td align="right">{{ order.total_excl_vat|replace({'.':','}) }} €</td>
+                            </tr>
+                            {# Get the keys and values after pushing them in VATTypes #}
+                            {% for key, vat in order.vat %}
+                                <tr>
+                                    <th align="right">TVA {{ key }} % :</th>
+                                    <td align="right">{{ vat|replace({'.':','}) }} €</td>
+                                </tr>
+                            {% endfor %}
+                            <tr>
+                                <th align="left">{{ "Total TVA"|trans }} :</th>
+                                <td align="right">{{ order.total_vat|replace({'.':','}) }} €</td>
+                            </tr>
+                            <tr>
+                                <th align="left">{{ "Total TVAC"|trans }} :</th>
+                                <td align="right">{{ order.total_incl_vat|replace({'.':','}) }} €</td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </p>
+                    <p>&nbsp;</p>
+                    <table border="0" style='width: 100%;font-family: "Lucida Sans Unicode", "Lucida Grande", Verdana, Arial, Helvetica, sans-serif; font-size: 14px; color: #222222;'>
+                        <tbody>
+                            <tr>
+                                <td align="left" width="50%">
+                                    <h3>{{ "Adresse de livraison"|trans }}</h3>
+                                    <p>{{ order.delivery_address.firstname }} {{ order.delivery_address.lastname }}</p>
+                                    <address>
+                                        {{ order.delivery_address.address }} - {{ order.delivery_address.postcode }}&nbsp;{{ order.delivery_address.city }}<br />
+                                        {{ order.delivery_address.country }}
+                                    </address>
+                                </td>
+                                <td align="left">
+                                    <h3>{{ "Adresse de facturation"|trans }}</h3>
+                                    <p>{{ order.billing_address.firstname }} {{ order.billing_address.lastname }}</p>
+                                    <address>
+                                        {{ order.billing_address.address }} - {{ order.billing_address.postcode }}&nbsp;{{ order.billing_address.city }}<br />
+                                        {{ order.billing_address.country }}
+                                    </address>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </td>
+            </tr><!-- END #row_emailcontent -->
+            <tr id="row_emailfooter">
+                <td><!-- // email footer -->
+                    <p style="text-align: center">
+                        <img src="{{ absolute_url(asset('assets/images/logo_la_belle_saison.png')) }}" alt="logo_la_belle_saison.png"/>
+                    </p>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 {% endblock %}

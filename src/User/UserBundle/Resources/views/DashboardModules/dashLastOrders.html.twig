@@ -1,0 +1,28 @@
+<h3>{{ 'Mes dernières commandes'|trans }}</h3>
+<table class="table table-responsive">
+    <thead>
+    <tr>
+        <th>{{ 'Réf'|trans }}</th>
+        <th>{{ 'Date'|trans }}</th>
+        <th>{{ 'Total TTC'|trans }}</th>
+        <th>{{ 'Action'|trans }}</th>
+    </tr>
+    </thead>
+    <tbody>
+{% if (orders is defined) and (orders|length > 0)  %}
+    {%  for order in orders %}
+        <tr>
+            <td>{{ order.orderfullref }}</td>
+            <td>{{ order.date|date("d/m/y") }}</td>
+            <td align="rigth">{{ order.orderdetailsgrouped.total_incl_vat|replace({'.':','}) }}&nbsp;€</td>
+            <td align="right">
+                <a href="{{ path('user_order_detail', {'id':order.id}) }}" data-toggle="tooltip" data-placement="top" title="Display this order"><i class="glyphicon glyphicon-eye-open"></i></a>
+            </td>
+        </tr>
+    {% endfor %}
+    {% else %}
+    <p>{{ "Vous n'avez pas encore de commande"|trans }}</p>
+{% endif %}
+    </tbody>
+</table>
+<p class="text-right"><a href="{{ path('user_orders_list') }}" class="btn btn-default">{{ 'Voir toutes mes commandes'|trans }}</a></p>

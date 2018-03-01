@@ -1,4 +1,3 @@
-## EMPTY FOR THE MOMENT ##
-
-
-
+dashboard:
+    path:     /
+    defaults: { _controller: UserBundle:Dashboard:dashboard }

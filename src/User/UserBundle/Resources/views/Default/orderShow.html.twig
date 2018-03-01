@@ -1,0 +1,93 @@
+{% extends '::base.html.twig' %}
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <p class="text-right"><a class="btn btn-default" href="{{ path('dashboard') }}">{{ "<< Retour à mon dashboard"|trans }}</a></p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h1>{{ 'Détail de la commande'|trans }}</h1>
+                <div class="row">
+                    <div class="col-sm-6 col-md-6">
+                        <h3>{{ "Informations commande" }}</h3>
+                        <ul class="list-unstyled">
+                            <li>STATUT commande</li>
+                            <li>{{ "Date de la commande : "|trans }}{{ order.date|date('d/m/y h:m:s') }}</li>
+                            <li>{{ "Référence : "|trans }}{{ order.orderfullref }}</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-md-6">
+                        <h3>{{ "Informations client"|trans }}</h3>
+                        <ul class="list-unstyled">
+                            <li>{{"Num client : "|trans ~ order.user.id }}</li>
+                            <li><b>{{ order.orderdetailsgrouped.billing_address.firstname~" "~ order.orderdetailsgrouped.billing_address.lastname}}</b></li>
+                            <li>
+                                {{ order.orderdetailsgrouped.billing_address.address }}<br>
+                                {{ order.orderdetailsgrouped.billing_address.addresscompl }}<br>
+                                {{ order.orderdetailsgrouped.billing_address.postcode }}&nbsp;-&nbsp;{{ order.orderdetailsgrouped.billing_address.city }}<br>
+                                {{ order.orderdetailsgrouped.billing_address.country }}<br>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <table class="table table-responsive table-striped">
+                    <thead>
+                    <tr>
+                        <th>Référence</th>
+                        <th>Désignation</th>
+                        <th>Qté</th>
+                        <th>PU hTVA</th>
+                        <th>Total HT</th>
+                        <th>Taux TVA</th>
+                        <th>Montant TVA</th>
+                        <th>Total TVAC</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for product in order.orderdetailsgrouped.products %}
+                        <tr>
+                            <td>{{ product.code }}</td>
+                            <td>{{ product.name }}</td>
+                            <td>{{ product.qty }}</td>
+                            <td>{{ product.uprice|replace({".":","}) }} €</td>
+                            <td>{{ product.qtyprice|replace({".":","})  }} €</td>
+                            <td>{{ product.vatname }}</td>
+                            <td>{{ product.vatamt|replace({".":","})  }} €</td>
+                            <td>{{ product.upriceincvat|replace({".":","})  }} €</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                <table class="basket-table-total table pull-right">
+                    <tbody>
+                    <tr>
+                        <td><b>Total hTVA</b> :</td>
+                        <td align="right">{{ order.orderdetailsgrouped.total_excl_vat|replace({".":","}) }} €</td>
+                    </tr>
+                    {# Get the keys and values after pushing them in VATTypes #}
+                    {% for key, vat in order.orderdetailsgrouped.vat %}
+                        <tr>
+                            <td><b>TVA {{ key }} %</b> :</td>
+                            <td align="right">{{ vat|replace({".":","}) }} €</td>
+                        </tr>
+                    {% endfor %}
+                    <tr>
+                        <td><b>Total TVA</b> :</td>
+                        <td align="right">{{ order.orderdetailsgrouped.total_vat|replace({".":","}) }} €</td>
+                    </tr>
+                    <tr>
+                        <td><b>Total TVAC</b> :</td>
+                        <td align="right">{{ order.orderdetailsgrouped.total_incl_vat|replace({".":","}) }} €</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}
