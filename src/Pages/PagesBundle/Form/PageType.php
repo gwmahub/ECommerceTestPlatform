@@ -21,10 +21,10 @@ class PageType extends AbstractType
                 ->add('excerpt', TextareaType::class)
                 ->add('content', CKEditorType::class)
                 ->add('status', TextType::class)
-                ->add('createdat', DateType::class,  array(
-				    'widget' => 'choice',
-			        )
-                );
+//                ->add('createdat', DateType::class,  array(
+//				    'widget' => 'choice',
+//			        )
+                ;
     }
     
     /**

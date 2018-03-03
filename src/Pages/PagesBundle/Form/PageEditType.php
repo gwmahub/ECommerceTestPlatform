@@ -9,11 +9,11 @@ class PageEditType extends AbstractType
 {
     /**
      * {@inheritdoc}
+     * MEMO: not needed anymore thanks to Timestampable wich handle the createdat and updatedat
      */
-    public function buildForm(FormBuilderInterface $builder, array $options)
-    {
-        $builder->remove('createdat') ;
-    }
+//    public function buildForm(FormBuilderInterface $builder, array $options){
+//        $builder->remove('createdat');
+//    }
 
     public function getParent() {
 	    return PageType::class;

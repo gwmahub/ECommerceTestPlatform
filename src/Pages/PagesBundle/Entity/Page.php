@@ -2,6 +2,7 @@
 
 namespace Pages\PagesBundle\Entity;
 
+use Gedmo\Mapping\Annotation as Gedmo;
 use Doctrine\ORM\Mapping as ORM;
 use Pages\PagesBundle\Validator\Constraints as CustomAssert;
 
@@ -52,29 +53,20 @@ class Page
     private $status;
 
     /**
-     * @var \DateTime
+     * @var \DateTime $createdat
      *
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(name="createdat", type="datetime")
      */
     private $createdat;
 
     /**
-     * @var \DateTime
-     *
+     * @var \DateTime $updatedat
+     * @Gedmo\Timestampable(on="update")
      * @ORM\Column(name="updatedat", type="datetime", nullable=true)
      */
     private $updatedat;
 
-
-    public function __construct(){
-    	$this->createdat = new \DateTime();
-    }
-	/**
-	 * @ORM\PreUpdate
-	 */
-	public function updateDate(){
-		$this->setUpdatedat( new \DateTime() );
-	}
     /**
      * Get id
      *
@@ -182,20 +174,6 @@ class Page
     }
 
     /**
-     * Set createdat
-     *
-     * @param \DateTime $createdat
-     *
-     * @return Page
-     */
-    public function setCreatedat($createdat)
-    {
-        $this->createdat = $createdat;
-
-        return $this;
-    }
-
-    /**
      * Get createdat
      *
      * @return \DateTime
@@ -203,20 +181,6 @@ class Page
     public function getCreatedat()
     {
         return $this->createdat;
-    }
-
-    /**
-     * Set updatedat
-     *
-     * @param \DateTime $updatedat
-     *
-     * @return Page
-     */
-    public function setUpdatedat($updatedat)
-    {
-        $this->updatedat = $updatedat;
-
-        return $this;
     }
 
     /**
@@ -229,4 +193,3 @@ class Page
         return $this->updatedat;
     }
 }
-
