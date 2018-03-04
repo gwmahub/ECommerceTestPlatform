@@ -3,5 +3,5 @@ pages_pageAdmin:
     prefix:   /admin/page
 
 page_view:
-    path: page/{id}
+    path: page/{slug}
     defaults: { _controller: PagesBundle:Page:pageView }

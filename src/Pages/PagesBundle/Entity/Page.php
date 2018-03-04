@@ -23,6 +23,13 @@ class Page
      */
     private $id;
 
+	/**
+	 * @var string
+	 * @ORM\Column(length=128, unique=true)
+	 * @Gedmo\Slug(fields={"title"})
+	 */
+    protected $slug;
+
     /**
      * @var string
      *
@@ -76,6 +83,16 @@ class Page
     {
         return $this->id;
     }
+
+	/**
+	 * Get slug
+	 *
+	 * @return string
+	 */
+	public function getSlug()
+	{
+		return $this->slug;
+	}
 
     /**
      * Set title

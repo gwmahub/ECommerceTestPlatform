@@ -1,7 +1,7 @@
 <ul class="list-unstyled">
     {% for page in pages %}
         <li>
-            <a href="{{ path('page_view', { 'id':page.id } ) }}">{{ page.title }}</a>
+            <a href="{{ path('page_view', { 'slug':page.slug } ) }}">{{ page.title }}</a>
         </li>
     {% endfor %}
 </ul>

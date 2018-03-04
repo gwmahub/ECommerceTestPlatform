@@ -13,9 +13,9 @@ class PageController extends Controller
 		return $this->render('PagesBundle:Menus:menu.html.twig', array( 'pages' => $pages ));
 	}
 
-    public function pageViewAction($id)
+    public function pageViewAction($slug)
     {
-	    $page = $this->getDoctrine()->getManager()->getRepository('PagesBundle:Page')->find($id);
+	    $page = $this->getDoctrine()->getManager()->getRepository('PagesBundle:Page')->findOneBySlug($slug);
 
 	    if( !$page ){ throw new EntityNotFoundException('La page demandée n\'existe pas :-('); }
 
