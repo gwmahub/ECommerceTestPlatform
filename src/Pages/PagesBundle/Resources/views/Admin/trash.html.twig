@@ -6,12 +6,10 @@
         <div class="col-sm-12 col-md-12">
 
         <h1>{{ 'Liste des pages'|trans }}</h1>
-            <p class="text-left">
-                <a class="btn btn-default" href="{{ path('pageAdmin_trash') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Afficher la corbeille"|trans }}</a>
-            </p>
             <p class="text-right">
-                <a class="btn btn-info" href="{{ path('pageAdmin_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer une nouvelle page"|trans }}</a>
+                <a class="btn btn-primary" href="{{ path('pageAdmin_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer une nouvelle page"|trans }}</a>
             </p>
+
             <table class="table table-responsive">
                 <thead>
                     <tr>
@@ -32,8 +30,9 @@
                         <td>{% if page.createdat %}{{ page.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if page.updatedat %}{{ page.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td align="right">
-                            <a class="btn btn-info" href="{{ path('pageAdmin_show', { 'id': page.id }) }}"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{ "Afficher"|trans }}</a><br /><br />
-                            <a class="btn btn-primary" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a>
+                            <a class="btn btn-info" href="{{ path('pageAdmin_restore', { 'id': page.id }) }}">
+                                <i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{ "Restaurer cette page"|trans }}
+                            </a>
                         </td>
                     </tr>
                 {% endfor %}

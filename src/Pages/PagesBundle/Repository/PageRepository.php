@@ -10,4 +10,11 @@ namespace Pages\PagesBundle\Repository;
  */
 class PageRepository extends \Doctrine\ORM\EntityRepository
 {
+	public function getTrashedPages(){
+
+		return $this->createQueryBuilder('p')
+			->select('p')
+			->where('p.deletedAt IS NOT null')
+			->getQuery()->getResult();
+	}
 }

@@ -19,12 +19,45 @@ class PageAdminController extends Controller
     public function indexAction()
     {
         $em = $this->getDoctrine()->getManager();
-
         $pages = $em->getRepository('PagesBundle:Page')->findAll();
 
         return $this->render('PagesBundle:Admin:index.html.twig', array(
             'pages' => $pages,
         ));
+    }
+
+	/**
+	 * Lists pages in trash (soft deleted)
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+    public function trashAction(){
+	    $em = $this->getDoctrine()->getManager();
+	    $em->getFilters()->disable('softdeleteable');
+
+	    $pages = $em->getRepository(Page::class)->getTrashedPages();
+
+	    return $this->render('PagesBundle:Admin:trash.html.twig', array(
+		    'pages' => $pages
+	    ));
+    }
+
+	/**
+	 * Restore the pages in trash
+	 * @param $id
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+    public function restoreAction($id){
+	    $em     = $this->getDoctrine()->getManager();
+	    $em->getFilters()->disable('softdeleteable');
+    	$page   = $em->getRepository(Page::class)->find($id);
+
+	    $page->setDeletedAt(null);
+	    $em->persist($page);
+	    $em->flush();
+
+	    return $this->redirect($this->generateUrl('pageAdmin_trash'));
+
     }
 
     /**

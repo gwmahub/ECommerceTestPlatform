@@ -8,8 +8,10 @@ use Pages\PagesBundle\Validator\Constraints as CustomAssert;
 
 /**
  * Page
+ *
  * @ORM\Table(name="ec_page")
  * @ORM\Entity(repositoryClass="Pages\PagesBundle\Repository\PageRepository")
+ * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
  * @ORM\HasLifecycleCallbacks()
  */
 class Page
@@ -22,6 +24,12 @@ class Page
      * @ORM\GeneratedValue(strategy="AUTO")
      */
     private $id;
+
+	/**
+	 * @var \DateTime $deletedAt
+	 * @ORM\Column(name="deletedAt", type="datetime", nullable=true)
+	 */
+	private $deletedAt;
 
 	/**
 	 * @var string
@@ -209,4 +217,18 @@ class Page
     {
         return $this->updatedat;
     }
+
+	/**
+	 * @param $deletedAt
+	 *
+	 * @return Page
+	 */
+	public function setDeletedAt($deletedAt)
+	{
+		$this->deletedAt = $deletedAt;
+
+		return $this;
+	}
+
+
 }

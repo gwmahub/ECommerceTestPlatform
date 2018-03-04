@@ -3,6 +3,16 @@ pageAdmin_index:
     defaults: { _controller: "PagesBundle:PageAdmin:index" }
     methods:  GET
 
+pageAdmin_trash:
+    path:     /trash
+    defaults: { _controller: "PagesBundle:PageAdmin:trash" }
+    methods:  GET
+
+pageAdmin_restore:
+    path:     /{id}/restore
+    defaults: { _controller: "PagesBundle:PageAdmin:restore" }
+    methods:  [GET, POST]
+
 pageAdmin_show:
     path:     /{id}/show
     defaults: { _controller: "PagesBundle:PageAdmin:show" }
