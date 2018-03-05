@@ -4,10 +4,9 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12">
-
         <h1>{{ 'Liste des pages'|trans }}</h1>
-            <p class="text-left">
-                <a class="btn btn-default" href="{{ path('pageAdmin_trash') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Afficher la corbeille"|trans }}</a>
+            <p class="text-right">
+                <a class="btn btn-default" href="{{ path('pageAdmin_trash') }}"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;{{ "Afficher la corbeille"|trans }}</a>
             </p>
             <p class="text-right">
                 <a class="btn btn-info" href="{{ path('pageAdmin_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer une nouvelle page"|trans }}</a>
@@ -27,13 +26,16 @@
                 {% for page in pages %}
                     <tr>
                         <td>{{ page.id }}</td>
-                        <td><h4><a href="{{ path('pageAdmin_show', { 'id': page.id }) }}">{{ page.title|capitalize }}</a></h4></td>
+                        <td><h4><a href="{{ path('pageAdmin_show', { 'id': page.id }) }}">{{ page.title }}</a></h4></td>
                         <td>{{ page.status }}</td>
                         <td>{% if page.createdat %}{{ page.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if page.updatedat %}{{ page.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td align="right">
-                            <a class="btn btn-info" href="{{ path('pageAdmin_show', { 'id': page.id }) }}"><i class="glyphicon glyphicon-file"></i>&nbsp;&nbsp;{{ "Afficher"|trans }}</a><br /><br />
-                            <a class="btn btn-primary" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a>
+                            <a class="btn btn-info" href="{{ path('pageAdmin_show', { 'id': page.id }) }}">
+                                <i class="glyphicon glyphicon-eye-open"></i></a>
+                            &nbsp;
+                            <a class="btn btn-primary" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}">
+                                <i class="glyphicon glyphicon-pencil"></i></a>
                         </td>
                     </tr>
                 {% endfor %}
