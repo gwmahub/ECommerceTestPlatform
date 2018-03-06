@@ -25,17 +25,6 @@ services:
     ecommerce.order_html2pdf:
         class: Ecommerce\EcommerceBundle\Services\OrderManager\HTML2PDF
 
-
-# Services to manage the delivery address form: AddressHandler -> AddressType -> BasketController:basketDeliveryAction
-#    ecommerce.address_form:
-#        factory_service: form.factory
-#        factory_method: createNamed
-#        class: Symfony\Component\Form\Form
-#        arguments:
-#            - form.config
-#            - address_form #type
-
-# MEMO: required to inject entity_manager
     ecommerce.address_type:
         class: Ecommerce\EcommerceBundle\Form\AddressType
         arguments: ["@doctrine.orm.entity_manager"]

@@ -14,27 +14,23 @@ services:
         # if you need to do this, you can override this setting on individual services
         public: false
 
-    # makes classes in src/AppBundle available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-#    AppBundle\:
-#        resource: '../../src/AppBundle/*'
-#        # you can exclude directories or files
-#        # but if a service is unused, it's removed anyway
-#        exclude: '../../src/AppBundle/{Entity,Repository,Tests}'
-#
-#    # controllers are imported separately to make sure they're public
-#    # and have a tag that allows actions to type-hint services
-#    AppBundle\Controller\:
-#        resource: '../../src/AppBundle/Controller'
-#        public: true
-#        tags: ['controller.service_arguments']
+ # KernelRequest listener
+    extension.listener:
+        class: Ecommerce\EcommerceBundle\Listener\DoctrineExtensionListener
+        public: true
+        calls:
+            - [ setContainer, [ '@service_container' ] ]
+        tags:
+            # translatable sets locale after router processing
+            - { name: kernel.event_listener, event: kernel.request, method: onLateKernelRequest, priority: -10 }
+            # loggable hooks user username if one is in security context
+            - { name: kernel.event_listener, event: kernel.request, method: onKernelRequest }
+            # translatable sets locale such as default application locale before command execute
+            - { name: kernel.event_listener, event: console.command, method: onConsoleCommand, priority: -10 }
 
-    # add more services, or override services that need manual wiring
-    # AppBundle\Service\ExampleService:
-    #     arguments:
-    #         $someArgument: 'some_value'
     gedmo.listener.blameable:
         class: Gedmo\Blameable\BlameableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -42,6 +38,7 @@ services:
 
     gedmo.listener.tree:
         class: Gedmo\Tree\TreeListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -49,6 +46,7 @@ services:
 
     gedmo.listener.translatable:
         class: Gedmo\Translatable\TranslatableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -58,6 +56,7 @@ services:
 
     gedmo.listener.timestampable:
         class: Gedmo\Timestampable\TimestampableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -65,6 +64,7 @@ services:
 
     gedmo.listener.sluggable:
         class: Gedmo\Sluggable\SluggableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -72,6 +72,7 @@ services:
 
     gedmo.listener.sortable:
         class: Gedmo\Sortable\SortableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -79,6 +80,7 @@ services:
 
     gedmo.listener.loggable:
         class: Gedmo\Loggable\LoggableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
@@ -86,6 +88,7 @@ services:
 
     gedmo.listener.softdeleteable:
         class: Gedmo\SoftDeleteable\SoftDeleteableListener
+        public: true
         tags:
             - { name: doctrine.event_subscriber, connection: default }
         calls:
