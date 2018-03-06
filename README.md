@@ -22,8 +22,13 @@ Bundles
 
 Notice : 
 ---------
-The project strucure is not exactly the same than the original project created with Symfony 2. Everybody has his habits ;-) So, be carefull if you follow the original tutorial on YouTube !
+The project strucure is not the same than the original project created by DevAndClick with Symfony 2. 
 
+The orders are handled with the OrderManager and OrderCodeGenerator services instead of in the Controller.
+
+The HTML2PDF library is implemented with the HTML2PDF service.
+
+Some other functionalities are implemented such as Page's versionning management or enriched Dashboard. The Admin interface is not the same either. 
 
 Acknowledgements
 ----------------
@@ -31,4 +36,4 @@ Thanks to DevAndClick for the tutorials. A really big work and good initiative.
 
 Link to the video tutos : https://www.youtube.com/watch?v=2ngvCQd-l74&index=1&list=PLzPK7Fy3SN2cvLglujdweDKNMNQhHDbTT
  
-Link to the git repository : https://github.com/devandclick/Ecommerce/tree/v0.30
+Link to the git repository : https://github.com/devandclick/Ecommerce
