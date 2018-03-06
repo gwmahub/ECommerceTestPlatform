@@ -1,12 +1,11 @@
 {% extends '::baseAdmin.html.twig' %}
-
 {% block content %}
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12">
         <h1>{{ 'Liste des pages'|trans }}</h1>
             <p class="text-right">
-                <a class="btn btn-default" href="{{ path('pageAdmin_trash') }}"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;{{ "Afficher la corbeille"|trans }}</a>
+                <a class="btn btn-default" href="{{ path('pageAdmin_trash') }}"><i class="glyphicon glyphicon-list"></i>&nbsp;&nbsp;{{ "Afficher la corbeille -> "|trans }}(<b>{{ nbPagesInTrash }}</b>)</a>
             </p>
             <p class="text-right">
                 <a class="btn btn-info" href="{{ path('pageAdmin_new') }}"><i class="glyphicon glyphicon-plus"></i>&nbsp;&nbsp;{{ "Créer une nouvelle page"|trans }}</a>
@@ -23,10 +22,11 @@
                     </tr>
                 </thead>
                 <tbody>
-                {% for page in pages %}
+                {%  if (pages is defined) and (pages|length > 0) %}
+                    {% for page in pages %}
                     <tr>
                         <td>{{ page.id }}</td>
-                        <td><h4><a href="{{ path('pageAdmin_show', { 'id': page.id }) }}">{{ page.title }}</a></h4></td>
+                        <td><h4><a href="{{ path('pageAdmin_edit', { 'id': page.id }) }}">{{ page.title }}</a></h4></td>
                         <td>{{ page.status }}</td>
                         <td>{% if page.createdat %}{{ page.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
                         <td>{% if page.updatedat %}{{ page.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>
@@ -38,7 +38,8 @@
                                 <i class="glyphicon glyphicon-pencil"></i></a>
                         </td>
                     </tr>
-                {% endfor %}
+                    {% endfor %}
+                {% endif %}
                 </tbody>
             </table>
         </div>

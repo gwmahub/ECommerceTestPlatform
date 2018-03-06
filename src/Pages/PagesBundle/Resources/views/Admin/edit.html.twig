@@ -4,7 +4,7 @@
 <div class="container">
     <div class="row">
         <div class="col-sm-12 col-md-12">
-        <h1>{{ 'Créer une nouvelle page'|trans }}</h1>
+        <h1>{{ 'Modifier une page'|trans }}</h1>
             <p class="text-right"><a class="btn btn-default" href="{{ path('pageAdmin_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
             <div class="text-right">
                 {{ form_start(delete_form) }}
@@ -18,7 +18,11 @@
             {{ form_widget(edit_form) }}
             <p class="text-center"><button class="btn btn-success" type="submit">{{ "Mettre à jour"|trans }}</button></p>
         {{ form_end(edit_form) }}
-
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-12 col-md-12">
+            {{ render(controller('PagesBundle:PageAdmin:getVersionedPages', {'page':page.id})) }}
         </div>
     </div>
 </div>

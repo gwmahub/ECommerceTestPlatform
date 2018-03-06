@@ -1,0 +1,21 @@
+{# Lists the existing Page versions if exist as a link to pageVersionShow | Button to restore the version directly #}
+<div class="row">
+    <div class="col-sm-12 col-md-12">
+    {% if vPages|length > 0 %}
+        <h1>{{ 'Liste des versions'|trans }}</h1>
+        <ul class="list-group">
+            {% for  vPage in vPages %}
+                {% if not loop.first %}{# exclude the last version which is the same than the current #}
+                    <li class="list-group-item">
+                        <a href="{{ path('pageAdmin_show_page_version', { 'id': page.id, 'idv':vPage.version }) }}">{{ page.title~" - Version : "~vPage.version }}</a>
+                        <span>{{ "Date : "~vPage.loggedAt|date('d/m/y (H:m:i)') }}</span>&nbsp;&nbsp;&nbsp;|&nbsp;
+                        <a class="text-warning" href="{{ path('pageAdmin_revert_to_this_version', {'id':page.id, 'idv':vPage.version}) }}">
+                            <i class="glyphicon glyphicon-repeat"></i>&nbsp;&nbsp;{{ "Restaurer cette version"|trans }}
+                        </a>
+                    </li>
+                {% endif %}
+            {% endfor %}
+        </ul>
+    {% endif %}
+    </div>
+</div>

@@ -1,63 +1,67 @@
 {% extends '::baseAdmin.html.twig' %}
 {% block content %}
 <div class="container">
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <p class="text-right"><a class="btn btn-default" href="{{ path('pageAdmin_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
-            <p class="text-right"><a class="btn btn-primary" style="width: 120px;" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a></p>
-            <div class="text-right">
-                {{ form_start(delete_form) }}
-                <button style="width: 120px;" class="btn btn-danger" type="submit">
-                    <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;{{ 'Supprimer'|trans }}
-                </button>
-                {{ form_end(delete_form) }}
+    {% if page is defined %}
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <p class="text-right"><a class="btn btn-default" href="{{ path('pageAdmin_index') }}"><i class="glyphicon glyphicon-menu-left"></i><i class="glyphicon glyphicon-menu-left"></i>&nbsp;&nbsp;{{ "Retour à la lise"|trans }}</a></p>
+                <p class="text-right"><a class="btn btn-primary" style="width: 120px;" href="{{ path('pageAdmin_edit', { 'id': page.id }) }}"><i class="glyphicon glyphicon-pencil"></i>&nbsp;&nbsp;{{ "Éditer"|trans }}</a></p>
+                <div class="text-right">
+                    {{ form_start(delete_form) }}
+                    <button style="width: 120px;" class="btn btn-danger" type="submit">
+                        <i class="glyphicon glyphicon-trash"></i>&nbsp;&nbsp;{{ 'Supprimer'|trans }}
+                    </button>
+                    {{ form_end(delete_form) }}
+                </div>
+                <p>&nbsp;</p>
             </div>
-            <p>&nbsp;</p>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <h1>{{ page.title }}</h1>
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h1>{{ page.title }}</h1>
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            {{ page.excerpt|raw }}
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                {{ page.excerpt|raw }}
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            {{ page.content|raw }}
+        <div class="row" style="margin-top: 25px;">
+            <div class="col-sm-12 col-md-12">
+                {{ page.content|raw }}
+            </div>
         </div>
-    </div>
-    <div class="row">
-        <div class="col-sm-12 col-md-12">
-            <h2>{{ "Informations sur la page" }}</h2>
-            <table class="table table-responsive">
-                <tbody>
-                <tr>
-                    <th class="well">Id</th>
-                    <td>{{ page.id }}</td>
-                </tr>
-                <tr>
-                    <th class="well">Status</th>
-                    <td>{{ page.status }}</td>
-                </tr>
-                {% if page.createdat is not empty %}
-                <tr>
-                    <th class="well">Created at</th>
-                    <td>{{ page.createdat|date('d/m/y H:i:s') }}</td>
-                </tr>
-                {% endif %}
-                {% if page.updatedat is not empty %}
+        <div class="row">
+            <div class="col-sm-12 col-md-12">
+                <h2>{{ "Informations sur la page" }}</h2>
+                <table class="table table-responsive">
+                    <tbody>
                     <tr>
-                        <th class="well">Updatedat</th>
-                        <td>{% if page.updatedat %}{{ page.updatedat|date('d/m/y H:i:s') }}{% endif %}</td>
+                        <th class="well">Id</th>
+                        <td>{{ page.id }}</td>
                     </tr>
-                {% endif %}
-                </tbody>
-            </table>
+                    <tr>
+                        <th class="well">Status</th>
+                        <td>{{ page.status }}</td>
+                    </tr>
+                    {% if page.createdat is not empty %}
+                        <tr>
+                            <th class="well">Created at</th>
+                            <td>{{ page.createdat|date('d/m/y H:i:s') }}</td>
+                        </tr>
+                    {% endif %}
+                    {% if page.updatedat is not empty %}
+                        <tr>
+                            <th class="well">Updated at</th>
+                            <td>{% if page.updatedat %}{{ page.updatedat|date('d/m/y H:i:s') }}{% endif %}</td>
+                        </tr>
+                    {% endif %}
+                    </tbody>
+                </table>
+            </div>
         </div>
-    </div>
+        {% else %}
+        <div class="alert alert-info">{{ "Désolé, cette page n'existe pas ou se trave dans la corbeille."|trans }}</div>
+    {% endif %}
 </div>
 {% endblock %}

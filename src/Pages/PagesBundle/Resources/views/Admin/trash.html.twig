@@ -21,7 +21,7 @@
                     {% for page in pages %}
                         <tr>
                             <td>{{ page.id }}</td>
-                            <td><h4><a href="{{ path('pageAdmin_show', { 'id': page.id }) }}">{{ page.title|capitalize }}</a></h4></td>
+                            <td><h4>{{ page.title }}</h4></td>
                             <td>{{ page.status }}</td>
                             <td>{% if page.createdat %}{{ page.createdat|date('Y-m-d H:i:s') }}{% endif %}</td>
                             <td>{% if page.updatedat %}{{ page.updatedat|date('Y-m-d H:i:s') }}{% endif %}</td>

@@ -12,6 +12,7 @@ use Pages\PagesBundle\Validator\Constraints as CustomAssert;
  * @ORM\Table(name="ec_page")
  * @ORM\Entity(repositoryClass="Pages\PagesBundle\Repository\PageRepository")
  * @Gedmo\SoftDeleteable(fieldName="deletedAt", timeAware=false)
+ * @Gedmo\Loggable
  * @ORM\HasLifecycleCallbacks()
  */
 class Page
@@ -40,7 +41,7 @@ class Page
 
     /**
      * @var string
-     *
+     * @Gedmo\Versioned
      * @ORM\Column(name="title", type="string", length=255)
      */
     private $title;
@@ -48,6 +49,7 @@ class Page
     /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @ORM\Column(name="excerpt", type="text", length=1500, nullable=true)
      */
     private $excerpt;
@@ -55,6 +57,7 @@ class Page
     /**
      * @var string
      *
+     * @Gedmo\Versioned
      * @ORM\Column(name="content", type="text", nullable=true)
      * @CustomAssert\CheckUrls()
      */
@@ -217,6 +220,15 @@ class Page
     {
         return $this->updatedat;
     }
+	/**
+	 * Get updatedat
+	 *
+	 * @return \DateTime
+	 */
+	public function getDeletedAt()
+	{
+		return $this->deletedAt;
+	}
 
 	/**
 	 * @param $deletedAt

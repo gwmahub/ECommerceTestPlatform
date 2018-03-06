@@ -18,6 +18,16 @@ pageAdmin_show:
     defaults: { _controller: "PagesBundle:PageAdmin:show" }
     methods:  GET
 
+pageAdmin_show_page_version:
+    path:     /{id}/{idv}/show
+    defaults: { _controller: "PagesBundle:PageAdmin:showPageVersion" }
+    methods:  GET
+
+pageAdmin_revert_to_this_version:
+    path:     /{id}/{idv}/revert
+    defaults: { _controller: "PagesBundle:PageAdmin:revertToThisVersion" }
+    methods:  [GET,POST]
+
 pageAdmin_new:
     path:     /new
     defaults: { _controller: "PagesBundle:PageAdmin:new" }

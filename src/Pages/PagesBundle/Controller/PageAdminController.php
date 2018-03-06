@@ -14,15 +14,19 @@ use Symfony\Component\HttpFoundation\Request;
 class PageAdminController extends Controller
 {
     /**
-     * Lists all page entities.
+     * Lists page entities wich are not in trash ( deletedAt = null)
+     * Get the number of page in trash to help user in navigation
      */
     public function indexAction()
     {
-        $em = $this->getDoctrine()->getManager();
-        $pages = $em->getRepository('PagesBundle:Page')->findAll();
+        $em     = $this->getDoctrine()->getManager();
+        $em->getFilters()->disable('softdeleteable'); // must disable the Doctrine filter to catch and count the "deleted" pages
+	    $nbPagesInTrash = count($em->getRepository('PagesBundle:Page')->getTrashedPages());
+	    $pages  = $em->getRepository('PagesBundle:Page')->findBy( ['deletedAt' => null] ); // only "active" Pages
 
         return $this->render('PagesBundle:Admin:index.html.twig', array(
-            'pages' => $pages,
+            'pages'          => $pages,
+	        'nbPagesInTrash' =>$nbPagesInTrash
         ));
     }
 
@@ -90,7 +94,10 @@ class PageAdminController extends Controller
      */
     public function showAction(Page $page)
     {
-        $deleteForm = $this->createDeleteForm($page);
+	    $em = $this->getDoctrine()->getManager();
+	    $em->getFilters()->disable('softdeleteable');
+
+	    $deleteForm = $this->createDeleteForm($page);
 
         return $this->render('PagesBundle:Admin:show.html.twig', array(
             'page' => $page,
@@ -100,16 +107,19 @@ class PageAdminController extends Controller
 
     /**
      * Displays a form to edit an existing page entity.
-     *
      */
     public function editAction(Request $request, Page $page)
     {
+    	$em     = $this->getDoctrine()->getManager();
+		$entity = $em->getRepository('PagesBundle:Page')->find($page);
+		$repo   = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
+
         $deleteForm = $this->createDeleteForm($page);
-        $editForm = $this->createForm('Pages\PagesBundle\Form\PageEditType', $page); // Changer vers PageEditType + remove create + add created
+        $editForm = $this->createForm('Pages\PagesBundle\Form\PageEditType', $page);
         $editForm->handleRequest($request);
 
         if ($editForm->isSubmitted() && $editForm->isValid()) {
-            $this->getDoctrine()->getManager()->flush();
+	        $em->flush();
 
 	        $request->getSession()->getFlashBag()->add('success', 'The page has been updated with success.');
 
@@ -117,10 +127,63 @@ class PageAdminController extends Controller
         }
 
         return $this->render('PagesBundle:Admin:edit.html.twig', array(
-            'page' => $page,
-            'edit_form' => $editForm->createView(),
-            'delete_form' => $deleteForm->createView(),
+            'page'          => $page,
+            'edit_form'     => $editForm->createView(),
+            'delete_form'   => $deleteForm->createView(),
         ));
+    }
+
+	/**
+	 * Get all versions availables for a Page
+	 * @param Page $page
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+    public function getVersionedPagesAction(Page $page){
+	    $em     = $this->getDoctrine()->getManager();
+	    $entity = $em->getRepository('PagesBundle:Page')->find($page);
+	    $repo   = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
+	    $vPages = $repo->getLogEntries($entity);
+
+	    return $this->render('PagesBundle:Admin:VersionedPages/pageVersionsLinks.html.twig', array(
+	    	'page' => $page,
+	    	'vPages' => $vPages
+	    ));
+    }
+
+	/**
+	 * Get the targeted Page version and the current Page version to compare them on the the pageVersionShow view
+	 * @param Page $page : the current version
+	 * @param $idv : the targeted version
+	 *
+	 * @return \Symfony\Component\HttpFoundation\Response
+	 */
+    public function showPageVersionAction(Page $page, $idv){
+	    $em     = $this->getDoctrine()->getManager();
+	    $vPage  = $em->getRepository('Gedmo\Loggable\Entity\LogEntry')->findOneBy(['objectId'=>$page, 'version'=>$idv]);
+
+	    return $this->render('PagesBundle:Admin:VersionedPages/pageVersionShow.html.twig', array(
+		    'page' => $page,
+		    'vPage' => $vPage
+	    ));
+    }
+
+	/**
+	 * Revert the current version to the targeted version
+	 * @param Page $page : the current version
+	 * @param $idv : the targeted version
+	 *
+	 * @return \Symfony\Component\HttpFoundation\RedirectResponse
+	 */
+    public function revertToThisVersionAction( Page $page, $idv ){
+	    $em     = $this->getDoctrine()->getManager();
+	    $repo   = $em->getRepository('Gedmo\Loggable\Entity\LogEntry');
+	    $entity = $em->getRepository('PagesBundle:Page')->find($page);
+	    $repo->revert($entity, $idv);
+	    $em->persist($entity);
+	    $em->flush();
+
+	    return $this->redirect($this->generateUrl('pageAdmin_show', array('id' => $page->getId())));
     }
 
     /**

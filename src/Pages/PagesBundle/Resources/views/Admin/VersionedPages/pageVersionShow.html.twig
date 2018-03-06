@@ -1,0 +1,66 @@
+{% extends '::baseAdmin.html.twig' %}
+{% block content %}
+<div class="container">
+
+    {#{{ dump(page) }}#}
+    {#{{ dump(vPage) }}#}
+    <div class="row">
+        <div class="col-sm-6 col-md-6">
+            <h1><small>{{"Version n° "~vPage.version~" de la page : "|trans}}</small>{{ page.slug }}</h1>
+        </div>
+        <div class="col-sm-6 col-md-6 text-right">
+            <a class="btn btn-default" href="{{ path('pageAdmin_edit', {'id':page.id}) }}">{{ "Revenir à la page d'édition"|trans }}</a>
+        </div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-sm-6 col-md-6"><h2 class="text-warning">{{ "Version actuelle" }}</h2></div>
+        <div class="col-sm-6 col-md-6"><h2 class="text-info">{{ "Version n° : "~vPage.version }}</h2></div>
+    </div>
+    <hr>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <h4>{{ "Partie(s) modifiée(s) de la page : "|trans }}</h4>
+        </div>
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-right">
+            <a class="btn btn-default" href="{{ path('pageAdmin_revert_to_this_version', {'id':page.id, 'idv':vPage.version}) }}">
+                <i class="glyphicon glyphicon-repeat"></i>&nbsp;&nbsp;{{ "Restaurer cette version"|trans }}
+            </a>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {% if vPage.data["title"] is defined %}
+                <div class="row">
+                    <blockquote><em>{{ "Le titre"|trans }}</em></blockquote>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><h1>{{ page.title }}</h1></div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6"><h1>{{ vPage.data["title"] }}</h1></div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            {% if vPage.data["excerpt"] is defined%}
+            <div class="row">
+                <blockquote><em>{{ "Le résumé"|trans }}</em></blockquote>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{{ page.excerpt|raw }}</div>
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{{ vPage.data["excerpt"]|raw }}</div>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    <div class="row" style="margin-top: 25px;">
+        <div class="col-sm-12 col-md-12">
+            {% if vPage.data["content"] is defined %}
+                <div class="row">
+                    <blockquote><em>{{ "Le contenu"|trans }}</em></blockquote>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{{ page.content|raw }}</div>
+                    <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">{{ vPage.data["content"]|raw }}</div>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+{% endblock %}
